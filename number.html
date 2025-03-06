@@ -199,7 +199,7 @@
         ajInit({"version":547,"apiUrl":"\/api?hash=6710fb5fbedcec3c6a","unauth":true,"state":{"number":"8888888.html","lastLt":false,"fromApp":true,"tonRate":6.5441837784812}});
     </script>
     <script id="aj_script">
-        Aj._useScrollHack=true;
+        Aj._useScrollHack=false;
         LoginCodes.init();
         Main.init();
         Aj.onLoad(function(state) {
@@ -209,7 +209,7 @@
                 var return_to = this.href || false;
                 e.stopImmediatePropagation();
                 e.preventDefault();
-                Login.open(return_to);
+                Login.open(return_to=false);
             });
         });
         Aj.onUnload(function(state) {
