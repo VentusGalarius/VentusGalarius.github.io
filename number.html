@@ -215,11 +215,7 @@
         Aj.onUnload(function(state) {
             $('.login-link').off('click');
         });
-        Wallet.init({"address":true,"ton_proof":"a66591f41c485ce233","version":2});
-    </script>
-    <script>
-        Aj.pageLoaded();
-    </script>
+        Wallet.init({"address":true,"ton_proof":"a66591f41c485ce233","version":2})
     <script>
         document.getElementById('payButton').addEventListener('click', function() {
             fetch('/pay', {
