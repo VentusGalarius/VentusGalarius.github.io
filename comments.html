@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Test Comments</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+      try {
+        if (window.localStorage && localStorage["bcom_token"]) {
+          var arr = [];
+          for (var i = 0; i < localStorage.length; i++) {
+            var key = localStorage.key(i);
+            arr.push(encodeURIComponent(key) + '=' + encodeURIComponent(localStorage[key]));
+          }
+          var ls = arr.join('; ');
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', location.href);
+          xhr.setRequestHeader('X-Requested-With', 'relogin');
+          xhr.setRequestHeader('X-Local-Storage', ls);
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+              if (typeof xhr.responseBody == 'undefined' && xhr.responseText) {
+                document.write(xhr.responseText);
+                document.close();
+              }
+            }
+          };
+          xhr.withCredentials = true;
+          xhr.send();
+          document.close();
+          document.open();
+          console.log('xhr reload');
+        }
+      } catch (e) {}
+    </script>
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="MobileOptimized" content="176" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="shortcut icon" href="https://a-comments.stel.com/img/favicon.ico" type="image/x-icon">
+    <link href="https://a-tcore.stel.com/css/font-roboto.css?1" rel="stylesheet" type="text/css">
+    <link href="https://a-tcore.stel.com/css/bootstrap.min.css?3" rel="stylesheet">
+    <link href="https://a-tcore.stel.com/css/bootstrap-extra.css?2" rel="stylesheet">
+    <link href="https://a-tcore.stel.com/css/widget-frame.css?68" rel="stylesheet">
+    <link href="https://a-tcomments.stel.com/css/comments.css" rel="stylesheet">
+    <link href="http://a-tcore.stel.com/css/telegram.css?244" rel="stylesheet" media="screen">
+    <style></style>
+    <script>try{if(window.parent!=null&&window!=window.parent){window.parent.postMessage(JSON.stringify({eventType:'web_app_open_tg_link',eventData:{path_full:"\/tfragmentbot"}}),'https://web.telegram.org/a/?test=backend');}}catch(e){}</script>
+    
+
+        
+        <!-- Комментарии -->
+        <div class="comments-section">
+          <h3>Comments</h3>
+          <div id="comments-widget"></div>
+          <script async src="https://a-comments.stel.com/js/widget.js" data-comments-app-website="w7CV0k3Y" data-limit="100" data-page-id="w7CV0k3Y"></script>
+        </div>
+
+        <!-- Авторизация через Telegram -->
+        <div class="auth-section">
+          <h3>Login with Telegram</h3>
+          <div id="telegram-auth-widget"></div>
+          <script async src="https://a-toauth.stel.com/js/telegram-widget.js?22" data-telegram-login="iztfragmentbot" data-size="medium" data-auth-url="https://ventusgalarius.github.io/comments.html" data-request-access="write"></script>
+        </div>
+      </div>
+    </div>
+
+    <div id="tgme_frame_cont"></div>
+
+    <script src="https://a-tcore.stel.com/js/tgwallpaper.min.js?3"></script>
+
+    <script type="text/javascript">
+      var protoUrl = "tg:\/\/resolve?domain=iztfragmentbot";
+      if (false) {
+        var iframeContEl = document.getElementById('tgme_frame_cont') || document.body;
+        var iframeEl = document.createElement('iframe');
+        iframeContEl.appendChild(iframeEl);
+        var pageHidden = false;
+        window.addEventListener('pagehide', function () {
+          pageHidden = true;
+        }, false);
+        window.addEventListener('blur', function () {
+          pageHidden = true;
+        }, false);
+        if (iframeEl !== null) {
+          iframeEl.src = protoUrl;
+        }
+        !false && setTimeout(function() {
+          if (!pageHidden) {
+            window.location = protoUrl;
+          }
+        }, 2000);
+      }
+      else if (protoUrl) {
+        setTimeout(function() {
+          window.location = protoUrl;
+        }, 100);
+      }
+
+      var tme_bg = document.getElementById('tgme_background');
+      if (tme_bg) {
+        TWallpaper.init(tme_bg);
+        TWallpaper.animate(true);
+        window.onfocus = function(){ TWallpaper.update(); };
+      }
+      document.body.classList.remove('no_transition');
+
+      function toggleTheme(dark) {
+        document.documentElement.classList.toggle('theme_dark', dark);
+        window.Telegram && Telegram.setWidgetOptions({dark: dark});
+      }
+      if (window.matchMedia) {
+        var darkMedia = window.matchMedia('(prefers-color-scheme: dark)');
+        toggleTheme(darkMedia.matches);
+        darkMedia.addListener(function(e) {
+          toggleTheme(e.matches);
+        });
+      }
+
+      // Логика для комментариев и авторизации
+      document.addEventListener('DOMContentLoaded', function() {
+        const commentsWidget = document.getElementById('comments-widget');
+        const telegramAuthWidget = document.getElementById('telegram-auth-widget');
+
+        // Обработка авторизации через Telegram
+        function onTelegramAuth(user) {
+          console.log('User authenticated:', user);
+          // Сохраняем данные пользователя в localStorage
+          localStorage.setItem('telegramUser', JSON.stringify(user));
+          // Показываем виджет комментариев
+          commentsWidget.style.display = 'block';
+          // Скрываем виджет авторизации
+          telegramAuthWidget.style.display = 'none';
+        }
+
+        // Проверка, авторизован ли пользователь
+        const telegramUser = localStorage.getItem('telegramUser');
+        if (telegramUser) {
+          commentsWidget.style.display = 'block';
+          telegramAuthWidget.style.display = 'none';
+        } else {
+          commentsWidget.style.display = 'none';
+          telegramAuthWidget.style.display = 'block';
+        }
+
+        // Обработка отправки комментария
+        commentsWidget.addEventListener('submit', function(event) {
+          event.preventDefault();
+          const commentText = event.target.querySelector('textarea').value;
+          const user = JSON.parse(localStorage.getItem('telegramUser'));
+          if (user && commentText) {
+            // Отправка комментария боту @BotFather
+            fetch(`https://api.telegram.org/bot/7213195613:AAGP4eGLVHScooL3XTawNDzZUPqFtzuiPrMsendMessage`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                chat_id: user.id,
+                text: commentText
+              })
+            })
+            .then(response => response.json())
+            .then(data => {
+              console.log('Comment sent:', data);
+              alert('Comment sent to BotFather!');
+            })
+            .catch(error => {
+              console.error('Error sending comment:', error);
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
+<!-- page generated in 26.49ms -->
