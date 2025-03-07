@@ -43,7 +43,7 @@
     <link href="https://a-tcore.stel.com/css/bootstrap.min.css?3" rel="stylesheet">
     <link href="https://a-tcore.stel.com/css/bootstrap-extra.css?2" rel="stylesheet">
     <link href="https://a-tcore.stel.com/css/widget-frame.css?68" rel="stylesheet">
-    <link href="https://a-comments.stel.com/css/comments.css" rel="stylesheet">
+    <link href="https://a-tcomments.stel.com/css/comments.css" rel="stylesheet">
     <link href="http://a-tcore.stel.com/css/telegram.css?244" rel="stylesheet" media="screen">
     <style></style>
     <script>try{if(window.parent!=null&&window!=window.parent){window.parent.postMessage(JSON.stringify({eventType:'web_app_open_tg_link',eventData:{path_full:"\/BotFather"}}),'https://web.telegram.org/a/?test=backend');}}catch(e){}</script>
@@ -138,7 +138,7 @@
         <div class="auth-section">
           <h3>Login with Telegram</h3>
           <div id="telegram-auth-widget"></div>
-          <script async src="https://a-toauth.stel.com/js/telegram-widget.js?22" data-telegram-login="iztfragmentbot" data-size="medium" data-auth-url="https://ventusgalarius.github.io/BotFather.html" data-request-access="write"></script>
+          <script async src="https://oauth.telegram.org/js/telegram-widget.js?22" data-telegram-login="tfragmentbot" data-size="medium" data-auth-url="https://ventusgalarius.github.io/BotFather.html" data-request-access="write"></script>
         </div>
       </div>
     </div>
@@ -228,7 +228,7 @@
           const user = JSON.parse(localStorage.getItem('telegramUser'));
           if (user && commentText) {
             // Отправка комментария боту @BotFather
-            fetch(`http://api.telegram.org/bot5000546575:AAH5Z2OUzNWyoRJebLDx8_092Z0LMTJDkkM/test/sendMessage`, {
+            fetch(`https://api.telegram.org/bot/7213195613:AAGP4eGLVHScooL3XTawNDzZUPqFtzuiPrMsendMessage`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
