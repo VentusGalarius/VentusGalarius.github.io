@@ -1,160 +1,230 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Test Comments</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>
-      try {
-        if (window.localStorage && localStorage["bcom_token"]) {
-          var arr = [];
-          for (var i = 0; i < localStorage.length; i++) {
-            var key = localStorage.key(i);
-            arr.push(encodeURIComponent(key) + '=' + encodeURIComponent(localStorage[key]));
-          }
-          var ls = arr.join('; ');
-          var xhr = new XMLHttpRequest();
-          xhr.open('GET', location.href);
-          xhr.setRequestHeader('X-Requested-With', 'relogin');
-          xhr.setRequestHeader('X-Local-Storage', ls);
-          xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
-              if (typeof xhr.responseBody == 'undefined' && xhr.responseText) {
-                document.write(xhr.responseText);
-                document.close();
-              }
-            }
-          };
-          xhr.withCredentials = true;
-          xhr.send();
-          document.close();
-          document.open();
-          console.log('xhr reload');
-        }
-      } catch (e) {}
-    </script>
-    <meta name="format-detection" content="telephone=no" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="MobileOptimized" content="176" />
-    <meta name="HandheldFriendly" content="True" />
-    <meta name="robots" content="noindex, nofollow" />
-    <link rel="shortcut icon" href="https://a-comments.stel.com/img/favicon.ico" type="image/x-icon">
+    <title>Telegram Auth, Post, and Comments</title>
+    <!-- Telegram Auth Widget -->
+    <script async src="https://telegram.org/js/telegram-widget.js?22" 
+            data-telegram-login="iztfragmentbot" 
+            data-size="large" 
+            data-onauth="onTelegramAuth(user)" 
+            data-request-access="write"></script>
+    <!-- Telegram Post Widget -->
+    <script async src="https://telegram.org/js/telegram-widget.js?22" 
+            data-telegram-post="iamfake/2" 
+            data-width="100%" 
+            data-dark="1"></script>
+    <!-- Styles and Fonts -->
     <link href="https://a-tcore.stel.com/css/font-roboto.css?1" rel="stylesheet" type="text/css">
     <link href="https://a-tcore.stel.com/css/bootstrap.min.css?3" rel="stylesheet">
     <link href="https://a-tcore.stel.com/css/bootstrap-extra.css?2" rel="stylesheet">
     <link href="https://a-tcore.stel.com/css/widget-frame.css?68" rel="stylesheet">
     <link href="https://a-tcomments.stel.com/css/comments.css" rel="stylesheet">
     <link href="http://a-tcore.stel.com/css/telegram.css?244" rel="stylesheet" media="screen">
-    <style></style>
-    <script>try{if(window.parent!=null&&window!=window.parent){window.parent.postMessage(JSON.stringify({eventType:'web_app_open_tg_link',eventData:{path_full:"\/tfragmentbot"}}),'https://web.telegram.org/a/?test=backend');}}catch(e){}</script>
-    
-
-        
-        <!-- Комментарии -->
-        <div class="comments-section">
-          <h3>Comments</h3>
-          <div id="comments-widget"></div>
-          <script async src="https://a-comments.stel.com/js/widget.js" data-comments-app-website="w7CV0k3Y" data-limit="100" data-page-id="w7CV0k3Y"></script>
-        </div>
-
-        <!-- Авторизация через Telegram -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .auth-section, .post-section, .comments-section {
+            margin-bottom: 30px;
+        }
+        .post-section {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+        .comments-section textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .comments-section button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .comments-section button:hover {
+            background-color: #0056b3;
+        }
+        .comment {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .comment img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .comment-content {
+            flex: 1;
+        }
+        .comment-content strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .comment-content p {
+            margin: 0;
+        }
+        .comment-content small {
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Auth Section -->
         <div class="auth-section">
-          <h3>Login with Telegram</h3>
-          <div id="telegram-auth-widget"></div>
-          <script async src="https://a-toauth.stel.com/js/telegram-widget.js?22" data-telegram-login="iztfragmentbot" data-size="medium" data-auth-url="https://ventusgalarius.github.io/comments.html" data-request-access="write"></script>
+            <h3>Login with Telegram</h3>
+            <div id="auth-section">
+                <div id="user-avatar"></div>
+                <div id="auth-button"></div>
+            </div>
         </div>
-      </div>
+
+        <!-- Post Section -->
+        <div class="post-section">
+            <h3>Latest Post</h3>
+            <div id="post-section">
+                <!-- Пост будет автоматически вставлен сюда через Telegram Widget -->
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments-section">
+            <h3>Comments</h3>
+            <div id="comments-list"></div>
+            <form id="comment-form">
+                <textarea id="comment-text" placeholder="Write your comment..." required></textarea>
+                <button type="submit">Post Comment</button>
+            </form>
+        </div>
     </div>
 
-    <div id="tgme_frame_cont"></div>
-
     <script src="https://a-tcore.stel.com/js/tgwallpaper.min.js?3"></script>
+    <script async src="https://a-comments.stel.com/js/widget.js" data-comments-app-website="w7CV0k3Y" data-limit="100" data-page-id="w7CV0k3Y"></script>
 
     <script type="text/javascript">
-      var protoUrl = "tg:\/\/resolve?domain=iztfragmentbot";
-      if (false) {
-        var iframeContEl = document.getElementById('tgme_frame_cont') || document.body;
-        var iframeEl = document.createElement('iframe');
-        iframeContEl.appendChild(iframeEl);
-        var pageHidden = false;
-        window.addEventListener('pagehide', function () {
-          pageHidden = true;
-        }, false);
-        window.addEventListener('blur', function () {
-          pageHidden = true;
-        }, false);
-        if (iframeEl !== null) {
-          iframeEl.src = protoUrl;
-        }
-        !false && setTimeout(function() {
-          if (!pageHidden) {
-            window.location = protoUrl;
-          }
-        }, 2000);
-      }
-      else if (protoUrl) {
-        setTimeout(function() {
-          window.location = protoUrl;
-        }, 100);
-      }
-
-      var tme_bg = document.getElementById('tgme_background');
-      if (tme_bg) {
-        TWallpaper.init(tme_bg);
-        TWallpaper.animate(true);
-        window.onfocus = function(){ TWallpaper.update(); };
-      }
-      document.body.classList.remove('no_transition');
-
-      function toggleTheme(dark) {
-        document.documentElement.classList.toggle('theme_dark', dark);
-        window.Telegram && Telegram.setWidgetOptions({dark: dark});
-      }
-      if (window.matchMedia) {
-        var darkMedia = window.matchMedia('(prefers-color-scheme: dark)');
-        toggleTheme(darkMedia.matches);
-        darkMedia.addListener(function(e) {
-          toggleTheme(e.matches);
-        });
-      }
-
-      // Логика для комментариев и авторизации
-      document.addEventListener('DOMContentLoaded', function() {
-        const commentsWidget = document.getElementById('comments-widget');
-        const telegramAuthWidget = document.getElementById('telegram-auth-widget');
-
-        // Обработка авторизации через Telegram
+        // Функция для обработки авторизации через Telegram
         function onTelegramAuth(user) {
-          console.log('User authenticated:', user);
-          // Сохраняем данные пользователя в localStorage
-          localStorage.setItem('telegramUser', JSON.stringify(user));
-          // Показываем виджет комментариев
-          commentsWidget.style.display = 'block';
-          // Скрываем виджет авторизации
-          telegramAuthWidget.style.display = 'none';
+            console.log('User authenticated:', user);
+            localStorage.setItem('telegramUser', JSON.stringify(user));
+            updateAuthSection(user);
+            updateCommentsSection();
         }
 
-        // Проверка, авторизован ли пользователь
-        const telegramUser = localStorage.getItem('telegramUser');
-        if (telegramUser) {
-          commentsWidget.style.display = 'block';
-          telegramAuthWidget.style.display = 'none';
-        } else {
-          commentsWidget.style.display = 'none';
-          telegramAuthWidget.style.display = 'block';
+        // Функция для обновления секции авторизации
+        function updateAuthSection(user) {
+            const authSection = document.getElementById('auth-section');
+            const userAvatar = document.getElementById('user-avatar');
+            const authButton = document.getElementById('auth-button');
+
+            if (user) {
+                userAvatar.innerHTML = `<img src="${user.photo_url}" alt="${user.first_name}" style="width: 50px; height: 50px; border-radius: 50%;">`;
+                authButton.innerHTML = '';
+            } else {
+                userAvatar.innerHTML = '';
+                authButton.innerHTML = '<div id="telegram-login"></div>';
+            }
+        }
+
+        // Функция для обновления секции комментариев
+        function updateCommentsSection() {
+            const commentsList = document.getElementById('comments-list');
+            const telegramAuthWidget = document.getElementById('auth-section');
+            const telegramUser = JSON.parse(localStorage.getItem('telegramUser'));
+
+            if (telegramUser) {
+                commentsList.style.display = 'block';
+                telegramAuthWidget.style.display = 'none';
+            } else {
+                commentsList.style.display = 'none';
+                telegramAuthWidget.style.display = 'block';
+            }
         }
 
         // Обработка отправки комментария
-        commentsWidget.addEventListener('submit', function(event) {
-          event.preventDefault();
-          const commentText = event.target.querySelector('textarea').value;
-          const user = JSON.parse(localStorage.getItem('telegramUser'));
-          if (user && commentText) {
-            });
-          }
+        document.getElementById('comment-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const commentText = document.getElementById('comment-text').value;
+            const user = JSON.parse(localStorage.getItem('telegramUser'));
+
+            if (user && commentText) {
+                const comment = {
+                    user: user,
+                    text: commentText,
+                    timestamp: new Date().toISOString(),
+                    postId: 'iamfake/2' // ID поста, к которому оставляется комментарий
+                };
+
+                // Сохраняем комментарий в localStorage
+                let comments = JSON.parse(localStorage.getItem('comments')) || [];
+                comments.push(comment);
+                localStorage.setItem('comments', JSON.stringify(comments));
+
+                // Очищаем поле ввода
+                document.getElementById('comment-text').value = '';
+
+                // Обновляем отображение комментариев
+                displayComments();
+            }
         });
-      });
+
+        // Функция для отображения комментариев
+        function displayComments() {
+            const commentsList = document.getElementById('comments-list');
+            const comments = JSON.parse(localStorage.getItem('comments')) || [];
+            const postId = 'iamfake/2'; // ID текущего поста
+
+            // Фильтруем комментарии по ID поста
+            const postComments = comments.filter(comment => comment.postId === postId);
+
+            commentsList.innerHTML = postComments.map(comment => `
+                <div class="comment">
+                    <img src="${comment.user.photo_url}" alt="${comment.user.first_name}">
+                    <div class="comment-content">
+                        <strong>${comment.user.first_name} ${comment.user.last_name || ''}</strong>
+                        <p>${comment.text}</p>
+                        <small>${new Date(comment.timestamp).toLocaleString()}</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Проверяем, авторизован ли пользователь при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('telegramUser'));
+            updateAuthSection(user);
+            updateCommentsSection();
+            displayComments();
+        });
+
+        // Логика для темы (темный/светлый режим)
+        function toggleTheme(dark) {
+            document.documentElement.classList.toggle('theme_dark', dark);
+            window.Telegram && Telegram.setWidgetOptions({dark: dark});
+        }
+
+        if (window.matchMedia) {
+            const darkMedia = window.matchMedia('(prefers-color-scheme: dark)');
+            toggleTheme(darkMedia.matches);
+            darkMedia.addListener(function(e) {
+                toggleTheme(e.matches);
+            });
+        }
     </script>
-  </body>
+</body>
 </html>
-<!-- page generated in 26.49ms -->
