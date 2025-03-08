@@ -150,24 +150,6 @@
           const commentText = event.target.querySelector('textarea').value;
           const user = JSON.parse(localStorage.getItem('telegramUser'));
           if (user && commentText) {
-            // Отправка комментария боту @BotFather
-            fetch(`https://api.telegram.org/bot/5000546575:AAH5Z2OUzNWyoRJebLDx8_092Z0LMTJDkkM/test/sendMessage`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                chat_id: user.id,
-                text: commentText
-              })
-            })
-            .then(response => response.json())
-            .then(data => {
-              console.log('Comment sent:', data);
-              alert('Comment sent to BotFather!');
-            })
-            .catch(error => {
-              console.error('Error sending comment:', error);
             });
           }
         });
