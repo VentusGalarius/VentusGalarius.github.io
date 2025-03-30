@@ -5,23 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Auth, Post, and Comments</title>
     <!-- Telegram Auth Widget -->
-    <script async src="https://a-toauth.stel.com/js/telegram-widget.js?22" 
-            data-telegram-login="iztfragmentbot" 
+    <script async src="https://oauth.telegram.org/js/telegram-widget.js?22" 
+            data-telegram-login="tfragmentbot" 
             data-size="large" 
             data-onauth="onTelegramAuth(user)" 
             data-request-access="write"></script>
     <!-- Telegram Post Widget -->
-    <script async src="https://a-tcore.stel.com/js/telegram-widget.js?22" 
-            data-telegram-post="fabrika_vf/22" 
+    <script async src="https://core.telegram.org/js/telegram-widget.js?22" 
+            data-telegram-post="t.me/ProfesorFloki/3" 
             data-width="100%" 
             data-dark="1"></script>
     <!-- Styles and Fonts -->
-    <link href="https://a-tcore.stel.com/css/font-roboto.css?1" rel="stylesheet" type="text/css">
-    <link href="https://a-tcore.stel.com/css/bootstrap.min.css?3" rel="stylesheet">
-    <link href="https://a-tcore.stel.com/css/bootstrap-extra.css?2" rel="stylesheet">
-    <link href="https://a-tcore.stel.com/css/widget-frame.css?68" rel="stylesheet">
-    <link href="https://a-tcomments.stel.com/css/comments.css" rel="stylesheet">
-    <link href="http://a-tcore.stel.com/css/telegram.css?244" rel="stylesheet" media="screen">
+    <link href="https://core.telegram.org/css/font-roboto.css?1" rel="stylesheet" type="text/css">
+    <link href="https://core.telegram.org/css/bootstrap.min.css?3" rel="stylesheet">
+    <link href="https://core.telegram.org/css/bootstrap-extra.css?2" rel="stylesheet">
+    <link href="https://core.telegram.org/css/widget-frame.css?68" rel="stylesheet">
+    <link href="https://a-comments.stel.com/css/comments.css" rel="stylesheet">
+    <link href="http://core.telegram.org/css/telegram.css?244" rel="stylesheet" media="screen">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -114,7 +114,7 @@
         </div>
     </div>
 
-    <script src="https://a-tcore.stel.com/js/tgwallpaper.min.js?3"></script>
+    <script src="https://core.telegram.org/js/tgwallpaper.min.js?3"></script>
     <script async src="https://a-comments.stel.com/js/widget.js" data-comments-app-website="w7CV0k3Y" data-limit="100" data-page-id="w7CV0k3Y"></script>
 
     <script type="text/javascript">
@@ -167,7 +167,7 @@
                     user: user,
                     text: commentText,
                     timestamp: new Date().toISOString(),
-                    postId: 'fabrika_vf/22' // ID поста, к которому оставляется комментарий
+                    postId: 't.me/ProfesorFloki/3' // ID поста, к которому оставляется комментарий
                 };
 
                 // Сохраняем комментарий в localStorage
@@ -187,7 +187,7 @@
         function displayComments() {
             const commentsList = document.getElementById('comments-list');
             const comments = JSON.parse(localStorage.getItem('comments')) || [];
-            const postId = 'fabrika_vf/22'; // ID текущего поста
+            const postId = 't.me/ProfesorFloki/3'; // ID текущего поста
 
             // Фильтруем комментарии по ID поста
             const postComments = comments.filter(comment => comment.postId === postId);
@@ -211,12 +211,6 @@
             updateCommentsSection();
             displayComments();
         });
-
-        // Логика для темы (темный/светлый режим)
-        function toggleTheme(white) {
-            document.documentElement.classList.toggle('theme_white', white);
-            window.Telegram && Telegram.setWidgetOptions({white: white});
-        }
 
         if (window.matchMedia) {
             const whiteMedia = window.matchMedia('(prefers-color-scheme: white)');
