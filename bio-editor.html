@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bio Editor</title>
+<style>
+body {
+background: url('%s');
+background-size: cover;
+margin: 0;
+padding: 20px;
+}
+.container {
+background: rgba(255,255,255,0.9);
+padding: 20px;
+border-radius: 15px;
+}
+button {
+background: #007bff;
+color: white;
+border: none;
+padding: 10px 20px;
+border-radius: 5px;
+cursor: pointer;
+transition: all 0.3s;
+}
+button:hover {
+transform: scale(1.05);
+box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+    </style>
+  </head>
+   <body>
+     <div class="container">
+    <h3>Custom Bio Editor</h3>
+    <button onclick="updateBio()">Set NFT Bio</button>
+  </div>
+<script>
+function updateBio() {
+const htmlContent = `%s`;
+                    
+Telegram.WebApp.sendData(JSON.stringify({
+action: 'update_bio',
+html: htmlContent,
+timestamp: Date.now()
+}));
+                    
+Telegram.WebApp.close();
+          }
+ </script>
+</body>
+</html>
