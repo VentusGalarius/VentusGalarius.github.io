@@ -1,224 +1,602 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Auth, Post, and Comments</title>
-    <!-- Telegram Auth Widget -->
-    <script async src="https://oauth.telegram.org/js/telegram-widget.js?22" 
-            data-telegram-login="tfragmentbot" 
-            data-size="large" 
-            data-onauth="onTelegramAuth(user)" 
-            data-request-access="write"></script>
-    <!-- Telegram Post Widget -->
-    <script async src="https://core.telegram.org/js/telegram-widget.js?22" 
-            data-telegram-post="t.me/ProfesorFloki/3" 
-            data-width="100%" 
-            data-dark="1"></script>
-    <!-- Styles and Fonts -->
-    <link href="https://core.telegram.org/css/font-roboto.css?1" rel="stylesheet" type="text/css">
-    <link href="https://core.telegram.org/css/bootstrap.min.css?3" rel="stylesheet">
-    <link href="https://core.telegram.org/css/bootstrap-extra.css?2" rel="stylesheet">
-    <link href="https://core.telegram.org/css/widget-frame.css?68" rel="stylesheet">
-    <link href="https://a-comments.stel.com/css/comments.css" rel="stylesheet">
-    <link href="http://core.telegram.org/css/telegram.css?244" rel="stylesheet" media="screen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Telegram WebApp</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://ventusgalarius.github.io/js/comments.js"></script>
+    <script src="https://web.telegram.org/js/app.js"></script>
     <style>
+        :root {
+            --primary-color: #0088cc;
+            --dark-bg: #17212b;
+            --light-bg: #f5f5f5;
+            --text-light: #ffffff;
+            --text-dark: #000000;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .auth-section, .post-section, .comments-section {
-            margin-bottom: 30px;
-        }
-        .post-section {
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 20px;
-        }
-        .comments-section textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .comments-section button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .comments-section button:hover {
-            background-color: #0056b3;
-        }
-        .comment {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow: hidden;
+            height: 100vh;
             display: flex;
-            align-items: flex-start;
-            margin-bottom: 15px;
+            flex-direction: column;
         }
-        .comment img {
+        
+        .container {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: rgba(23, 33, 43, 0.95);
+            border-bottom: 1px solid #2f3d4a;
+            z-index: 100;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            margin-right: 10px;
+            background-color: #3e546a;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
-        .comment-content {
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .username {
+            font-weight: 500;
+        }
+        
+        .main-content {
             flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
-        .comment-content strong {
-            display: block;
-            margin-bottom: 5px;
+        
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
-        .comment-content p {
-            margin: 0;
+        
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            word-wrap: break-word;
         }
-        .comment-content small {
-            color: #777;
+        
+        .message-out {
+            align-self: flex-end;
+            background-color: var(--primary-color);
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message-in {
+            align-self: flex-start;
+            background-color: #2b5278;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .input-container {
+            display: flex;
+            padding: 10px 15px;
+            background-color: rgba(23, 33, 43, 0.95);
+            border-top: 1px solid #2f3d4a;
+        }
+        
+        .message-input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 20px;
+            border: none;
+            background-color: #2f3d4a;
+            color: var(--text-light);
+            outline: none;
+            font-size: 16px;
+        }
+        
+        .send-button {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-weight: bold;
+            padding: 0 15px;
+            cursor: pointer;
+        }
+        
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(0, 136, 204, 0.3);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .iframe-container {
+            flex: 1;
+            position: relative;
+        }
+        
+        #content-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .edit-overlay {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(23, 33, 43, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            z-index: 1000;
+        }
+        
+        .edit-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .auth-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+        
+        .inline-results {
+            position: absolute;
+            bottom: 70px;
+            left: 15px;
+            right: 15px;
+            background: var(--dark-bg);
+            border-radius: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        
+        .inline-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #2f3d4a;
+            cursor: pointer;
+        }
+        
+        .inline-item:last-child {
+            border-bottom: none;
+        }
+        
+        .inline-item:hover {
+            background-color: #2b5278;
+        }
+        
+        .chat-toggle {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-weight: bold;
+            cursor: pointer;
+            padding: 10px 15px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Auth Section -->
-        <div class="auth-section">
-            <h3>Login with Telegram</h3>
-            <div id="auth-section">
-                <div id="user-avatar"></div>
-                <div id="auth-button"></div>
+    <div class="loader">
+        <div class="spinner"></div>
+        <p>Загрузка через Telegram WebApp...</p>
+    </div>
+    
+    <div class="auth-container hidden">
+        <h2>Авторизация через Telegram</h2>
+        <p>Для использования приложения необходимо войти через Telegram</p>
+        <button id="auth-button" class="auth-button">Войти через Telegram</button>
+    </div>
+    
+    <div id="main-container" class="container hidden">
+        <div class="header">
+            <div class="user-info">
+                <div class="avatar" id="user-avatar">
+                    <span id="avatar-initials">T</span>
+                </div>
+                <div class="username" id="username">Telegram User</div>
+            </div>
+            <button id="chat-toggle" class="chat-toggle">Чат</button>
+        </div>
+        
+        <div class="main-content">
+            <div id="content-section" class="iframe-container">
+                <iframe id="content-frame" src="https://web.telegram.org/a/?test=backend"></iframe>
+                <div class="edit-overlay">
+                    <button class="edit-button" id="edit-button">Редактировать</button>
+                </div>
+            </div>
+            
+            <div id="chat-section" class="chat-container hidden">
+                <!-- Сообщения будут добавляться здесь -->
             </div>
         </div>
-
-        <!-- Post Section -->
-        <div class="post-section">
-            <h3>Latest Post</h3>
-            <div id="post-section">
-                <!-- Пост будет автоматически вставлен сюда через Telegram Widget -->
-            </div>
+        
+        <div class="input-container" id="input-section">
+            <input type="text" class="message-input" id="message-input" placeholder="Введите сообщение...">
+            <button class="send-button" id="send-button">Отправить</button>
         </div>
-
-        <!-- Comments Section -->
-        <div class="comments-section">
-            <h3>Comments</h3>
-            <div id="comments-list"></div>
-            <form id="comment-form">
-                <textarea id="comment-text" placeholder="Write your comment..." required></textarea>
-                <button type="submit">Post Comment</button>
-            </form>
-        </div>
+        
+        <div id="inline-results" class="inline-results hidden"></div>
     </div>
 
-    <script src="https://core.telegram.org/js/tgwallpaper.min.js?3"></script>
-    <script async src="https://a-comments.stel.com/js/widget.js" data-comments-app-website="w7CV0k3Y" data-limit="100" data-page-id="w7CV0k3Y"></script>
-
-    <script type="text/javascript">
-        // Функция для обработки авторизации через Telegram
-        function onTelegramAuth(user) {
-            console.log('User authenticated:', user);
-            localStorage.setItem('telegramUser', JSON.stringify(user));
-            updateAuthSection(user);
-            updateCommentsSection();
-        }
-
-        // Функция для обновления секции авторизации
-        function updateAuthSection(user) {
-            const authSection = document.getElementById('auth-section');
-            const userAvatar = document.getElementById('user-avatar');
-            const authButton = document.getElementById('auth-button');
-
-            if (user) {
-                userAvatar.innerHTML = `<img src="${user.photo_url}" alt="${user.first_name}" style="width: 50px; height: 50px; border-radius: 50%;">`;
-                authButton.innerHTML = '';
-            } else {
-                userAvatar.innerHTML = '';
-                authButton.innerHTML = '<div id="telegram-login"></div>';
+    <script>
+        // Класс для управления состоянием приложения
+        class AppState {
+            constructor() {
+                this.isAuthorized = false;
+                this.isChatMode = false;
+                this.userData = null;
+                this.messages = [];
+                this.inlineQuery = '';
+            }
+            
+            setUserData(userData) {
+                this.userData = userData;
+                this.isAuthorized = true;
+            }
+            
+            toggleChatMode() {
+                this.isChatMode = !this.isChatMode;
+                return this.isChatMode;
+            }
+            
+            addMessage(message) {
+                this.messages.push(message);
+                return this.messages;
             }
         }
-
-        // Функция для обновления секции комментариев
-        function updateCommentsSection() {
-            const commentsList = document.getElementById('comments-list');
-            const telegramAuthWidget = document.getElementById('auth-section');
-            const telegramUser = JSON.parse(localStorage.getItem('telegramUser'));
-
-            if (telegramUser) {
-                commentsList.style.display = 'block';
-                telegramAuthWidget.style.display = 'none';
-            } else {
-                commentsList.style.display = 'none';
-                telegramAuthWidget.style.display = 'block';
+        
+        // Класс для работы с Telegram WebApp
+        class TelegramWebApp {
+            constructor() {
+                this.webApp = window.Telegram.WebApp;
             }
-        }
-
-        // Обработка отправки комментария
-        document.getElementById('comment-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const commentText = document.getElementById('comment-text').value;
-            const user = JSON.parse(localStorage.getItem('telegramUser'));
-
-            if (user && commentText) {
-                const comment = {
-                    user: user,
-                    text: commentText,
-                    timestamp: new Date().toISOString(),
-                    postId: 't.me/ProfesorFloki/3' // ID поста, к которому оставляется комментарий
+            
+            init() {
+                if (!this.webApp.initDataUnsafe.user) {
+                    return false;
+                }
+                
+                this.webApp.ready();
+                this.webApp.expand();
+                return true;
+            }
+            
+            getUserData() {
+                const user = this.webApp.initDataUnsafe.user || {};
+                return {
+                    id: user.id,
+                    firstName: user.first_name,
+                    lastName: user.last_name,
+                    username: user.username,
+                    photoUrl: user.photo_url
                 };
-
-                // Сохраняем комментарий в localStorage
-                let comments = JSON.parse(localStorage.getItem('comments')) || [];
-                comments.push(comment);
-                localStorage.setItem('comments', JSON.stringify(comments));
-
-                // Очищаем поле ввода
-                document.getElementById('comment-text').value = '';
-
-                // Обновляем отображение комментариев
-                displayComments();
             }
-        });
-
-        // Функция для отображения комментариев
-        function displayComments() {
-            const commentsList = document.getElementById('comments-list');
-            const comments = JSON.parse(localStorage.getItem('comments')) || [];
-            const postId = 't.me/ProfesorFloki/3'; // ID текущего поста
-
-            // Фильтруем комментарии по ID поста
-            const postComments = comments.filter(comment => comment.postId === postId);
-
-            commentsList.innerHTML = postComments.map(comment => `
-                <div class="comment">
-                    <img src="${comment.user.photo_url}" alt="${comment.user.first_name}">
-                    <div class="comment-content">
-                        <strong>${comment.user.first_name} ${comment.user.last_name || ''}</strong>
-                        <p>${comment.text}</p>
-                        <small>${new Date(comment.timestamp).toLocaleString()}</small>
+            
+            showAlert(message) {
+                this.webApp.showAlert(message);
+            }
+            
+            sendMessage(text) {
+                if (!this.webApp.sendData) {
+                    console.error('SendData method not available');
+                    return;
+                }
+                
+                this.webApp.sendData(JSON.stringify({
+                    action: 'send_message',
+                    text: text
+                }));
+            }
+            
+            closeApp() {
+                this.webApp.close();
+            }
+        }
+        
+        // Класс для управления интерфейсом
+        class UIManager {
+            constructor() {
+                this.appState = new AppState();
+                this.telegramApp = new TelegramWebApp();
+                
+                this.loader = document.querySelector('.loader');
+                this.authContainer = document.querySelector('.auth-container');
+                this.mainContainer = document.getElementById('main-container');
+                this.userAvatar = document.getElementById('user-avatar');
+                this.avatarInitials = document.getElementById('avatar-initials');
+                this.username = document.getElementById('username');
+                this.chatToggle = document.getElementById('chat-toggle');
+                this.contentSection = document.getElementById('content-section');
+                this.chatSection = document.getElementById('chat-section');
+                this.messageInput = document.getElementById('message-input');
+                this.sendButton = document.getElementById('send-button');
+                this.inlineResults = document.getElementById('inline-results');
+                this.editButton = document.getElementById('edit-button');
+                this.authButton = document.getElementById('auth-button');
+            }
+            
+            init() {
+                // Проверяем запуск через Telegram
+                if (!window.Telegram || !window.Telegram.WebApp) {
+                    this.showError('Приложение может работать только через Telegram бота');
+                    return;
+                }
+                
+                // Инициализация Telegram WebApp
+                if (!this.telegramApp.init()) {
+                    this.showAuthScreen();
+                    return;
+                }
+                
+                // Получаем данные пользователя
+                const userData = this.telegramApp.getUserData();
+                this.appState.setUserData(userData);
+                this.updateUserUI();
+                
+                // Показываем основной интерфейс
+                this.showMainUI();
+                
+                // Обработчики событий
+                this.setupEventListeners();
+            }
+            
+            showAuthScreen() {
+                this.loader.classList.add('hidden');
+                this.authContainer.classList.remove('hidden');
+                
+                this.authButton.addEventListener('click', () => {
+                    this.telegramApp.showAlert('Авторизация через Telegram...');
+                    // В реальном приложении здесь будет запрос авторизации
+                    setTimeout(() => {
+                        this.authContainer.classList.add('hidden');
+                        this.showMainUI();
+                    }, 2000);
+                });
+            }
+            
+            showMainUI() {
+                this.authContainer.classList.add('hidden');
+                this.loader.classList.add('hidden');
+                this.mainContainer.classList.remove('hidden');
+                
+                // Проверяем параметры URL для режима чата
+                const urlParams = new URLSearchParams(window.location.hash.substring(1));
+                if (urlParams.get('chat') === 'true') {
+                    this.toggleChatMode(true);
+                }
+            }
+            
+            showError(message) {
+                this.loader.classList.add('hidden');
+                document.body.innerHTML = `
+                    <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;padding:20px;text-align:center;color:#ff5555;">
+                        <h2>Ошибка</h2>
+                        <p>${message}</p>
+                        <p>Откройте приложение через Telegram бота</p>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }
+            
+            updateUserUI() {
+                const user = this.appState.userData;
+                this.username.textContent = `${user.firstName} ${user.lastName}`;
+                
+                if (user.photoUrl) {
+                    this.userAvatar.innerHTML = `<img src="${user.photoUrl}" alt="User Avatar">`;
+                    this.avatarInitials.classList.add('hidden');
+                } else {
+                    const initials = (user.firstName[0] + (user.lastName ? user.lastName[0] : '')).toUpperCase();
+                    this.avatarInitials.textContent = initials;
+                    this.avatarInitials.classList.remove('hidden');
+                }
+            }
+            
+            setupEventListeners() {
+                // Переключение режима чата
+                this.chatToggle.addEventListener('click', () => {
+                    const isChatMode = this.appState.toggleChatMode();
+                    this.toggleChatMode(isChatMode);
+                    
+                    // Обновляем URL
+                    window.location.hash = isChatMode ? 'chat=true' : '';
+                });
+                
+                // Отправка сообщения
+                this.sendButton.addEventListener('click', () => this.sendMessage());
+                this.messageInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.sendMessage();
+                    }
+                });
+                
+                // Инлайн поиск
+                this.messageInput.addEventListener('input', (e) => {
+                    this.handleInlineSearch(e.target.value);
+                });
+                
+                // Режим редактирования
+                this.editButton.addEventListener('click', () => {
+                    this.enterEditMode();
+                });
+            }
+            
+            toggleChatMode(isChatMode) {
+                if (isChatMode) {
+                    this.contentSection.classList.add('hidden');
+                    this.chatSection.classList.remove('hidden');
+                    this.chatToggle.textContent = 'Контент';
+                } else {
+                    this.contentSection.classList.remove('hidden');
+                    this.chatSection.classList.add('hidden');
+                    this.chatToggle.textContent = 'Чат';
+                }
+            }
+            
+            sendMessage() {
+                const text = this.messageInput.value.trim();
+                if (!text) return;
+                
+                // Очищаем инлайн результаты
+                this.inlineResults.classList.add('hidden');
+                this.inlineResults.innerHTML = '';
+                
+                // Добавляем сообщение в UI
+                this.addMessageToUI({
+                    text: text,
+                    isOutgoing: true
+                });
+                
+                // Отправляем через Telegram API
+                this.telegramApp.sendMessage(text);
+                
+                // Очищаем поле ввода
+                this.messageInput.value = '';
+            }
+            
+            addMessageToUI(message) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.classList.add(message.isOutgoing ? 'message-out' : 'message-in');
+                messageElement.textContent = message.text;
+                
+                this.chatSection.appendChild(messageElement);
+                this.chatSection.scrollTop = this.chatSection.scrollHeight;
+                
+                this.appState.addMessage(message);
+            }
+            
+            handleInlineSearch(query) {
+                if (query.startsWith('@')) {
+                    this.appState.inlineQuery = query.substring(1);
+                    this.showInlineResults([
+                        { id: 1, title: 'Результат 1', description: `По запросу "${this.appState.inlineQuery}"` },
+                        { id: 2, title: 'Результат 2', description: `По запросу "${this.appState.inlineQuery}"` },
+                        { id: 3, title: 'Результат 3', description: `По запросу "${this.appState.inlineQuery}"` }
+                    ]);
+                } else {
+                    this.inlineResults.classList.add('hidden');
+                }
+            }
+            
+            showInlineResults(results) {
+                this.inlineResults.innerHTML = '';
+                
+                results.forEach(result => {
+                    const item = document.createElement('div');
+                    item.classList.add('inline-item');
+                    item.innerHTML = `
+                        <strong>${result.title}</strong>
+                        <p>${result.description}</p>
+                    `;
+                    item.addEventListener('click', () => {
+                        this.messageInput.value = `@${this.appState.inlineQuery} ${result.title}`;
+                        this.inlineResults.classList.add('hidden');
+                    });
+                    this.inlineResults.appendChild(item);
+                });
+                
+                this.inlineResults.classList.remove('hidden');
+            }
+            
+            enterEditMode() {
+                // Получаем iframe
+                const iframe = document.getElementById('content-frame');
+                
+                // В реальном приложении здесь будет код для манипуляции контентом
+                this.telegramApp.showAlert('Режим редактирования активирован');
+                
+                // Пример: изменение стиля iframe
+                iframe.style.border = '2px solid #0088cc';
+            }
         }
 
-        // Проверяем, авторизован ли пользователь при загрузке страницы
+        // Инициализация приложения после загрузки
         document.addEventListener('DOMContentLoaded', () => {
-            const user = JSON.parse(localStorage.getItem('telegramUser'));
-            updateAuthSection(user);
-            updateCommentsSection();
-            displayComments();
+            const uiManager = new UIManager();
+            uiManager.init();
         });
-
-        if (window.matchMedia) {
-            const whiteMedia = window.matchMedia('(prefers-color-scheme: white)');
-            toggleTheme(whiteMedia.matches);
-            whiteMedia.addListener(function(e) {
-                toggleTheme(e.matches);
-            });
-        }
     </script>
 </body>
 </html>
