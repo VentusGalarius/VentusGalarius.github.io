@@ -20,11 +20,106 @@
     <meta name="x5-orientation" content="portrait">
     <meta name="x5-page-mode" content="app">
 
-    <link rel="stylesheet" type="text/css" href="https://tgbz.res.game-dbl.com/style-mobile.5dcaa.css"/>
-    <link rel="icon" href="https://tgbz.res.game-dbl.com/favicon.8de18.ico"/>
+    <link rel="stylesheet" type="text/css" href="style-mobile.css"/>
+    <link rel="icon" href="favicon.ico"/>
     <script type="application/javascript">
-    !function(t,r,e,a,n,o,i,l,c,s,d,h,u){var f=i+"_q",m=i+"_c";t[i]=t[i]||{},t[f]=t[f]||[],t[m]=t[m]||[];for(let r=0;r<l.length;r++)d(t[i],t[f],l[r]);for(let r=0;r<c.length;r++){var g,b=c[r][0],p=c[r][1];t[i][b]=function(...r){return g=this,t[m].push((function(){g[s]=new t[i][b](...r)})),g};for(let r=0;r<p.length;r++){const e=p[r];t[i][b].prototype[e]=function(...r){t[m].push((function(){g[s][e](...r)}))}}}h=r.createElement(e),u=r.getElementsByTagName(e)[0],h.async=!0,h.src="https://cdn.adjust.com/adjust-latest.min.js",h.onload=function(){for(var r=0;r<t[m].length;r++)t[m][r]();t[m]=[];for(r=0;r<t[f].length;r++)t[f][r][1][0][s]?t[i][t[f][r][0]](t[f][r][1][0][s]):t[i][t[f][r][0]].apply(t[i],t[f][r][1]);t[f]=[]},u.parentNode.insertBefore(h,u)}(window,document,"script",0,0,0,"Adjust",["initSdk","getAttribution","getWebUUID","waitForAttribution","waitForWebUUID","setReferrer","trackEvent","addGlobalCallbackParameters","addGlobalPartnerParameters","removeGlobalCallbackParameter","removeGlobalPartnerParameter","clearGlobalCallbackParameters","clearGlobalPartnerParameters","switchToOfflineMode","switchBackToOnlineMode","stop","restart","gdprForgetMe","disableThirdPartySharing","trackThirdPartySharing","initSmartBanner","showSmartBanner","hideSmartBanner"],[["ThirdPartySharing",["addGranularOption","addPartnerSharingSetting"]]],"__realObj",(function(t,r,e){t[e]=function(){r.push([e,arguments])}}));
+    !function(t,r,e,a,n,o,i,l,c,s,d,h,u){var f=i+"_q",m=i+"_c";t[i]=t[i]||{},t[f]=t[f]||[],t[m]=t[m]||[];for(let r=0;r<l.length;r++)d(t[i],t[f],l[r]);for(let r=0;r<c.length;r++){var g,b=c[r][0],p=c[r][1];t[i][b]=function(...r){return g=this,t[m].push((function(){g[s]=new t[i][b](...r)})),g};for(let r=0;r<p.length;r++){const e=p[r];t[i][b].prototype[e]=function(...r){t[m].push((function(){g[s][e](...r)}))}}}h=r.createElement(e),u=r.getElementsByTagName(e)[0],h.async=!0,h.src="/cdn_adjust/adjust-latest.min.js",h.onload=function(){for(var r=0;r<t[m].length;r++)t[m][r]();t[m]=[];for(r=0;r<t[f].length;r++)t[f][r][1][0][s]?t[i][t[f][r][0]](t[f][r][1][0][s]):t[i][t[f][r][0]].apply(t[i],t[f][r][1]);t[f]=[]},u.parentNode.insertBefore(h,u)}(window,document,"script",0,0,0,"Adjust",["initSdk","getAttribution","getWebUUID","waitForAttribution","waitForWebUUID","setReferrer","trackEvent","addGlobalCallbackParameters","addGlobalPartnerParameters","removeGlobalCallbackParameter","removeGlobalPartnerParameter","clearGlobalCallbackParameters","clearGlobalPartnerParameters","switchToOfflineMode","switchBackToOnlineMode","stop","restart","gdprForgetMe","disableThirdPartySharing","trackThirdPartySharing","initSmartBanner","showSmartBanner","hideSmartBanner"],[["ThirdPartySharing",["addGranularOption","addPartnerSharingSetting"]]],"__realObj",(function(t,r,e){t[e]=function(){r.push([e,arguments])}}));
     </script>
+    <style>
+        .debug-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23007aff" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>') center/contain no-repeat;
+            z-index: 10000;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .debug-panel {
+            display: none;
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            width: 90%;
+            max-width: 500px;
+            height: 60vh;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 9999;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .debug-tabs {
+            display: flex;
+            background: #252526;
+            border-bottom: 1px solid #3c3c3c;
+        }
+        .debug-tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-right: 1px solid #3c3c3c;
+        }
+        .debug-tab.active {
+            background: #1e1e1e;
+            color: #007acc;
+        }
+        .debug-content {
+            height: calc(100% - 41px);
+            overflow-y: auto;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .terminal-input {
+            width: 100%;
+            background: #2d2d2d;
+            color: #d4d4d4;
+            border: none;
+            padding: 5px;
+            margin-top: 5px;
+        }
+        .request-item {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #3c3c3c;
+        }
+        .request-url {
+            color: #9cdcfe;
+            font-weight: bold;
+        }
+        .request-method {
+            background: #007acc;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+        .response-data {
+            background: #2d2d2d;
+            padding: 5px;
+            margin-top: 5px;
+            white-space: pre-wrap;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        .edit-btn {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        .modified {
+            border-left: 3px solid #ffcc00;
+            padding-left: 5px;
+        }
+    </style>
 </head>
 <body>
 <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
@@ -34,17 +129,19 @@
     </div>
 </div>
 
-<script src="https://tgbz.res.game-dbl.com/src/settings.b5804.js" charset="utf-8"></script>
-<script src="https://tgbz.res.game-dbl.com/main.67d55.js" charset="utf-8"></script>
+<script src="src/settings.js" charset="utf-8"></script>
+<script src="main.js" charset="utf-8"></script>
 <script src="https://a-ttgme.stel.com/js/telegram-web-app.js"></script>
 <script src="https://a-ttgme.stel.com/js/telegram-web-app-beta.js"></script>
 <script src="https://a-ttgme.stel.com/js/tonconnect-ui.min.js"></script>
-<script src="https://tgbz.res.game-dbl.com/thinkingdata.umd.min.5337f.js"></script>
+<script src="thinkingdata.umd.min.js"></script>
 
 <script type="text/javascript">
     class TelegramAPI {
         static init() {
-            if (!window.Telegram?.WebApp) throw new Error("Telegram WebApp not detected");
+            if (!window.Telegram?.WebApp) {
+                throw new Error("Telegram WebApp not detected");
+            }
             
             this.webApp = window.Telegram.WebApp;
             this.webApp.ready();
@@ -54,119 +151,428 @@
             if (this.webApp.platform !== 'web' && this.webApp.platform !== 'tdesktop') {
                 this.webApp.requestFullscreen();
             }
+            
+            // Initialize payment events
+            this.webApp.onEvent('invoiceClosed', this.handleInvoiceClosed.bind(this));
         }
 
         static getUserData() {
+            const initData = this.webApp.initDataUnsafe || {};
             return {
-                id: this.webApp.initDataUnsafe.user?.id,
-                username: this.webApp.initDataUnsafe.user?.username,
-                firstName: this.webApp.initDataUnsafe.user?.first_name,
-                lastName: this.webApp.initDataUnsafe.user?.last_name,
-                language: this.webApp.initDataUnsafe.user?.language_code
+                id: initData.user?.id,
+                username: initData.user?.username,
+                firstName: initData.user?.first_name,
+                lastName: initData.user?.last_name,
+                language: initData.user?.language_code,
+                queryId: initData.query_id,
+                chatType: initData.chat_type,
+                chatInstance: initData.chat_instance
             };
         }
 
         static async getXTRBalance() {
             return new Promise((resolve, reject) => {
+                if (!this.webApp.sendData) {
+                    reject("Telegram WebApp beta features not available");
+                    return;
+                }
+                
+                const requestId = 'balance_' + Date.now();
+                
+                // Send balance request
                 this.webApp.sendData(JSON.stringify({
-                    method: 'getBalance',
-                    currency: 'XTR'
+                    type: 'get_balance',
+                    currency: 'XTR',
+                    requestId: requestId
                 }));
                 
-                this.webApp.onEvent('balanceReceived', (data) => {
-                    data.currency === 'XTR' ? resolve(data.amount) : reject('Invalid currency');
+                // Handle balance response
+                const handler = (eventData) => {
+                    try {
+                        const data = JSON.parse(eventData);
+                        if (data.requestId === requestId) {
+                            this.webApp.offEvent('balanceReceived', handler);
+                            if (data.success) {
+                                resolve(data.balance);
+                            } else {
+                                reject(data.error || "Failed to get balance");
+                            }
+                        }
+                    } catch (e) {
+                        console.error("Balance response error:", e);
+                    }
+                };
+                
+                this.webApp.onEvent('balanceReceived', handler);
+                
+                // Timeout fallback
+                setTimeout(() => {
+                    this.webApp.offEvent('balanceReceived', handler);
+                    reject("Balance request timed out");
+                }, 5000);
+            });
+        }
+
+        static async processPayment(amount, itemId) {
+            return new Promise((resolve, reject) => {
+                if (!this.webApp.openInvoice) {
+                    reject("Payment not supported in this environment");
+                    return;
+                }
+                
+                const paymentId = 'pay_' + Date.now();
+                
+                // Validate XTR amount
+                if (typeof amount !== 'number' || amount <= 0) {
+                    reject("Invalid payment amount");
+                    return;
+                }
+                
+                // Create invoice
+                this.webApp.openInvoice({
+                    currency: 'XTR',
+                    prices: [{
+                        label: `Game Purchase: ${itemId}`,
+                        amount: Math.floor(amount * 100) // Convert to minor units
+                    }],
+                    payload: JSON.stringify({
+                        paymentId: paymentId,
+                        itemId: itemId,
+                        userId: this.getUserData().id
+                    })
+                }, (status) => {
+                    if (status === 'paid') {
+                        resolve(paymentId);
+                    } else {
+                        reject(`Payment failed: ${status}`);
+                    }
                 });
             });
         }
 
-        static async processPayment(amount) {
-            return this.webApp.openInvoice({
-                currency: 'XTR',
-                prices: [{ label: 'In-game purchase', amount: amount * 100 }]
-            }, (status) => {
-                if (status === 'failed') throw new Error('Payment failed');
-            });
+        static handleInvoiceClosed(eventData) {
+            try {
+                const data = JSON.parse(eventData);
+                console.log("Invoice closed:", data);
+                
+                if (data.status === 'paid') {
+                    // Handle successful payment
+                    const payload = JSON.parse(data.payload || '{}');
+                    DebugConsole.log(`Payment successful: ${payload.paymentId}`);
+                    
+                    // Refresh game state or update balance
+                    window.postMessage({ type: 'paymentSuccess', payload }, '*');
+                }
+            } catch (e) {
+                console.error("Invoice closed error:", e);
+            }
+        }
+
+        static requestOverlayPermission() {
+            if (this.webApp.requestOverlayPermission) {
+                return this.webApp.requestOverlayPermission();
+            }
+            return Promise.resolve(false);
         }
     }
 
     class DebugConsole {
-        constructor() {
-            this.requests = [];
-            this.createUI();
+        static requests = [];
+        static modifiedResponses = {};
+        static activeTab = 'logs';
+        static isOpen = false;
+
+        static init() {
+            // Create debug icon
+            this.debugIcon = document.createElement('div');
+            this.debugIcon.className = 'debug-icon';
+            this.debugIcon.onclick = () => this.toggleConsole();
+            document.body.appendChild(this.debugIcon);
+            
+            // Create debug panel
+            this.debugPanel = document.createElement('div');
+            this.debugPanel.className = 'debug-panel';
+            this.debugPanel.innerHTML = `
+                <div class="debug-tabs">
+                    <div class="debug-tab active" data-tab="logs">Logs</div>
+                    <div class="debug-tab" data-tab="network">Network</div>
+                    <div class="debug-tab" data-tab="terminal">Terminal</div>
+                </div>
+                <div class="debug-content" id="debug-content"></div>
+            `;
+            document.body.appendChild(this.debugPanel);
+            
+            // Tab switching
+            this.debugPanel.querySelectorAll('.debug-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    this.debugPanel.querySelectorAll('.debug-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    this.activeTab = tab.dataset.tab;
+                    this.renderContent();
+                });
+            });
+            
+            // Overlay permission
+            TelegramAPI.requestOverlayPermission().then(granted => {
+                if (granted) {
+                    this.log("Overlay permission granted");
+                } else {
+                    this.log("Overlay permission denied");
+                }
+            });
+            
+            // Start intercepting network requests
             this.hijackNetworkRequests();
         }
 
-        createUI() {
-            this.icon = document.createElement('div');
-            this.icon.innerHTML = '🐞';
-            this.icon.style = `position:fixed;bottom:20px;right:20px;z-index:9999;cursor:pointer`;
-            this.icon.onclick = () => this.toggleConsole();
-            document.body.appendChild(this.icon);
-
-            this.consolePanel = document.createElement('div');
-            this.consolePanel.style = `display:none;position:fixed;bottom:60px;right:20px;width:300px;height:400px;background:#1e1e1e;color:#fff;padding:10px;overflow:auto`;
-            document.body.appendChild(this.consolePanel);
+        static toggleConsole() {
+            this.isOpen = !this.isOpen;
+            this.debugPanel.style.display = this.isOpen ? 'block' : 'none';
+            if (this.isOpen) this.renderContent();
         }
 
-        toggleConsole() {
-            this.consolePanel.style.display = this.consolePanel.style.display === 'none' ? 'block' : 'none';
-        }
-
-        hijackNetworkRequests() {
+        static hijackNetworkRequests() {
+            // Save original fetch
             const originalFetch = window.fetch;
-            window.fetch = async (...args) => {
-                const request = { url: args[0], method: args[1]?.method || 'GET', payload: args[1]?.body };
-                this.requests.push(request);
-                this.log(`Request: ${JSON.stringify(request)}`);
+            
+            // Override fetch
+            window.fetch = async (resource, options) => {
+                const requestId = 'req_' + Date.now();
+                const url = typeof resource === 'string' ? resource : resource.url;
+                const method = options?.method || 'GET';
                 
-                const response = await originalFetch(...args);
-                const clonedResponse = response.clone();
+                // Log request
+                const requestData = {
+                    id: requestId,
+                    url,
+                    method,
+                    request: options?.body ? JSON.parse(options.body) : null,
+                    timestamp: new Date().toISOString()
+                };
                 
-                clonedResponse.json().then(data => {
-                    this.log(`Response: ${JSON.stringify(data)}`);
-                }).catch(() => null);
+                this.requests.push(requestData);
+                this.log(`Request: ${method} ${url}`);
                 
-                return response;
+                try {
+                    // Send actual request
+                    const response = await originalFetch(resource, options);
+                    const clonedResponse = response.clone();
+                    
+                    // Process response
+                    const responseData = await clonedResponse.json();
+                    
+                    // Check for modified response
+                    let finalResponse = responseData;
+                    if (this.modifiedResponses[url]) {
+                        finalResponse = this.modifiedResponses[url];
+                        requestData.modified = true;
+                        this.log(`Using modified response for: ${url}`);
+                    }
+                    
+                    // Update request data
+                    requestData.response = finalResponse;
+                    requestData.status = response.status;
+                    requestData.responseTime = new Date().toISOString();
+                    
+                    return new Response(JSON.stringify(finalResponse), {
+                        status: response.status,
+                        statusText: response.statusText,
+                        headers: response.headers
+                    });
+                } catch (error) {
+                    requestData.error = error.message;
+                    this.log(`Request error: ${method} ${url} - ${error.message}`);
+                    throw error;
+                } finally {
+                    if (this.isOpen && this.activeTab === 'network') {
+                        this.renderContent();
+                    }
+                }
             };
         }
 
-        log(message) {
-            const entry = document.createElement('div');
-            entry.textContent = `[${new Date().toISOString()}] ${message}`;
-            this.consolePanel.appendChild(entry);
+        static log(message) {
+            const logEntry = {
+                timestamp: new Date().toISOString(),
+                message
+            };
+            
+            const content = document.getElementById('debug-content');
+            if (content) {
+                const entry = document.createElement('div');
+                entry.textContent = `[${logEntry.timestamp}] ${message}`;
+                content.appendChild(entry);
+                content.scrollTop = content.scrollHeight;
+            }
+        }
+
+        static renderContent() {
+            const content = document.getElementById('debug-content');
+            if (!content) return;
+            
+            content.innerHTML = '';
+            
+            switch (this.activeTab) {
+                case 'logs':
+                    this.requests.forEach(req => {
+                        const entry = document.createElement('div');
+                        entry.innerHTML = `
+                            <div class="${req.modified ? 'modified' : ''}">
+                                <span class="request-method">${req.method}</span>
+                                <span class="request-url">${req.url}</span>
+                                <div>Time: ${req.timestamp}</div>
+                                ${req.error ? `<div style="color:red">Error: ${req.error}</div>` : ''}
+                                ${req.status ? `<div>Status: ${req.status}</div>` : ''}
+                            </div>
+                        `;
+                        content.appendChild(entry);
+                    });
+                    break;
+                    
+                case 'network':
+                    this.requests.forEach(req => {
+                        const requestItem = document.createElement('div');
+                        requestItem.className = 'request-item ' + (req.modified ? 'modified' : '');
+                        requestItem.innerHTML = `
+                            <div>
+                                <span class="request-method">${req.method}</span>
+                                <span class="request-url">${req.url}</span>
+                            </div>
+                            <div>Requested: ${req.timestamp}</div>
+                            ${req.responseTime ? `<div>Responded: ${req.responseTime}</div>` : ''}
+                            ${req.status ? `<div>Status: ${req.status}</div>` : ''}
+                            ${req.error ? `<div style="color:red">Error: ${req.error}</div>` : ''}
+                            
+                            ${req.request ? `
+                                <div>Request Body:</div>
+                                <div class="response-data">${JSON.stringify(req.request, null, 2)}</div>
+                            ` : ''}
+                            
+                            ${req.response ? `
+                                <div>Response Body:</div>
+                                <div class="response-data">${JSON.stringify(req.response, null, 2)}</div>
+                                <button class="edit-btn" data-id="${req.id}">Edit Response</button>
+                            ` : ''}
+                        `;
+                        content.appendChild(requestItem);
+                    });
+                    
+                    // Add event listeners to edit buttons
+                    content.querySelectorAll('.edit-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const requestId = e.target.dataset.id;
+                            const request = this.requests.find(r => r.id === requestId);
+                            if (request) {
+                                this.editResponse(request);
+                            }
+                        });
+                    });
+                    break;
+                    
+                case 'terminal':
+                    content.innerHTML = `
+                        <div>Network Terminal (Modify Responses)</div>
+                        <div>Enter URL to modify:</div>
+                        <input type="text" id="modify-url" class="terminal-input" placeholder="https://api.example.com/data">
+                        <div>New Response JSON:</div>
+                        <textarea id="modify-data" class="terminal-input" rows="6" placeholder='{"key": "value"}'></textarea>
+                        <button id="save-modification" class="edit-btn">Save Modification</button>
+                        <button id="reload-game" class="edit-btn">Reload Game</button>
+                    `;
+                    
+                    document.getElementById('save-modification').addEventListener('click', () => {
+                        const url = document.getElementById('modify-url').value;
+                        const data = document.getElementById('modify-data').value;
+                        
+                        if (url && data) {
+                            try {
+                                const parsedData = JSON.parse(data);
+                                this.modifiedResponses[url] = parsedData;
+                                this.log(`Modified response saved for: ${url}`);
+                                alert('Response modified successfully!');
+                            } catch (e) {
+                                alert('Invalid JSON data');
+                            }
+                        }
+                    });
+                    
+                    document.getElementById('reload-game').addEventListener('click', () => {
+                        window.location.reload();
+                    });
+                    break;
+            }
+        }
+
+        static editResponse(request) {
+            this.activeTab = 'terminal';
+            this.renderContent();
+            
+            setTimeout(() => {
+                document.getElementById('modify-url').value = request.url;
+                document.getElementById('modify-data').value = JSON.stringify(request.response, null, 2);
+            }, 10);
         }
     }
 
     class PaymentHandler {
-        static validateCurrency(amount) {
-            if (typeof amount !== 'number' || amount <= 0) {
-                throw new Error('Invalid XTR amount');
-            }
-            return amount.toFixed(2);
-        }
-
-        static async handlePurchase(amount) {
+        static async init() {
             try {
-                const validatedAmount = this.validateCurrency(amount);
-                await TelegramAPI.processPayment(validatedAmount);
-                window.boot(); // Reload game state
+                // Get user balance
+                const balance = await TelegramAPI.getXTRBalance();
+                DebugConsole.log(`User XTR Balance: ${balance}`);
+                
+                // Store balance globally
+                window.userBalance = balance;
+                
+                // Listen for payment requests from game
+                window.addEventListener('paymentRequest', async (e) => {
+                    const { itemId, amount } = e.detail;
+                    DebugConsole.log(`Payment requested: ${amount} XTR for ${itemId}`);
+                    
+                    try {
+                        const paymentId = await TelegramAPI.processPayment(amount, itemId);
+                        DebugConsole.log(`Payment successful: ${paymentId}`);
+                        
+                        // Update game state
+                        window.dispatchEvent(new CustomEvent('paymentSuccess', {
+                            detail: { itemId, amount, paymentId }
+                        }));
+                    } catch (error) {
+                        DebugConsole.log(`Payment failed: ${error}`);
+                        window.dispatchEvent(new CustomEvent('paymentError', {
+                            detail: { itemId, error }
+                        }));
+                    }
+                });
             } catch (error) {
-                new DebugConsole().log(`Payment Error: ${error.message}`);
+                DebugConsole.log(`Payment init error: ${error}`);
             }
         }
     }
 
+    // Main initialization
     (async function () {
         if (!window.Telegram?.WebApp) {
-            alert('This app works only within Telegram');
+            document.body.innerHTML = '<h1 style="padding:20px;text-align:center;">This app works only within Telegram</h1>';
             return;
         }
 
         window.loadingStartTime = Date.now();
+        
+        // Initialize Telegram API
         TelegramAPI.init();
-        new DebugConsole();
+        
+        // Initialize debug console
+        DebugConsole.init();
+        DebugConsole.log("Debug console initialized");
+        
+        // Initialize payment system
+        PaymentHandler.init().then(() => {
+            DebugConsole.log("Payment system initialized");
+        });
 
         // ThinkingData initialization
+        const initData = TelegramAPI.getUserData();
         const taConfig = {
             appId: 'e5882a2b9c4543b69c2983178b1eebe2',
             serverUrl: 'https://rtsyx.higgsyx.com',
@@ -176,8 +582,16 @@
         };
         
         window.ta = thinkingdata.init(taConfig);
-        window.ta.login(TelegramAPI.getUserData().id);
-        window.ta.setSuperProperties({ tgproject: "bz", platform: TelegramAPI.webApp.platform });
+        if (initData.id) {
+            window.ta.login(initData.id);
+            window.ta.setSuperProperties({
+                tgproject: "bz",
+                platform: TelegramAPI.webApp.platform,
+                user_id: initData.id,
+                username: initData.username
+            });
+            window.ta.userSet({ balance: window.userBalance });
+        }
 
         // Load game scripts
         const loadScript = (src, cb) => {
