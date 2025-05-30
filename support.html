@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html class="">
+  <head>
+    <meta charset="utf-8">
+    <title>Поддержка Telegram</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Поддержка Telegram">
+    <meta property="og:image" content="">
+    <meta property="og:site_name" content="Telegram">
+    <meta property="og:description" content="">
+    
+    
+    <meta property="fb:app_id" content="254098051407226">
+    <meta property="vk:app_id" content="3782569">
+    <meta name="apple-itunes-app" content="app-id=686449807">
+    <meta name="telegram:channel" content="@telegram">
+    
+    <link rel="icon" type="image/svg+xml" href="https://a-ttgme.stel.com/img/website_icon.svg?4">
+<link rel="apple-touch-icon" sizes="180x180" href="https://a-ttgme.stel.com/img/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://a-ttgme.stel.com/img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://a-ttgme.stel.com/img/favicon-16x16.png">
+<link rel="alternate icon" href="https://a-ttgme.stel.com/img/favicon.ico" type="image/x-icon" />
+    <link href="https://a-ttgme.stel.com/css/bootstrap.min.css?3" rel="stylesheet">
+    <link href="https://a-ttgme.stel.com/css/bootstrap-extra.css?2" rel="stylesheet">
+    <link href="https://a-ttgme.stel.com/css/telegram.css?244" rel="stylesheet" media="screen">
+  </head>
+  <body class="preload">
+    <div id="fb-root"></div>
+    <div class="tl_page_wrap">
+      <div class="tl_page_head navbar navbar-static-top navbar navbar-tg">
+        <div class="navbar-inner">
+          <div class="container clearfix">
+          </div>
+        </div>
+      </div>
+      <div class="container clearfix tl_page_container ">
+        <div class="tl_page">
+          <div class="container">
+  <div class="support_wrap">
+    <h1>Поддержка</h1>
+    
+        <form class="" action="/support" method="POST">
+      <div class="form-group">
+        <label for="support_problem">Опишите свою проблему:</label>
+        <textarea class="form-control" rows="3" id="support_problem" name="message"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="support_phone">Ваше полное имя, отчество и фамилия:</label>
+        <input type="text" class="form-control" id="support_legal_name" name="legal_name" value="">
+      </div>
+      <div class="form-group">
+        <label for="support_phone">Ваш email:</label>
+        <input type="text" class="form-control" id="support_email" placeholder="user@gmail.com" name="email" value="">
+      </div>
+      <div class="form-group">
+        <label for="support_phone">Ваш номер телефона:</label>
+        <input type="text" class="form-control" id="support_phone" placeholder="+12223334455" name="phone" value="">
+      </div>
+      <div class="form-group">
+        <input type="hidden" class="form-control" id="support_lang" name="setln" value="ru">
+      </div>
+        <div class="form-group">
+    <div class="turnstile-wrapper">
+      <div class="cf-challenge"
+           data-sitekey="0x4AAAAAABeXKow67DnvUBPD"
+           data-callback="onTurnstileSuccess"
+           data-language="ru"
+           data-theme="light"></div>
+    </div>
+  </div>
+      <div class="support_submit">
+        <button type="submit" class="btn btn-primary btn-lg js-captcha-controlled-btn"disabled>Отправить</button>
+      </div>
+    </form>
+  </div>
+</div>
+    <script src="https://a-ttgme.stel.com/js/main.js?47"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?1"></script>
+<script src="https://a-ttgme.stel.com/js/jquery.min.js?1"></script>
+<script src="https://a-ttgme.stel.com/js/jquery-ui.min.js?1"></script>
+<script src="https://a-ttgme.stel.com/js/main-aj.js?71"></script>
+<script src="https://a-ttgme.stel.com/js/jquery-ex.js?22"></script>
+
+    <script>  function onTurnstileSuccess(token, attemptCount) {
+    var currentAttempt = attemptCount || 1;
+  
+    $.ajax('/support/captcha', {
+      type: 'POST',
+      data: {token: token},
+      dataType: 'json',
+      xhrFields: {
+        withCredentials: true
+      },
+      success: function(result, s, xhr) {
+        if (result.error) {
+          return showAlert(result.error);
+        }
+        if (result.pending) {
+          if (currentAttempt >= 20) {
+            return false;
+          }
+          setTimeout(function() { onTurnstileSuccess(token, currentAttempt + 1); }, 200);
+          return false;
+        }
+        $('.js-captcha-controlled-btn').prop('disabled', false);
+      }
+    });
+  }
+backToTopInit("\u041d\u0430\u0432\u0435\u0440\u0445");
+removePreloadInit();
+</script>
+  </body>
+</html>
+<!-- page generated in 2.24ms -->
