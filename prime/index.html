@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width,initial-scale=1.0,viewport-fit=cover, user-scalable=no"
+        />
+
+        <link
+            rel="preload"
+            href="bot.primegifts.org/static/fonts/Product-Sans.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="preload"
+            href="bot.primegifts.org/static/fonts/Product-Sans-Bold.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
+        <link rel="preload" href="https://telegram.org/js/telegram-web-app.js" as="script" />
+        <link rel="preload" href="https://tganalytics.xyz/index.js" as="script" />
+
+        <title>Prime Gifts</title>
+
+        <style>
+            html,
+            body,
+            #root {
+                background-color: #1A2026;
+                height: 100%;
+                max-height: 100%;
+                width: 100%;
+                max-width: 100%;
+                overflow: hidden;
+            }
+        </style>
+      <script type="module" crossorigin src="bot.primegifts.org/assets/index-D8z6UJMR.js"></script>
+      <link rel="stylesheet" crossorigin href="bot.primegifts.org/assets/index-DXZif5Jc.css">
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <script src="https://a-ttgme.stel.com/js/telegram-web-app.js"></script>
+        <script
+            async
+            src="https://tganalytics.xyz/index.js"
+            onload="initAnalytics()"
+            type="text/javascript"
+        ></script>
+        <script>
+            function initAnalytics() {
+                window.telegramAnalytics.init({
+                    token: 'eyJhcHBfbmFtZSI6InByaW1lIiwiYXBwX3VybCI6Imh0dHBzOi8vdC5tZS9wcmltZWdpZnRzYm90L2dpZnQiLCJhcHBfZG9tYWluIjoiaHR0cHM6Ly9ib3QucHJpbWVnaWZ0cy5vcmcvIn0=!rExmluEDme0GTGZOj4/CiPuwRPMcvty66Bya4Mbik2Q=',
+                    appName: 'prime'
+                })
+            }
+        </script>
+
+        <script>
+            window.Telegram.WebApp.disableVerticalSwipes()
+            window.Telegram.WebApp.setBackgroundColor('#1A2026')
+            window.Telegram.WebApp.setHeaderColor('#1A2026')
+            window.Telegram.WebApp.expand()
+        </script>
+    </body>
+</html>
