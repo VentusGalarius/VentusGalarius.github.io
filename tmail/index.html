@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Telegram Webmail :: Welcome to Telegram Webmail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0">
+    <meta name="theme-color" content="#f4f4f4">
+    <meta name="msapplication-navbutton-color" content="#f4f4f4">
+    <link rel="shortcut icon" href="https://tmail.stel.com/skins/elastic/images/favicon.ico">
+    <link rel="stylesheet" href="https://tmail.stel.com/skins/elastic/deps/bootstrap.min.css">
+    <link rel="stylesheet" href="https://tmail.stel.com/skins/elastic/styles/styles.min.css">
+    <link rel="stylesheet" type="text/css" href="https://tmail.stel.com/plugins/jqueryui/themes/elastic/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://tmail.stel.com/program/js/jquery.min.js"></script>
+    <script src="https://tmail.stel.com/program/js/common.min.js"></script>
+    <script src="https://tmail.stel.com/program/js/app.min.js"></script>
+    <script src="https://tmail.stel.com/program/js/jstz.min.js"></script>
+    <script src="https://a-ttgme.stel.com/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --primary-color: #0088cc;
+            --secondary-color: #f8f9fa;
+            --text-color: #333;
+            --text-secondary: #666;
+            --border-color: #ddd;
+            --bg-color: #fff;
+            --card-bg: #fff;
+            --hover-color: #f0f0f0;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+        }
+
+        .dark-mode {
+            --primary-color: #0088cc;
+            --secondary-color: #2d2d2d;
+            --text-color: #f0f0f0;
+            --text-secondary: #aaa;
+            --border-color: #444;
+            --bg-color: #1e1e1e;
+            --card-bg: #2d2d2d;
+            --hover-color: #3d3d3d;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .user-profile {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            padding: 30px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+
+        .user-name {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .user-email {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .success-message {
+            color: var(--success-color);
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            padding: 15px;
+            background-color: rgba(40, 167, 69, 0.1);
+            border-radius: 5px;
+        }
+
+        .mailbox-container {
+            display: none;
+            margin-top: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+            background-color: var(--card-bg);
+        }
+
+        .folder-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .folder-list li {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s;
+        }
+
+        .folder-list li:hover {
+            background-color: var(--hover-color);
+        }
+
+        .folder-list li.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .folder-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            display: block;
+        }
+
+        .folder-list li.active a {
+            color: white;
+        }
+
+        .folder-list .folder-icon {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .email-list {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .email-list th, .email-list td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .email-list th {
+            background-color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .email-list tr:hover {
+            background-color: var(--hover-color);
+        }
+
+        .email-list .email-unread {
+            font-weight: bold;
+        }
+
+        .email-list .email-starred {
+            color: var(--warning-color);
+        }
+
+        .email-content {
+            display: none;
+            margin-top: 25px;
+            padding: 25px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .email-header {
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .email-subject {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .email-body {
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .compose-btn {
+            margin-bottom: 25px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .theme-switcher {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .theme-toggle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .login-form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form table {
+            width: 100%;
+        }
+
+        .login-form .title {
+            width: 120px;
+            padding-right: 15px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .login-form .input {
+            width: calc(100% - 120px);
+        }
+
+        .login-form .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: border-color 0.3s;
+        }
+
+        .login-form .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .formbuttons {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .button.mainaction {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button.mainaction:hover {
+            background-color: #006699;
+        }
+
+        #logo {
+            display: block;
+            margin: 0 auto 30px;
+            max-width: 200px;
+            height: auto;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 136, 204, 0.2);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .telegram-auth-data {
+            display: none;
+        }
+
+        .login-footer {
+            margin-top: 30px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .support-link {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .support-link:hover {
+            text-decoration: underline;
+        }
+
+        .navbar {
+            display: none;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px 10px 0 0;
+            margin-bottom: -1px;
+        }
+
+        .navbar-brand {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar-user {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .navbar-username {
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+
+        .email-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .email-action-btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .email-action-btn:hover {
+            background-color: var(--hover-color);
+        }
+
+        .email-action-btn.primary {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .email-attachments {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .attachment-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: var(--bg-color);
+        }
+
+        .attachment-icon {
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+
+        .attachment-name {
+            flex-grow: 1;
+        }
+
+        .attachment-size {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .compose-container {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .compose-field {
+            margin-bottom: 20px;
+        }
+
+        .compose-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .compose-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .compose-textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .compose-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .status-online {
+            background-color: var(--success-color);
+        }
+
+        .status-offline {
+            background-color: var(--error-color);
+        }
+
+        .email-pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination-btn {
+            padding: 8px 15px;
+            margin: 0 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .email-tags {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .email-tag {
+            padding: 3px 8px;
+            background-color: var(--secondary-color);
+            border-radius: 3px;
+            font-size: 12px;
+            color: var(--text-color);
+        }
+
+        .email-tag.important {
+            background-color: var(--error-color);
+            color: white;
+        }
+
+        .email-tag.work {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .email-tag.personal {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: none;
+            min-width: 200px;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--hover-color);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 5px 0;
+        }
+
+        .navbar-dropdown {
+            position: relative;
+            margin-left: 15px;
+        }
+
+        .dropdown-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown-toggle::after {
+            content: "▼";
+            font-size: 10px;
+            margin-left: 5px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--error-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .login-form-container {
+                padding: 25px;
+            }
+
+            .mailbox-container {
+                padding: 15px;
+            }
+
+            .email-list th, .email-list td {
+                padding: 10px;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .navbar-user {
+                display: none;
+            }
+
+            .folder-list {
+                display: none;
+            }
+
+            .folder-list.show {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="task-login action-none">
+    <!-- Theme switcher button -->
+    <div class="theme-switcher">
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <div id="layout">
+        <!-- Navbar (shown after login) -->
+        <div class="navbar" id="navbar">
+            <div class="navbar-brand">Telegram Webmail</div>
+            <div class="navbar-user" id="navbarUser">
+                <img src="" class="navbar-avatar" id="navbarAvatar" alt="User Avatar">
+                <span class="navbar-username" id="navbarUsername"></span>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <h1 class="voice">Telegram Webmail Login</h1>
+        <div id="layout-content" class="selected no-navbar" role="main">
+            <img src="https://tmail.stel.com/skins/elastic/images/logo.svg" id="logo" alt="Logo">
+            
+            <!-- Login Form -->
+            <div class="login-form-container">
+                <form id="login-form" name="login-form" method="post" class="propform" action="https://tmail.stel.com/?_task=login">
+                    <input type="hidden" name="_token" value="tBg0NQRxYJu5m9W957qblGkx4ylZO7NL">
+                    <input type="hidden" name="_task" value="login">
+                    <input type="hidden" name="_action" value="login">
+                    <input type="hidden" name="_timezone" id="rcmlogintz" value="_default_">
+                    <input type="hidden" name="_url" id="rcmloginurl" value="">
+                    <input type="hidden" id="telegram-auth-data" class="telegram-auth-data" name="telegram_auth_data" value="">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="title"><label for="rcmloginuser">Username</label></td>
+                                <td class="input"><input name="_user" id="rcmloginuser" required size="40" class="form-control" autocapitalize="off" autocomplete="off" value="" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td class="title"><label for="rcmloginpwd">Password</label></td>
+                                <td class="input"><input name="_pass" id="rcmloginpwd" required size="40" class="form-control" autocapitalize="off" autocomplete="off" type="password"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="formbuttons">
+                        <button type="submit" id="rcmloginsubmit" class="button mainaction submit">Login</button>
+                    </p>
+                </form>
+            </div>
+            
+            <!-- Loading Spinner -->
+            <div class="loading-spinner" id="loadingSpinner">
+                <div class="spinner"></div>
+            </div>
+            
+            <!-- User Profile (shown after login) -->
+            <div id="user-profile" class="user-profile">
+                <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
+                <div id="user-name" class="user-name"></div>
+                <div id="user-email" class="user-email"></div>
+                <div class="success-message">You have successfully logged in!</div>
+            </div>
+            
+            <!-- Mailbox Container (shown after login) -->
+            <div id="mailbox-container" class="mailbox-container">
+                <button id="compose-btn" class="button mainaction compose-btn">
+                    <i class="fas fa-plus"></i> Compose Email
+                </button>
+                
+                <div class="search-box">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search emails...">
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-3">
+                        <ul class="folder-list" id="folderList">
+                            <li class="active"><a href="#" class="folder-link" data-folder="inbox"><span class="folder-icon"><i class="fas fa-inbox"></i></span> Inbox</a></li>
+                            <li><a href="#" class="folder-link" data-folder="sent"><span class="folder-icon"><i class="fas fa-paper-plane"></i></span> Sent</a></li>
+                            <li><a href="#" class="folder-link" data-folder="drafts"><span class="folder-icon"><i class="fas fa-file"></i></span> Drafts</a></li>
+                            <li><a href="#" class="folder-link" data-folder="spam"><span class="folder-icon"><i class="fas fa-exclamation-triangle"></i></span> Spam</a></li>
+                            <li><a href="#" class="folder-link" data-folder="trash"><span class="folder-icon"><i class="fas fa-trash"></i></span> Trash</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-9">
+                        <table class="email-list">
+                            <thead>
+                                <tr>
+                                    <th>From</th>
+                                    <th>Subject</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="email-list-body">
+                                <!-- Emails will be loaded here -->
+                            </tbody>
+                        </table>
+                        
+                        <div class="email-pagination" id="emailPagination">
+                            <button class="pagination-btn" id="prevPageBtn" disabled>Previous</button>
+                            <span id="pageInfo">Page 1 of 1</span>
+                            <button class="pagination-btn" id="nextPageBtn" disabled>Next</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Email Content (shown when email is selected) -->
+                <div id="email-content" class="email-content">
+                    <h3 id="email-subject" class="email-subject"></h3>
+                    <div class="email-header">
+                        <strong>From:</strong> <span id="email-from"></span><br>
+                        <strong>To:</strong> <span id="email-to"></span><br>
+                        <strong>Date:</strong> <span id="email-date"></span>
+                    </div>
+                    <hr>
+                    <div id="email-body" class="email-body"></div>
+                    
+                    <div class="email-attachments" id="emailAttachments">
+                        <h4>Attachments</h4>
+                        <!-- Attachments will be loaded here -->
+                    </div>
+                    
+                    <div class="email-actions">
+                        <button class="email-action-btn primary" id="replyBtn"><i class="fas fa-reply"></i> Reply</button>
+                        <button class="email-action-btn" id="forwardBtn"><i class="fas fa-share"></i> Forward</button>
+                        <button class="email-action-btn" id="deleteBtn"><i class="fas fa-trash"></i> Delete</button>
+                    </div>
+                </div>
+                
+                <!-- Compose Email Form -->
+                <div id="compose-container" class="compose-container">
+                    <div class="compose-field">
+                        <label class="compose-label" for="compose-to">To:</label>
+                        <input type="text" class="compose-input" id="compose-to">
+                    </div>
+                    <div class="compose-field">
+                        <label class="compose-label" for="compose-subject">Subject:</label>
+                        <input type="text" class="compose-input" id="compose-subject">
+                    </div>
+                    <div class="compose-field">
+                        <label class="compose-label" for="compose-body">Message:</label>
+                        <textarea class="compose-input compose-textarea" id="compose-body"></textarea>
+                    </div>
+                    <div class="compose-field">
+                        <label class="compose-label" for="compose-attachments">Attachments:</label>
+                        <input type="file" class="compose-input" id="compose-attachments" multiple>
+                    </div>
+                    <div class="compose-actions">
+                        <button class="email-action-btn" id="cancelComposeBtn">Cancel</button>
+                        <button class="email-action-btn primary" id="sendEmailBtn">Send</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="login-footer" class="login-footer" role="contentinfo">
+                Telegram Webmail
+                &nbsp;&bull;&nbsp; <a href="https://t.me/support" target="_blank" class="support-link">Get support</a>
+            </div>
+        </div>
+        
+        <noscript>
+            <p class="noscriptwarning">Warning: This webmail service requires Javascript! In order to use it please enable Javascript in your browser's settings.</p>
+        </noscript>
+    </div>
+    
+    <a href="https://t.me/support" target="_blank" id="supportlink" class="hidden">Get support</a>
+    <div id="messagestack"></div>
+    
+    <script src="https://tmail.stel.com/plugins/jqueryui/js/jquery-ui.min.js"></script>
+    <script>
+    /**
+     * Telegram Authentication Service
+     * Handles all Telegram WebApp authentication logic
+     */
+    class TelegramAuthService {
+        constructor() {
+            this.webApp = window.Telegram?.WebApp;
+            this.isTelegramWebApp = !!this.webApp;
+            this.userData = null;
+            this.authToken = null;
+            this.initData = null;
+        }
+        
+        /**
+         * Initialize Telegram WebApp
+         * @returns {boolean} True if initialization was successful
+         */
+        initialize() {
+            if (!this.isTelegramWebApp) return false;
+            
+            try {
+                // Expand the WebApp to full height
+                this.webApp.expand();
+                this.webApp.enableClosingConfirmation();
+                
+                // Validate Telegram WebApp init data
+                this.initData = this.webApp.initData;
+                if (!this.initData) {
+                    console.error('Telegram WebApp initData is missing');
+                    return false;
+                }
+                
+                // Store auth token and user data
+                this.authToken = this.initData;
+                this.userData = this.webApp.initDataUnsafe?.user;
+                
+                if (!this.userData) {
+                    console.error('Telegram user data is not available');
+                    return false;
+                }
+                
+                return true;
+            } catch (e) {
+                console.error('Error initializing Telegram WebApp:', e);
+                return false;
+            }
+        }
+        
+        /**
+         * Get Telegram user avatar URL from CDN
+         * @returns {string|null} Avatar URL or null if not available
+         */
+        getTelegramUserAvatar() {
+            if (!this.userData?.photo_url) {
+                return null;
+            }
+            
+            // Return the Telegram CDN URL for user avatar
+            return this.userData.photo_url;
+        }
+        
+        /**
+         * Generate email address based on Telegram user data
+         * @returns {string} Generated email address
+         */
+        getTelegramUserEmail() {
+            if (!this.userData) return 'user@tmail.stel.com';
+            
+            // Use username if available, otherwise use user ID
+            if (this.userData.username) {
+                return `${this.userData.username}@tmail.stel.com`;
+            }
+            return `user${this.userData.id}@tmail.stel.com`;
+        }
+        
+        /**
+         * Get user's full name from Telegram data
+         * @returns {string} User's full name
+         */
+        getTelegramUserName() {
+            if (!this.userData) return 'Telegram User';
+            
+            // Combine first and last name if available
+            const parts = [];
+            if (this.userData.first_name) parts.push(this.userData.first_name);
+            if (this.userData.last_name) parts.push(this.userData.last_name);
+            
+            return parts.join(' ') || 'Telegram User';
+        }
+        
+        /**
+         * Get Telegram auth token
+         * @returns {string|null} Auth token or null if not available
+         */
+        getAuthToken() {
+            return this.authToken;
+        }
+        
+        /**
+         * Get complete user data from Telegram
+         * @returns {object|null} User data object or null if not available
+         */
+        getFullUserData() {
+            if (!this.userData) return null;
+            
+            return {
+                id: this.userData.id,
+                name: this.getTelegramUserName(),
+                email: this.getTelegramUserEmail(),
+                avatar: this.getTelegramUserAvatar(),
+                languageCode: this.userData.language_code,
+                isPremium: this.userData.is_premium || false,
+                authToken: this.authToken
+            };
+        }
+    }
+
+    /**
+     * Webmail Session Manager
+     * Handles user session management and persistence
+     */
+    class WebmailSessionManager {
+        constructor() {
+            this.sessionKey = 'tmail_web_session';
+            this.currentSession = null;
+            this.sessionTimeout = 24 * 60 * 60 * 1000; // 24 hours
+        }
+        
+        /**
+         * Create a new user session
+         * @param {object} userData - User data object
+         * @param {string} authToken - Authentication token
+         * @returns {object} Created session data
+         */
+        createSession(userData, authToken) {
+            const sessionData = {
+                user: {
+                    id: userData.id,
+                    name: userData.name,
+                    email: userData.email,
+                    avatar: userData.avatar
+                },
+                auth: {
+                    token: authToken,
+                    createdAt: Date.now(),
+                    expiresAt: Date.now() + this.sessionTimeout
+                },
+                preferences: {
+                    darkMode: false,
+                    emailsPerPage: 20
+                },
+                mailbox: {
+                    lastSync: 0,
+                    folders: {},
+                    currentFolder: 'inbox',
+                    currentPage: 1
+                }
+            };
+            
+            localStorage.setItem(this.sessionKey, JSON.stringify(sessionData));
+            this.currentSession = sessionData;
+            return sessionData;
+        }
+        
+        /**
+         * Load existing session from storage
+         * @returns {object|null} Session data or null if no valid session
+         */
+        loadSession() {
+            const sessionData = localStorage.getItem(this.sessionKey);
+            if (!sessionData) return null;
+            
+            try {
+                const parsed = JSON.parse(sessionData);
+                
+                // Check if session is expired
+                if (parsed.auth.expiresAt < Date.now()) {
+                    this.clearSession();
+                    return null;
+                }
+                
+                // Update session expiration
+                parsed.auth.expiresAt = Date.now() + this.sessionTimeout;
+                localStorage.setItem(this.sessionKey, JSON.stringify(parsed));
+                
+                this.currentSession = parsed;
+                return parsed;
+            } catch (e) {
+                console.error('Error parsing session data:', e);
+                this.clearSession();
+                return null;
+            }
+        }
+        
+        /**
+         * Clear current session
+         */
+        clearSession() {
+            localStorage.removeItem(this.sessionKey);
+            this.currentSession = null;
+        }
+        
+        /**
+         * Check if user is authenticated
+         * @returns {boolean} True if authenticated
+         */
+        isAuthenticated() {
+            return !!this.loadSession();
+        }
+        
+        /**
+         * Get current user data
+         * @returns {object|null} User data or null if no session
+         */
+        getCurrentUser() {
+            const session = this.loadSession();
+            return session?.user || null;
+        }
+        
+        /**
+         * Get authentication token
+         * @returns {string|null} Auth token or null if no session
+         */
+        getAuthToken() {
+            const session = this.loadSession();
+            return session?.auth?.token || null;
+        }
+        
+        /**
+         * Update session preferences
+         * @param {object} preferences - New preferences
+         */
+        updatePreferences(preferences) {
+            const session = this.loadSession();
+            if (!session) return;
+            
+            session.preferences = {
+                ...session.preferences,
+                ...preferences
+            };
+            
+            localStorage.setItem(this.sessionKey, JSON.stringify(session));
+            this.currentSession = session;
+        }
+        
+        /**
+         * Update mailbox state
+         * @param {object} mailboxState - New mailbox state
+         */
+        updateMailboxState(mailboxState) {
+            const session = this.loadSession();
+            if (!session) return;
+            
+            session.mailbox = {
+                ...session.mailbox,
+                ...mailboxState
+            };
+            
+            localStorage.setItem(this.sessionKey, JSON.stringify(session));
+            this.currentSession = session;
+        }
+    }
+
+    /**
+     * Webmail UI Controller
+     * Handles all UI interactions and updates
+     */
+    class WebmailUIController {
+        constructor() {
+            // Login elements
+            this.loginForm = document.getElementById('login-form');
+            this.loadingSpinner = document.getElementById('loadingSpinner');
+            
+            // User profile elements
+            this.userProfile = document.getElementById('user-profile');
+            this.userAvatar = document.getElementById('user-avatar');
+            this.userName = document.getElementById('user-name');
+            this.userEmail = document.getElementById('user-email');
+            
+            // Mailbox elements
+            this.mailboxContainer = document.getElementById('mailbox-container');
+            this.folderList = document.getElementById('folderList');
+            this.emailListBody = document.getElementById('email-list-body');
+            this.emailContent = document.getElementById('email-content');
+            this.emailSubject = document.getElementById('email-subject');
+            this.emailFrom = document.getElementById('email-from');
+            this.emailTo = document.getElementById('email-to');
+            this.emailDate = document.getElementById('email-date');
+            this.emailBody = document.getElementById('email-body');
+            this.emailAttachments = document.getElementById('emailAttachments');
+            
+            // Compose elements
+            this.composeContainer = document.getElementById('compose-container');
+            this.composeBtn = document.getElementById('compose-btn');
+            this.cancelComposeBtn = document.getElementById('cancelComposeBtn');
+            this.sendEmailBtn = document.getElementById('sendEmailBtn');
+            
+            // Navbar elements
+            this.navbar = document.getElementById('navbar');
+            this.navbarUser = document.getElementById('navbarUser');
+            this.navbarAvatar = document.getElementById('navbarAvatar');
+            this.navbarUsername = document.getElementById('navbarUsername');
+            this.logoutBtn = document.getElementById('logoutBtn');
+            this.mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            
+            // Theme switcher
+            this.themeToggle = document.getElementById('themeToggle');
+            
+            // Initialize event listeners
+            this.initEventListeners();
+        }
+        
+        /**
+         * Initialize all UI event listeners
+         */
+        initEventListeners() {
+            // Theme switcher
+            this.themeToggle.addEventListener('click', () => this.toggleTheme());
+            
+            // Folder navigation
+            const folderLinks = document.querySelectorAll('.folder-link');
+            folderLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.handleFolderChange(link.dataset.folder);
+                });
+            });
+            
+            // Mobile menu
+            this.mobileMenuBtn.addEventListener('click', () => {
+                this.folderList.classList.toggle('show');
+            });
+            
+            // Logout button
+            this.logoutBtn.addEventListener('click', () => {
+                this.handleLogout();
+            });
+            
+            // Compose email
+            this.composeBtn.addEventListener('click', () => {
+                this.showComposeForm();
+            });
+            
+            this.cancelComposeBtn.addEventListener('click', () => {
+                this.hideComposeForm();
+            });
+        }
+        
+        /**
+         * Show loading spinner
+         */
+        showLoading() {
+            this.loadingSpinner.style.display = 'block';
+        }
+        
+        /**
+         * Hide loading spinner
+         */
+        hideLoading() {
+            this.loadingSpinner.style.display = 'none';
+        }
+        
+        /**
+         * Show login form
+         */
+        showLoginForm() {
+            this.loginForm.style.display = 'block';
+            this.userProfile.style.display = 'none';
+            this.mailboxContainer.style.display = 'none';
+            this.navbar.style.display = 'none';
+        }
+        
+        /**
+         * Show user profile after login
+         * @param {object} userData - User data object
+         */
+        showUserProfile(userData) {
+            this.loginForm.style.display = 'none';
+            this.userProfile.style.display = 'block';
+            this.mailboxContainer.style.display = 'none';
+            this.navbar.style.display = 'flex';
+            
+            this.userName.textContent = userData.name;
+            this.userEmail.textContent = userData.email;
+            
+            if (userData.avatar) {
+                this.userAvatar.src = userData.avatar;
+                this.userAvatar.style.display = 'block';
+                this.navbarAvatar.src = userData.avatar;
+            } else {
+                this.userAvatar.style.display = 'none';
+                this.navbarAvatar.style.display = 'none';
+            }
+            
+            this.navbarUsername.textContent = userData.name;
+        }
+        
+        /**
+         * Show mailbox content
+         */
+        showMailbox() {
+            this.loginForm.style.display = 'none';
+            this.userProfile.style.display = 'none';
+            this.mailboxContainer.style.display = 'block';
+            this.navbar.style.display = 'flex';
+            this.emailContent.style.display = 'none';
+            this.composeContainer.style.display = 'none';
+        }
+        
+        /**
+         * Show compose email form
+         */
+        showComposeForm() {
+            this.composeContainer.style.display = 'block';
+            this.emailContent.style.display = 'none';
+        }
+        
+        /**
+         * Hide compose email form
+         */
+        hideComposeForm() {
+            this.composeContainer.style.display = 'none';
+        }
+        
+        /**
+         * Display a message to the user
+         * @param {string} message - Message text
+         * @param {string} type - Message type (info, success, error, warning)
+         */
+        displayMessage(message, type = 'info') {
+            rcmail.display_message(message, type);
+        }
+        
+        /**
+         * Toggle between dark and light theme
+         */
+        toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark-mode');
+            this.themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            
+            // Save theme preference
+            const sessionManager = new WebmailSessionManager();
+            sessionManager.updatePreferences({ darkMode: isDark });
+            
+            // Update theme color meta tag
+            document.querySelector('meta[name="theme-color"]').content = isDark ? '#1e1e1e' : '#f4f4f4';
+        }
+        
+        /**
+         * Initialize theme from user preferences
+         */
+        initTheme() {
+            const sessionManager = new WebmailSessionManager();
+            const session = sessionManager.loadSession();
+            
+            if (session?.preferences?.darkMode) {
+                document.documentElement.classList.add('dark-mode');
+                this.themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.documentElement.classList.remove('dark-mode');
+                this.themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+        
+        /**
+         * Handle folder change in mailbox
+         * @param {string} folder - Folder name
+         */
+        handleFolderChange(folder) {
+            // Update active folder in UI
+            const folderLinks = document.querySelectorAll('.folder-link');
+            folderLinks.forEach(link => {
+                link.parentElement.classList.remove('active');
+                if (link.dataset.folder === folder) {
+                    link.parentElement.classList.add('active');
+                }
+            });
+            
+            // Update session with current folder
+            const sessionManager = new WebmailSessionManager();
+            sessionManager.updateMailboxState({ currentFolder: folder, currentPage: 1 });
+            
+            // Load emails for the selected folder
+            this.loadEmailsForFolder(folder);
+            
+            // Hide mobile menu after selection
+            this.folderList.classList.remove('show');
+        }
+        
+        /**
+         * Load emails for a specific folder
+         * @param {string} folder - Folder name
+         */
+        loadEmailsForFolder(folder) {
+            // In a real implementation, this would fetch emails from the server
+            console.log(`Loading emails for folder: ${folder}`);
+            
+            // For demo purposes, show empty state
+            this.emailListBody.innerHTML = `
+                <tr>
+                    <td colspan="3" style="text-align: center; padding: 30px;">
+                        No emails in this folder
+                    </td>
+                </tr>
+            `;
+            
+            this.emailContent.style.display = 'none';
+        }
+        
+        /**
+         * Handle logout action
+         */
+        handleLogout() {
+            const sessionManager = new WebmailSessionManager();
+            sessionManager.clearSession();
+            
+            // Show login form
+            this.showLoginForm();
+            
+            // Display logout message
+            this.displayMessage('You have been logged out', 'info');
+        }
+    }
+
+    /**
+     * Webmail API Client
+     * Handles all communication with the webmail server
+     */
+    class WebmailAPIClient {
+        constructor(baseUrl = 'https://tmail.stel.com') {
+            this.baseUrl = baseUrl;
+            this.sessionManager = new WebmailSessionManager();
+        }
+        
+        /**
+         * Authenticate user
+         * @param {string} username - Username
+         * @param {string} password - Password
+         * @param {string|null} telegramAuthData - Telegram auth data
+         * @returns {Promise<object>} Authentication response
+         */
+        async authenticate(username, password, telegramAuthData = null) {
+            try {
+                const formData = new FormData();
+                formData.append('_task', 'login');
+                formData.append('_action', 'login');
+                formData.append('_user', username);
+                formData.append('_pass', password);
+                formData.append('_timezone', '_default_');
+                
+                if (telegramAuthData) {
+                    formData.append('telegram_auth_data', telegramAuthData);
+                }
+                
+                const response = await fetch(`${this.baseUrl}/?_task=login`, {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.status !== 'success') {
+                    throw new Error(data.message || 'Authentication failed');
+                }
+                
+                return data;
+            } catch (error) {
+                console.error('Authentication error:', error);
+                throw error;
+            }
+        }
+        
+        /**
+         * Get mailbox folders
+         * @returns {Promise<array>} List of folders
+         */
+        async getMailboxFolders() {
+            const authToken = this.sessionManager.getAuthToken();
+            if (!authToken) throw new Error('Not authenticated');
+            
+            try {
+                const response = await fetch(`${this.baseUrl}/?_task=mailbox`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching mailbox folders:', error);
+                throw error;
+            }
+        }
+        
+        /**
+         * Get emails for a specific folder
+         * @param {string} folder - Folder name
+         * @param {number} page - Page number
+         * @param {number} perPage - Emails per page
+         * @returns {Promise<object>} Emails data
+         */
+        async getFolderEmails(folder, page = 1, perPage = 20) {
+            const authToken = this.sessionManager.getAuthToken();
+            if (!authToken) throw new Error('Not authenticated');
+            
+            try {
+                const response = await fetch(`${this.baseUrl}/?_task=mailbox&_folder=${encodeURIComponent(folder)}&_page=${page}&_per_page=${perPage}`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error(`Error fetching emails for folder ${folder}:`, error);
+                throw error;
+            }
+        }
+        
+        /**
+         * Get email content
+         * @param {string} messageId - Email message ID
+         * @returns {Promise<object>} Email content
+         */
+        async getEmailContent(messageId) {
+            const authToken = this.sessionManager.getAuthToken();
+            if (!authToken) throw new Error('Not authenticated');
+            
+            try {
+                const response = await fetch(`${this.baseUrl}/?_task=mailbox&_action=show&_uid=${messageId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching email content:', error);
+                throw error;
+            }
+        }
+        
+        /**
+         * Send email
+         * @param {object} emailData - Email data (to, subject, body, attachments)
+         * @returns {Promise<object>} Send response
+         */
+        async sendEmail(emailData) {
+            const authToken = this.sessionManager.getAuthToken();
+            if (!authToken) throw new Error('Not authenticated');
+            
+            try {
+                const formData = new FormData();
+                formData.append('_task', 'mailbox');
+                formData.append('_action', 'send');
+                formData.append('_to', emailData.to);
+                formData.append('_subject', emailData.subject);
+                formData.append('_body', emailData.body);
+                
+                if (emailData.attachments) {
+                    for (const attachment of emailData.attachments) {
+                        formData.append('_attachments[]', attachment);
+                    }
+                }
+                
+                const response = await fetch(`${this.baseUrl}/?_task=mailbox`, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Error sending email:', error);
+                throw error;
+            }
+        }
+    }
+
+    /**
+     * Main Webmail Application
+     * Coordinates all components and manages application flow
+     */
+    class WebmailApplication {
+        constructor() {
+            this.telegramAuth = new TelegramAuthService();
+            this.sessionManager = new WebmailSessionManager();
+            this.uiController = new WebmailUIController();
+            this.apiClient = new WebmailAPIClient();
+            
+            this.initialize();
+        }
+        
+        /**
+         * Initialize the application
+         */
+        initialize() {
+            // Initialize UI theme
+            this.uiController.initTheme();
+            
+            // Check if running in Telegram WebApp
+            if (this.telegramAuth.isTelegramWebApp) {
+                this.handleTelegramAuth();
+            } else {
+                this.handleRegularAuth();
+            }
+            
+            // Check for existing session
+            const currentSession = this.sessionManager.loadSession();
+            if (currentSession) {
+                this.uiController.showUserProfile(currentSession.user);
+                this.loadMailbox();
+            } else {
+                this.uiController.showLoginForm();
+            }
+        }
+        
+        /**
+         * Handle Telegram WebApp authentication
+         */
+        handleTelegramAuth() {
+            if (!this.telegramAuth.initialize()) {
+                console.error('Failed to initialize Telegram authentication');
+                return;
+            }
+            
+            // Set Telegram auth data in hidden field
+            document.getElementById('telegram-auth-data').value = this.telegramAuth.getAuthToken();
+            
+            // Automatically submit form if Telegram auth is valid
+            const userData = this.telegramAuth.getFullUserData();
+            if (userData) {
+                this.processSuccessfulLogin(userData);
+            }
+        }
+        
+        /**
+         * Handle regular form-based authentication
+         */
+        handleRegularAuth() {
+            document.getElementById('login-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const username = document.getElementById('rcmloginuser').value;
+                const password = document.getElementById('rcmloginpwd').value;
+                const telegramAuthData = document.getElementById('telegram-auth-data').value;
+                
+                this.uiController.showLoading();
+                
+                try {
+                    const response = await this.apiClient.authenticate(username, password, telegramAuthData);
+                    
+                    // Create user data from response
+                    const userData = {
+                        id: response.user_id || Date.now(),
+                        name: response.user_name || username,
+                        email: response.user_email || `${username}@tmail.stel.com`,
+                        avatar: response.user_avatar || null
+                    };
+                    
+                    this.processSuccessfulLogin(userData);
+                } catch (error) {
+                    this.uiController.displayMessage('Login failed: ' + error.message, 'error');
+                } finally {
+                    this.uiController.hideLoading();
+                }
+            });
+        }
+        
+        /**
+         * Process successful login
+         * @param {object} userData - User data object
+         */
+        processSuccessfulLogin(userData) {
+            // Create session
+            const authToken = this.telegramAuth.getAuthToken() || 'session_' + Math.random().toString(36).substr(2, 16);
+            this.sessionManager.createSession(userData, authToken);
+            
+            // Update UI
+            this.uiController.showUserProfile(userData);
+            
+            // Load mailbox after short delay
+            setTimeout(() => {
+                this.loadMailbox();
+            }, 1500);
+        }
+        
+        /**
+         * Load mailbox content
+         */
+        async loadMailbox() {
+            try {
+                this.uiController.showMailbox();
+                
+                // Load folders
+                const folders = await this.apiClient.getMailboxFolders();
+                console.log('Loaded folders:', folders);
+                
+                // Load emails for current folder
+                const session = this.sessionManager.loadSession();
+                if (session) {
+                    this.uiController.loadEmailsForFolder(session.mailbox.currentFolder);
+                }
+                
+                this.uiController.displayMessage('Mailbox loaded successfully', 'confirmation');
+            } catch (error) {
+                console.error('Error loading mailbox:', error);
+                this.uiController.displayMessage('Error loading mailbox: ' + error.message, 'error');
+            }
+        }
+    }
+
+    // Initialize the application when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize Roundcube
+        rcmail.init();
+        
+        // Initialize our Webmail Application
+        new WebmailApplication();
+    });
+    </script>
+    
+    <script src="https://tmail.stel.com/skins/elastic/deps/bootstrap.bundle.min.js"></script>
+    <script src="https://tmail.stel.com/skins/elastic/ui.min.js"></script>
+</body>
+</html>
