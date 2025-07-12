@@ -2,124 +2,28 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Idle Legion</title>
-
-    <meta name="viewport" 
-          content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1"/>
+    <title>Cocos Creator | bz</title>
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="format-detection" content="telephone=no">
-    <meta name="renderer" content="webkit"/>
-    <meta name="force-rendering" content="webkit"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="msapplication-tap-highlight" content="no">
-    <meta name="full-screen" content="yes"/>
-    <meta name="x5-fullscreen" content="true"/>
-    <meta name="360-fullscreen" content="true"/>
-    <meta name="screen-orientation" content="portrait"/>
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="360-fullscreen" content="true">
+    <meta name="screen-orientation" content="portrait">
     <meta name="x5-orientation" content="portrait">
+    <meta name="browsermode" content="application">
     <meta name="x5-page-mode" content="app">
 
-    <link rel="stylesheet" type="text/css" href="style-mobile.css"/>
-    <link rel="icon" href="favicon.ico"/>
-    <script type="application/javascript">
-    !function(t,r,e,a,n,o,i,l,c,s,d,h,u){var f=i+"_q",m=i+"_c";t[i]=t[i]||{},t[f]=t[f]||[],t[m]=t[m]||[];for(let r=0;r<l.length;r++)d(t[i],t[f],l[r]);for(let r=0;r<c.length;r++){var g,b=c[r][0],p=c[r][1];t[i][b]=function(...r){return g=this,t[m].push((function(){g[s]=new t[i][b](...r)})),g};for(let r=0;r<p.length;r++){const e=p[r];t[i][b].prototype[e]=function(...r){t[m].push((function(){g[s][e](...r)}))}}}h=r.createElement(e),u=r.getElementsByTagName(e)[0],h.async=!0,h.src="/cdn_adjust/adjust-latest.min.js",h.onload=function(){for(var r=0;r<t[m].length;r++)t[m][r]();t[m]=[];for(r=0;r<t[f].length;r++)t[f][r][1][0][s]?t[i][t[f][r][0]](t[f][r][1][0][s]):t[i][t[f][r][0]].apply(t[i],t[f][r][1]);t[f]=[]},u.parentNode.insertBefore(h,u)}(window,document,"script",0,0,0,"Adjust",["initSdk","getAttribution","getWebUUID","waitForAttribution","waitForWebUUID","setReferrer","trackEvent","addGlobalCallbackParameters","addGlobalPartnerParameters","removeGlobalCallbackParameter","removeGlobalPartnerParameter","clearGlobalCallbackParameters","clearGlobalPartnerParameters","switchToOfflineMode","switchBackToOnlineMode","stop","restart","gdprForgetMe","disableThirdPartySharing","trackThirdPartySharing","initSmartBanner","showSmartBanner","hideSmartBanner"],[["ThirdPartySharing",["addGranularOption","addPartnerSharingSetting"]]],"__realObj",(function(t,r,e){t[e]=function(){r.push([e,arguments])}}));
+    <link rel="stylesheet" type="text/css" href="https://tgbz.res.game-dbl.com/style-mobile.5dcaa.css">
+    <link rel="icon" href="https://tgbz.res.game-dbl.com/favicon.8de18.ico">
+    <script>
+    !function(t,r,e,a,n,o,i,l,c,s,d,h,u){var f=i+"_q",m=i+"_c";t[i]=t[i]||{},t[f]=t[f]||[],t[m]=t[m]||[];for(let r=0;r<l.length;r++)d(t[i],t[f],l[r]);for(let r=0;r<c.length;r++){var g,b=c[r][0],p=c[r][1];t[i][b]=function(...r){return g=this,t[m].push((function(){g[s]=new t[i][b](...r)})),g};for(let r=0;r<p.length;r++){const e=p[r];t[i][b].prototype[e]=function(...r){t[m].push((function(){g[s][e](...r)}))}}}h=r.createElement(e),u=r.getElementsByTagName(e)[0],h.async=!0,h.src="https://cdn.adjust.com/adjust-latest.min.js",h.onload=function(){for(var r=0;r<t[m].length;r++)t[m][r]();t[m]=[];for(r=0;r<t[f].length;r++)t[f][r][1][0][s]?t[i][t[f][r][0]](t[f][r][1][0][s]):t[i][t[f][r][0]].apply(t[i],t[f][r][1]);t[f]=[]},u.parentNode.insertBefore(h,u)}(window,document,"script",0,0,0,"Adjust",["initSdk","getAttribution","getWebUUID","waitForAttribution","waitForWebUUID","setReferrer","trackEvent","addGlobalCallbackParameters","addGlobalPartnerParameters","removeGlobalCallbackParameter","removeGlobalPartnerParameter","clearGlobalCallbackParameters","clearGlobalPartnerParameters","switchToOfflineMode","switchBackToOnlineMode","stop","restart","gdprForgetMe","disableThirdPartySharing","trackThirdPartySharing","initSmartBanner","showSmartBanner","hideSmartBanner"],[["ThirdPartySharing",["addGranularOption","addPartnerSharingSetting"]]],"__realObj",(function(t,r,e){t[e]=function(){r.push([e,arguments])}}));
     </script>
-    <style>
-        .debug-icon {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23007aff" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>') center/contain no-repeat;
-            z-index: 10000;
-            cursor: pointer;
-            border-radius: 50%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-        .debug-panel {
-            display: none;
-            position: fixed;
-            bottom: 70px;
-            right: 20px;
-            width: 90%;
-            max-width: 500px;
-            height: 60vh;
-            background: #1e1e1e;
-            color: #d4d4d4;
-            border-radius: 10px;
-            overflow: hidden;
-            z-index: 9999;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-        .debug-tabs {
-            display: flex;
-            background: #252526;
-            border-bottom: 1px solid #3c3c3c;
-        }
-        .debug-tab {
-            padding: 10px 15px;
-            cursor: pointer;
-            border-right: 1px solid #3c3c3c;
-        }
-        .debug-tab.active {
-            background: #1e1e1e;
-            color: #007acc;
-        }
-        .debug-content {
-            height: calc(100% - 41px);
-            overflow-y: auto;
-            padding: 10px;
-            font-family: monospace;
-            font-size: 14px;
-        }
-        .terminal-input {
-            width: 100%;
-            background: #2d2d2d;
-            color: #d4d4d4;
-            border: none;
-            padding: 5px;
-            margin-top: 5px;
-        }
-        .request-item {
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #3c3c3c;
-        }
-        .request-url {
-            color: #9cdcfe;
-            font-weight: bold;
-        }
-        .request-method {
-            background: #007acc;
-            color: white;
-            padding: 2px 5px;
-            border-radius: 3px;
-            margin-right: 5px;
-        }
-        .response-data {
-            background: #2d2d2d;
-            padding: 5px;
-            margin-top: 5px;
-            white-space: pre-wrap;
-            max-height: 100px;
-            overflow-y: auto;
-        }
-        .edit-btn {
-            background: #007acc;
-            color: white;
-            border: none;
-            padding: 3px 8px;
-            border-radius: 3px;
-            cursor: pointer;
-            margin-top: 5px;
-        }
-        .modified {
-            border-left: 3px solid #ffcc00;
-            padding-left: 5px;
-        }
-    </style>
 </head>
 <body>
 <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
@@ -129,486 +33,517 @@
     </div>
 </div>
 
-<script src="src/settings.js" charset="utf-8"></script>
-<script src="main.js" charset="utf-8"></script>
-<script src="https://a-ttgme.stel.com/js/telegram-web-app.js"></script>
-<script src="https://a-ttgme.stel.com/js/telegram-web-app-beta.js"></script>
-<script src="https://a-ttgme.stel.com/js/tonconnect-ui.min.js"></script>
-<script src="thinkingdata.umd.min.js"></script>
+<script src="https://tgbz.res.game-dbl.com/src/settings.b5804.js" charset="utf-8"></script>
+<script src="https://tgbz.res.game-dbl.com/main.67d55.js" charset="utf-8"></script>
+<script src="https://tgbz.res.game-dbl.com/telegram-web-app.24068.js"></script>
+<script src="https://tgbz.res.game-dbl.com/tonconnect-ui.min.99efc.js"></script>
+<script src="https://tgbz.res.game-dbl.com/thinkingdata.umd.min.5337f.js"></script>
 
 <script type="text/javascript">
-    class TelegramAPI {
-        static init() {
-            if (!window.Telegram?.WebApp) {
-                throw new Error("Telegram WebApp not detected");
+// ====================== Telegram Payment Core ======================
+class TelegramPaymentCore {
+    constructor(botToken) {
+        this._validateToken(botToken);
+        this.botToken = botToken;
+        this.apiBase = `https://api.telegram.org/bot${botToken}/`;
+        this.initialized = false;
+        this.pendingPayments = new Map();
+        this.paymentCallbacks = new Map();
+        this.debugMode = false;
+    }
+
+    _validateToken(token) {
+        if (!token || typeof token !== 'string') {
+            throw new Error('Invalid Telegram bot token');
+        }
+        if (token.length < 30) {
+            throw new Error('Bot token appears to be invalid');
+        }
+    }
+
+    initialize() {
+        if (this.initialized) return true;
+        
+        try {
+            if (!window.Telegram || !window.Telegram.WebApp) {
+                throw new Error('Telegram WebApp SDK not loaded');
             }
-            
+
             this.webApp = window.Telegram.WebApp;
-            this.webApp.ready();
-            this.webApp.expand();
-            this.webApp.enableClosingConfirmation();
-            
-            if (this.webApp.platform !== 'web' && this.webApp.platform !== 'tdesktop') {
-                this.webApp.requestFullscreen();
-            }
-            
-            // Initialize payment events
-            this.webApp.onEvent('invoiceClosed', this.handleInvoiceClosed.bind(this));
-        }
+            this._setupWebApp();
+            this._setupEventListeners();
+            this._loadPendingPayments();
+            this.initialized = true;
 
-        static getUserData() {
-            const initData = this.webApp.initDataUnsafe || {};
-            return {
-                id: initData.user?.id,
-                username: initData.user?.username,
-                firstName: initData.user?.first_name,
-                lastName: initData.user?.last_name,
-                language: initData.user?.language_code,
-                queryId: initData.query_id,
-                chatType: initData.chat_type,
-                chatInstance: initData.chat_instance
-            };
-        }
-
-        static async getXTRBalance() {
-            return new Promise((resolve, reject) => {
-                if (!this.webApp.sendData) {
-                    reject("Telegram WebApp beta features not available");
-                    return;
-                }
-                
-                const requestId = 'balance_' + Date.now();
-                
-                // Send balance request
-                this.webApp.sendData(JSON.stringify({
-                    type: 'get_balance',
-                    currency: 'XTR',
-                    requestId: requestId
-                }));
-                
-                // Handle balance response
-                const handler = (eventData) => {
-                    try {
-                        const data = JSON.parse(eventData);
-                        if (data.requestId === requestId) {
-                            this.webApp.offEvent('balanceReceived', handler);
-                            if (data.success) {
-                                resolve(data.balance);
-                            } else {
-                                reject(data.error || "Failed to get balance");
-                            }
-                        }
-                    } catch (e) {
-                        console.error("Balance response error:", e);
-                    }
-                };
-                
-                this.webApp.onEvent('balanceReceived', handler);
-                
-                // Timeout fallback
-                setTimeout(() => {
-                    this.webApp.offEvent('balanceReceived', handler);
-                    reject("Balance request timed out");
-                }, 5000);
-            });
-        }
-
-        static async processPayment(amount, itemId) {
-            return new Promise((resolve, reject) => {
-                if (!this.webApp.openInvoice) {
-                    reject("Payment not supported in this environment");
-                    return;
-                }
-                
-                const paymentId = 'pay_' + Date.now();
-                
-                // Validate XTR amount
-                if (typeof amount !== 'number' || amount <= 0) {
-                    reject("Invalid payment amount");
-                    return;
-                }
-                
-                // Create invoice
-                this.webApp.openInvoice({
-                    currency: 'XTR',
-                    prices: [{
-                        label: `Game Purchase: ${itemId}`,
-                        amount: Math.floor(amount * 100) // Convert to minor units
-                    }],
-                    payload: JSON.stringify({
-                        paymentId: paymentId,
-                        itemId: itemId,
-                        userId: this.getUserData().id
-                    })
-                }, (status) => {
-                    if (status === 'paid') {
-                        resolve(paymentId);
-                    } else {
-                        reject(`Payment failed: ${status}`);
-                    }
-                });
-            });
-        }
-
-        static handleInvoiceClosed(eventData) {
-            try {
-                const data = JSON.parse(eventData);
-                console.log("Invoice closed:", data);
-                
-                if (data.status === 'paid') {
-                    // Handle successful payment
-                    const payload = JSON.parse(data.payload || '{}');
-                    DebugConsole.log(`Payment successful: ${payload.paymentId}`);
-                    
-                    // Refresh game state or update balance
-                    window.postMessage({ type: 'paymentSuccess', payload }, '*');
-                }
-            } catch (e) {
-                console.error("Invoice closed error:", e);
-            }
-        }
-
-        static requestOverlayPermission() {
-            if (this.webApp.requestOverlayPermission) {
-                return this.webApp.requestOverlayPermission();
-            }
-            return Promise.resolve(false);
+            return true;
+        } catch (error) {
+            console.error('Payment system initialization failed:', error);
+            return false;
         }
     }
 
-    class DebugConsole {
-        static requests = [];
-        static modifiedResponses = {};
-        static activeTab = 'logs';
-        static isOpen = false;
+    _setupWebApp() {
+        this.webApp.ready();
+        this.webApp.expand();
+        this.webApp.enableClosingConfirmation();
 
-        static init() {
-            // Create debug icon
-            this.debugIcon = document.createElement('div');
-            this.debugIcon.className = 'debug-icon';
-            this.debugIcon.onclick = () => this.toggleConsole();
-            document.body.appendChild(this.debugIcon);
-            
-            // Create debug panel
-            this.debugPanel = document.createElement('div');
-            this.debugPanel.className = 'debug-panel';
-            this.debugPanel.innerHTML = `
-                <div class="debug-tabs">
-                    <div class="debug-tab active" data-tab="logs">Logs</div>
-                    <div class="debug-tab" data-tab="network">Network</div>
-                    <div class="debug-tab" data-tab="terminal">Terminal</div>
-                </div>
-                <div class="debug-content" id="debug-content"></div>
-            `;
-            document.body.appendChild(this.debugPanel);
-            
-            // Tab switching
-            this.debugPanel.querySelectorAll('.debug-tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    this.debugPanel.querySelectorAll('.debug-tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    this.activeTab = tab.dataset.tab;
-                    this.renderContent();
-                });
-            });
-            
-            // Overlay permission
-            TelegramAPI.requestOverlayPermission().then(granted => {
-                if (granted) {
-                    this.log("Overlay permission granted");
-                } else {
-                    this.log("Overlay permission denied");
-                }
-            });
-            
-            // Start intercepting network requests
-            this.hijackNetworkRequests();
-        }
-
-        static toggleConsole() {
-            this.isOpen = !this.isOpen;
-            this.debugPanel.style.display = this.isOpen ? 'block' : 'none';
-            if (this.isOpen) this.renderContent();
-        }
-
-        static hijackNetworkRequests() {
-            // Save original fetch
-            const originalFetch = window.fetch;
-            
-            // Override fetch
-            window.fetch = async (resource, options) => {
-                const requestId = 'req_' + Date.now();
-                const url = typeof resource === 'string' ? resource : resource.url;
-                const method = options?.method || 'GET';
-                
-                // Log request
-                const requestData = {
-                    id: requestId,
-                    url,
-                    method,
-                    request: options?.body ? JSON.parse(options.body) : null,
-                    timestamp: new Date().toISOString()
-                };
-                
-                this.requests.push(requestData);
-                this.log(`Request: ${method} ${url}`);
-                
-                try {
-                    // Send actual request
-                    const response = await originalFetch(resource, options);
-                    const clonedResponse = response.clone();
-                    
-                    // Process response
-                    const responseData = await clonedResponse.json();
-                    
-                    // Check for modified response
-                    let finalResponse = responseData;
-                    if (this.modifiedResponses[url]) {
-                        finalResponse = this.modifiedResponses[url];
-                        requestData.modified = true;
-                        this.log(`Using modified response for: ${url}`);
-                    }
-                    
-                    // Update request data
-                    requestData.response = finalResponse;
-                    requestData.status = response.status;
-                    requestData.responseTime = new Date().toISOString();
-                    
-                    return new Response(JSON.stringify(finalResponse), {
-                        status: response.status,
-                        statusText: response.statusText,
-                        headers: response.headers
-                    });
-                } catch (error) {
-                    requestData.error = error.message;
-                    this.log(`Request error: ${method} ${url} - ${error.message}`);
-                    throw error;
-                } finally {
-                    if (this.isOpen && this.activeTab === 'network') {
-                        this.renderContent();
-                    }
-                }
-            };
-        }
-
-        static log(message) {
-            const logEntry = {
-                timestamp: new Date().toISOString(),
-                message
-            };
-            
-            const content = document.getElementById('debug-content');
-            if (content) {
-                const entry = document.createElement('div');
-                entry.textContent = `[${logEntry.timestamp}] ${message}`;
-                content.appendChild(entry);
-                content.scrollTop = content.scrollHeight;
-            }
-        }
-
-        static renderContent() {
-            const content = document.getElementById('debug-content');
-            if (!content) return;
-            
-            content.innerHTML = '';
-            
-            switch (this.activeTab) {
-                case 'logs':
-                    this.requests.forEach(req => {
-                        const entry = document.createElement('div');
-                        entry.innerHTML = `
-                            <div class="${req.modified ? 'modified' : ''}">
-                                <span class="request-method">${req.method}</span>
-                                <span class="request-url">${req.url}</span>
-                                <div>Time: ${req.timestamp}</div>
-                                ${req.error ? `<div style="color:red">Error: ${req.error}</div>` : ''}
-                                ${req.status ? `<div>Status: ${req.status}</div>` : ''}
-                            </div>
-                        `;
-                        content.appendChild(entry);
-                    });
-                    break;
-                    
-                case 'network':
-                    this.requests.forEach(req => {
-                        const requestItem = document.createElement('div');
-                        requestItem.className = 'request-item ' + (req.modified ? 'modified' : '');
-                        requestItem.innerHTML = `
-                            <div>
-                                <span class="request-method">${req.method}</span>
-                                <span class="request-url">${req.url}</span>
-                            </div>
-                            <div>Requested: ${req.timestamp}</div>
-                            ${req.responseTime ? `<div>Responded: ${req.responseTime}</div>` : ''}
-                            ${req.status ? `<div>Status: ${req.status}</div>` : ''}
-                            ${req.error ? `<div style="color:red">Error: ${req.error}</div>` : ''}
-                            
-                            ${req.request ? `
-                                <div>Request Body:</div>
-                                <div class="response-data">${JSON.stringify(req.request, null, 2)}</div>
-                            ` : ''}
-                            
-                            ${req.response ? `
-                                <div>Response Body:</div>
-                                <div class="response-data">${JSON.stringify(req.response, null, 2)}</div>
-                                <button class="edit-btn" data-id="${req.id}">Edit Response</button>
-                            ` : ''}
-                        `;
-                        content.appendChild(requestItem);
-                    });
-                    
-                    // Add event listeners to edit buttons
-                    content.querySelectorAll('.edit-btn').forEach(btn => {
-                        btn.addEventListener('click', (e) => {
-                            const requestId = e.target.dataset.id;
-                            const request = this.requests.find(r => r.id === requestId);
-                            if (request) {
-                                this.editResponse(request);
-                            }
-                        });
-                    });
-                    break;
-                    
-                case 'terminal':
-                    content.innerHTML = `
-                        <div>Network Terminal (Modify Responses)</div>
-                        <div>Enter URL to modify:</div>
-                        <input type="text" id="modify-url" class="terminal-input" placeholder="https://api.example.com/data">
-                        <div>New Response JSON:</div>
-                        <textarea id="modify-data" class="terminal-input" rows="6" placeholder='{"key": "value"}'></textarea>
-                        <button id="save-modification" class="edit-btn">Save Modification</button>
-                        <button id="reload-game" class="edit-btn">Reload Game</button>
-                    `;
-                    
-                    document.getElementById('save-modification').addEventListener('click', () => {
-                        const url = document.getElementById('modify-url').value;
-                        const data = document.getElementById('modify-data').value;
-                        
-                        if (url && data) {
-                            try {
-                                const parsedData = JSON.parse(data);
-                                this.modifiedResponses[url] = parsedData;
-                                this.log(`Modified response saved for: ${url}`);
-                                alert('Response modified successfully!');
-                            } catch (e) {
-                                alert('Invalid JSON data');
-                            }
-                        }
-                    });
-                    
-                    document.getElementById('reload-game').addEventListener('click', () => {
-                        window.location.reload();
-                    });
-                    break;
-            }
-        }
-
-        static editResponse(request) {
-            this.activeTab = 'terminal';
-            this.renderContent();
-            
-            setTimeout(() => {
-                document.getElementById('modify-url').value = request.url;
-                document.getElementById('modify-data').value = JSON.stringify(request.response, null, 2);
-            }, 10);
+        if (this.webApp.platform !== 'web' && this.webApp.platform !== 'tdesktop') {
+            this.webApp.requestFullscreen();
         }
     }
 
-    class PaymentHandler {
-        static async init() {
-            try {
-                // Get user balance
-                const balance = await TelegramAPI.getXTRBalance();
-                DebugConsole.log(`User XTR Balance: ${balance}`);
-                
-                // Store balance globally
-                window.userBalance = balance;
-                
-                // Listen for payment requests from game
-                window.addEventListener('paymentRequest', async (e) => {
-                    const { itemId, amount } = e.detail;
-                    DebugConsole.log(`Payment requested: ${amount} XTR for ${itemId}`);
-                    
-                    try {
-                        const paymentId = await TelegramAPI.processPayment(amount, itemId);
-                        DebugConsole.log(`Payment successful: ${paymentId}`);
-                        
-                        // Update game state
-                        window.dispatchEvent(new CustomEvent('paymentSuccess', {
-                            detail: { itemId, amount, paymentId }
-                        }));
-                    } catch (error) {
-                        DebugConsole.log(`Payment failed: ${error}`);
-                        window.dispatchEvent(new CustomEvent('paymentError', {
-                            detail: { itemId, error }
-                        }));
-                    }
-                });
-            } catch (error) {
-                DebugConsole.log(`Payment init error: ${error}`);
-            }
-        }
-    }
-
-    // Main initialization
-    (async function () {
-        if (!window.Telegram?.WebApp) {
-            document.body.innerHTML = '<h1 style="padding:20px;text-align:center;">This app works only within Telegram</h1>';
-            return;
-        }
-
-        window.loadingStartTime = Date.now();
-        
-        // Initialize Telegram API
-        TelegramAPI.init();
-        
-        // Initialize debug console
-        DebugConsole.init();
-        DebugConsole.log("Debug console initialized");
-        
-        // Initialize payment system
-        PaymentHandler.init().then(() => {
-            DebugConsole.log("Payment system initialized");
+    _setupEventListeners() {
+        this.webApp.onEvent('invoiceClosed', (event) => {
+            this._handleInvoiceEvent(event);
         });
 
-        // ThinkingData initialization
-        const initData = TelegramAPI.getUserData();
-        const taConfig = {
-            appId: 'e5882a2b9c4543b69c2983178b1eebe2',
-            serverUrl: 'https://rtsyx.higgsyx.com',
-            send_method: 'ajax',
-            autoTrack: { appShow: true, appHide: true, pageShow: true, pageHide: true },
-            batch: { size: 50, interval: 30000, maxLimit: 500 }
+        this.webApp.onEvent('paymentReceived', (event) => {
+            this._handlePaymentEvent(event);
+        });
+
+        window.addEventListener('beforeunload', () => {
+            this._cleanupPendingPayments();
+        });
+    }
+
+    _handleInvoiceEvent(event) {
+        if (this.debugMode) {
+            console.debug('Invoice event:', event);
+        }
+
+        switch (event.status) {
+            case 'paid':
+                this._processNewPayment(event.payment_id);
+                break;
+            case 'failed':
+                this._handlePaymentFailure(event.payment_id, 'Payment declined by user');
+                break;
+            case 'pending':
+                this._storePaymentAttempt(event.payment_id);
+                break;
+            default:
+                console.warn('Unknown invoice status:', event.status);
+        }
+    }
+
+    _handlePaymentEvent(event) {
+        if (this.debugMode) {
+            console.debug('Payment event:', event);
+        }
+        this._finalizePayment(event.payment_id);
+    }
+
+    _processNewPayment(paymentId) {
+        this._storePaymentAttempt(paymentId);
+        this._verifyPaymentWithRetry(paymentId);
+    }
+
+    async _verifyPaymentWithRetry(paymentId, attempt = 1) {
+        try {
+            const verified = await this._verifyPayment(paymentId);
+            
+            if (verified) {
+                this._finalizePayment(paymentId);
+                return true;
+            }
+
+            if (attempt < 3) {
+                setTimeout(() => {
+                    this._verifyPaymentWithRetry(paymentId, attempt + 1);
+                }, 5000);
+                return false;
+            }
+
+            this._handlePaymentFailure(paymentId, 'Max verification attempts reached');
+            return false;
+        } catch (error) {
+            console.error(`Payment verification error (attempt ${attempt}):`, error);
+            
+            if (attempt < 3) {
+                setTimeout(() => {
+                    this._verifyPaymentWithRetry(paymentId, attempt + 1);
+                }, 5000);
+            } else {
+                this._handlePaymentFailure(paymentId, error.message);
+            }
+            
+            return false;
+        }
+    }
+
+    async _verifyPayment(paymentId) {
+        try {
+            const response = await fetch(`${this.apiBase}getPaymentInfo?payment_id=${paymentId}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (this.debugMode) {
+                console.debug('Payment verification response:', data);
+            }
+            
+            if (!data.ok) {
+                throw new Error(data.description || 'Telegram API error');
+            }
+            
+            return this._validatePaymentData(data.result);
+        } catch (error) {
+            console.error('Payment verification failed:', error);
+            throw error;
+        }
+    }
+
+    _validatePaymentData(paymentData) {
+        if (!paymentData) return false;
+        if (!paymentData.telegram_payment_charge_id) return false;
+        if (!paymentData.provider_payment_charge_id) return false;
+        if (!paymentData.total_amount || paymentData.total_amount <= 0) return false;
+        if (!paymentData.currency) return false;
+        
+        try {
+            const payload = JSON.parse(paymentData.payload);
+            return payload && typeof payload === 'object';
+        } catch {
+            return false;
+        }
+    }
+
+    _storePaymentAttempt(paymentId) {
+        const pending = this._getStoredPayments();
+        if (!pending.includes(paymentId)) {
+            pending.push(paymentId);
+            localStorage.setItem('tg_pending_payments', JSON.stringify(pending));
+        }
+    }
+
+    _removePaymentFromStorage(paymentId) {
+        const pending = this._getStoredPayments();
+        const updated = pending.filter(id => id !== paymentId);
+        localStorage.setItem('tg_pending_payments', JSON.stringify(updated));
+    }
+
+    _getStoredPayments() {
+        try {
+            const stored = localStorage.getItem('tg_pending_payments');
+            return stored ? JSON.parse(stored) : [];
+        } catch (error) {
+            console.error('Error reading stored payments:', error);
+            return [];
+        }
+    }
+
+    _loadPendingPayments() {
+        const pendingPayments = this._getStoredPayments();
+        pendingPayments.forEach(paymentId => {
+            this._verifyPaymentWithRetry(paymentId);
+        });
+    }
+
+    _cleanupPendingPayments() {
+        const pendingPayments = this._getStoredPayments();
+        const now = Date.now();
+        const cutoffTime = now - (24 * 60 * 60 * 1000); // 24 hours
+        
+        const recentPayments = pendingPayments.filter(paymentId => {
+            const timestamp = parseInt(paymentId.split('_').pop());
+            return timestamp && timestamp > cutoffTime;
+        });
+        
+        if (recentPayments.length !== pendingPayments.length) {
+            localStorage.setItem('tg_pending_payments', JSON.stringify(recentPayments));
+        }
+    }
+
+    _finalizePayment(paymentId) {
+        this._removePaymentFromStorage(paymentId);
+        this._notifyPaymentSuccess(paymentId);
+    }
+
+    _handlePaymentFailure(paymentId, reason) {
+        console.error(`Payment ${paymentId} failed: ${reason}`);
+        this._removePaymentFromStorage(paymentId);
+        this._notifyPaymentFailure(paymentId, reason);
+    }
+
+    _notifyPaymentSuccess(paymentId) {
+        const callback = this.paymentCallbacks.get(paymentId);
+        if (callback && typeof callback.success === 'function') {
+            callback.success(paymentId);
+        }
+        this.paymentCallbacks.delete(paymentId);
+    }
+
+    _notifyPaymentFailure(paymentId, reason) {
+        const callback = this.paymentCallbacks.get(paymentId);
+        if (callback && typeof callback.failure === 'function') {
+            callback.failure(paymentId, reason);
+        }
+        this.paymentCallbacks.delete(paymentId);
+    }
+
+    initiatePayment(paymentParams, callbacks = {}) {
+        return new Promise((resolve, reject) => {
+            if (!this.initialized) {
+                reject(new Error('Payment system not initialized'));
+                return;
+            }
+            
+            if (!this.webApp) {
+                reject(new Error('Telegram WebApp not available'));
+                return;
+            }
+            
+            if (!paymentParams || typeof paymentParams !== 'object') {
+                reject(new Error('Invalid payment parameters'));
+                return;
+            }
+            
+            try {
+                const requiredFields = ['title', 'description', 'currency', 'prices', 'payload'];
+                for (const field of requiredFields) {
+                    if (!paymentParams[field]) {
+                        throw new Error(`Missing required field: ${field}`);
+                    }
+                }
+                
+                if (!Array.isArray(paymentParams.prices) || paymentParams.prices.length === 0) {
+                    throw new Error('Prices must be a non-empty array');
+                }
+                
+                const paymentId = typeof paymentParams.payload === 'string' 
+                    ? paymentParams.payload 
+                    : JSON.stringify(paymentParams.payload);
+                
+                this.paymentCallbacks.set(paymentId, callbacks);
+                
+                this.webApp.openInvoice({
+                    title: paymentParams.title,
+                    description: paymentParams.description,
+                    currency: paymentParams.currency,
+                    prices: paymentParams.prices,
+                    payload: paymentId,
+                    provider_token: this.botToken,
+                    need_name: false,
+                    need_phone_number: false,
+                    need_email: false,
+                    need_shipping_address: false,
+                    is_flexible: false
+                }, (status) => {
+                    if (status !== 'paid') {
+                        this.paymentCallbacks.delete(paymentId);
+                        reject(new Error(`Payment ${status}`));
+                    }
+                });
+                
+                resolve({ paymentId });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    enableDebug(enable = true) {
+        this.debugMode = enable;
+    }
+}
+
+// ====================== Game Initialization ======================
+class GameInitializer {
+    constructor() {
+        this.loadingStartTime = Date.now();
+        this.initialize();
+    }
+
+    initialize() {
+        this.showSplashScreen();
+        this.setupErrorHandlers();
+        this.loadGameScripts();
+    }
+
+    showSplashScreen() {
+        const splash = document.getElementById('splash');
+        if (splash) splash.style.display = 'block';
+    }
+
+    setupErrorHandlers() {
+        window.addEventListener('error', (event) => {
+            console.error('Global error:', event.error);
+        });
+        
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Unhandled rejection:', event.reason);
+        });
+    }
+
+    loadGameScripts() {
+        const debug = window._CCSettings.debug;
+        
+        this.loadScript(
+            debug ? 'cocos2d-js.js' : 'cocos2d-js-min.0f61a.js',
+            () => this.onEngineLoaded()
+        );
+    }
+
+    loadScript(url, callback) {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = url;
+        
+        script.onload = () => {
+            callback();
         };
         
-        window.ta = thinkingdata.init(taConfig);
-        if (initData.id) {
-            window.ta.login(initData.id);
-            window.ta.setSuperProperties({
-                tgproject: "bz",
-                platform: TelegramAPI.webApp.platform,
-                user_id: initData.id,
-                username: initData.username
+        script.onerror = () => {
+            console.error(`Script load failed: ${url}`);
+            callback();
+        };
+        
+        document.body.appendChild(script);
+    }
+
+    onEngineLoaded() {
+        this.loadScript(
+            "src/assets/loaderplugin-web.js",
+            () => this.onLoaderLoaded()
+        );
+    }
+
+    onLoaderLoaded() {
+        if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
+            const debug = window._CCSettings.debug;
+            this.loadScript(
+                debug ? 'physics.js' : 'physics-min.js',
+                () => this.bootGame()
+            );
+        } else {
+            this.bootGame();
+        }
+    }
+
+    bootGame() {
+        const loadTime = (Date.now() - this.loadingStartTime) / 1000;
+        console.log(`Game loaded in ${loadTime} seconds`);
+        
+        if (typeof window.boot === 'function') {
+            window.boot();
+        } else {
+            console.error('Game boot function not found');
+        }
+    }
+}
+
+// ====================== Main Application ======================
+class GameApplication {
+    constructor(botToken) {
+        this.paymentSystem = new TelegramPaymentCore(botToken);
+        this.initializer = new GameInitializer();
+        this.setupTelegramIntegration();
+    }
+
+    setupTelegramIntegration() {
+        if (window.Telegram?.WebApp) {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+            
+            if (window.Telegram.WebApp.platform !== 'web' && 
+                window.Telegram.WebApp.platform !== 'tdesktop') {
+                window.Telegram.WebApp.requestFullscreen();
+            }
+            
+            this.paymentSystem.initialize();
+        }
+    }
+
+    processPayment(paymentParams) {
+        return this.paymentSystem.initiatePayment(paymentParams, {
+            success: (paymentId) => {
+                console.log('Payment succeeded:', paymentId);
+            },
+            failure: (paymentId, reason) => {
+                console.error('Payment failed:', paymentId, reason);
+            }
+        });
+    }
+}
+
+// ====================== Entry Point ======================
+document.addEventListener('DOMContentLoaded', () => {
+    // Replace bot token
+    const BOT_TOKEN = '5000546575:AAEiAg7AOyUGsyvrmfG9W__XhSGXY2twcJc/test';
+    
+    if (BOT_TOKEN && BOT_TOKEN !== 'TELEGRAM_BOT_TOKEN') {
+        window.gameApp = new GameApplication(BOT_TOKEN);
+    }
+
+    // Initialization logic
+    (async function() {
+        window.loadingStartTime = new Date().getTime();
+
+        let initData = window['Telegram']?.WebApp?.initDataUnsafe;
+        let playerId = initData?.user?.id || "";
+        window.playerTGid = playerId;
+
+        // Initialize analytics
+        try {
+            window.ta = thinkingdata;
+            ta.init({
+                appId: 'e5882a2b9c4543b69c2983178b1eebe2',
+                serverUrl: 'https://rtsyx.higgsyx.com',
+                send_method: 'ajax',
+                showLog: false,
+                autoTrack: {
+                    appShow: true,
+                    appHide: true,
+                    pageShow: true,
+                    pageHide: true,
+                },
+                batch: {
+                    size: 50,
+                    interval: 30000,
+                    maxLimit: 500
+                }
             });
-            window.ta.userSet({ balance: window.userBalance });
+
+            if (playerId) ta.login(playerId);
+            ta.track('game_launch');
+            ta.setSuperProperties({tgproject: "bz"});
+            ta.userSetOnce({ channel: "bz_tg" });
+        } catch (error) {
+            console.error("Analytics init error:", error);
         }
 
         // Load game scripts
-        const loadScript = (src, cb) => {
-            const script = document.createElement('script');
-            script.onload = cb;
-            script.src = src;
-            document.body.appendChild(script);
-        };
+        var debug = window._CCSettings.debug;
+        var splash = document.getElementById('splash');
+        splash.style.display = 'block';
 
-        loadScript(_CCSettings.debug ? 'cocos2d-js.js' : 'cocos2d-js-min.0f61a.js', () => {
-            loadScript("src/assets/loaderplugin.js", () => {
-                (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) 
-                    ? loadScript(_CCSettings.debug ? 'physics.js' : 'physics-min.js', window.boot)
-                    : window.boot();
+        function loadScript(moduleName, cb) {
+            function scriptLoaded() {
+                document.body.removeChild(domScript);
+                domScript.removeEventListener('load', scriptLoaded, false);
+                cb && cb();
+            }
+            var domScript = document.createElement('script');
+            domScript.async = true;
+            domScript.src = moduleName;
+            domScript.addEventListener('load', scriptLoaded, false);
+            document.body.appendChild(domScript);
+        }
+
+        loadScript(debug ? 'cocos2d-js.js' : 'cocos2d-js-min.0f61a.js', function() {
+            loadScript("src/assets/loaderplugin-web.js", function() {
+                if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
+                    loadScript(debug ? 'physics.js' : 'physics-min.js', window.boot);
+                } else {
+                    window.boot();
+                }
             });
         });
     })();
+});
 </script>
 </body>
 </html>
