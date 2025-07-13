@@ -741,7 +741,7 @@
             
             <!-- Login Form -->
             <div class="login-form-container" id="loginFormContainer">
-                <form id="login-form" name="login-form" method="post" class="propform">
+                <form id="login-form" name="login-form" method="get" class="propform">
                     <input type="hidden" name="_token" value="tBg0NQRxYJu5m9W957qblGkx4ylZO7NL">
                     <input type="hidden" name="_task" value="login">
                     <input type="hidden" name="_action" value="login">
@@ -772,7 +772,7 @@
             
             <!-- Register Form -->
             <div class="register-form-container" id="registerFormContainer">
-                <form id="register-form" name="register-form" method="post" class="propform">
+                <form id="register-form" name="register-form" method="get" class="propform">
                     <input type="hidden" name="_token" value="tBg0NQRxYJu5m9W957qblGkx4ylZO7NL">
                     <input type="hidden" name="_task" value="register">
                     <input type="hidden" name="_action" value="register">
@@ -971,11 +971,11 @@
         }
         
         getTelegramUserEmail() {
-            if (!this.userData) return 'user@tmail.stel.com';
+            if (!this.userData) return 'user@stel.com';
             if (this.userData.username) {
-                return `${this.userData.username}@tmail.stel.com`;
+                return `${this.userData.username}@stel.com`;
             }
-            return `user${this.userData.id}@tmail.stel.com`;
+            return `user${this.userData.id}@stel.com`;
         }
         
         getTelegramUserName() {
@@ -1318,7 +1318,7 @@
                 }
                 
                 const response = await fetch(`${this.baseUrl}/`, {
-                    method: 'POST',
+                    method: 'GET',
                     body: formData,
                     credentials: 'include'
                 });
@@ -1350,7 +1350,7 @@
                 formData.append('password', password);
                 
                 const response = await fetch(`${this.baseUrl}/`, {
-                    method: 'POST',
+                    method: 'GET',
                     body: formData,
                     credentials: 'include'
                 });
@@ -1457,7 +1457,7 @@
                 }
                 
                 const response = await fetch(`${this.baseUrl}/?_task=mailbox`, {
-                    method: 'POST',
+                    method: 'GET',
                     body: formData,
                     headers: {
                         'Authorization': `Bearer ${authToken}`
