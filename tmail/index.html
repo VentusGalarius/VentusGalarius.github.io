@@ -4,8 +4,8 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Telegram Webmail :: Welcome to Telegram Webmail</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0">
-    <meta name="theme-color" content="#f4f4f4">
-    <meta name="msapplication-navbutton-color" content="#f4f4f4">
+    <meta name="theme-color" content="#1e1e1e">
+    <meta name="msapplication-navbutton-color" content="#1e1e1e">
     <link rel="shortcut icon" href="https://tmail.stel.com/skins/elastic/images/favicon.ico">
     <link rel="stylesheet" href="https://tmail.stel.com/skins/elastic/deps/bootstrap.min.css">
     <link rel="stylesheet" href="https://tmail.stel.com/skins/elastic/styles/styles.min.css">
@@ -18,21 +18,6 @@
     <script src="https://a-ttgme.stel.com/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --primary-color: #0088cc;
-            --secondary-color: #f8f9fa;
-            --text-color: #333;
-            --text-secondary: #666;
-            --border-color: #ddd;
-            --bg-color: #fff;
-            --card-bg: #fff;
-            --hover-color: #f0f0f0;
-            --success-color: #28a745;
-            --error-color: #dc3545;
-            --warning-color: #ffc107;
-            --info-color: #17a2b8;
-        }
-
-        .dark-mode {
             --primary-color: #0088cc;
             --secondary-color: #2d2d2d;
             --text-color: #f0f0f0;
@@ -51,12 +36,21 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
         }
 
         #layout {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .user-profile {
@@ -208,30 +202,150 @@
             font-weight: 600;
         }
 
-        .theme-switcher {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1000;
+        .email-pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
         }
 
-        .theme-toggle {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        .pagination-btn {
+            padding: 8px 15px;
+            margin: 0 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .pagination-btn.active {
             background-color: var(--primary-color);
             color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .email-tags {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .email-tag {
+            padding: 3px 8px;
+            background-color: var(--secondary-color);
+            border-radius: 3px;
+            font-size: 12px;
+            color: var(--text-color);
+        }
+
+        .email-tag.important {
+            background-color: var(--error-color);
+            color: white;
+        }
+
+        .email-tag.work {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .email-tag.personal {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: none;
+            min-width: 200px;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--hover-color);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 5px 0;
+        }
+
+        .navbar-dropdown {
+            position: relative;
+            margin-left: 15px;
+        }
+
+        .dropdown-toggle {
+            background: none;
             border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown-toggle::after {
+            content: "▼";
+            font-size: 10px;
+            margin-left: 5px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--error-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s;
+            font-size: 10px;
         }
 
-        .theme-toggle:hover {
-            transform: scale(1.1);
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
         }
 
         .login-form-container {
@@ -502,154 +616,81 @@
             background-color: var(--error-color);
         }
 
-        .email-pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .pagination-btn {
-            padding: 8px 15px;
-            margin: 0 5px;
-            border: 1px solid var(--border-color);
+        .register-form-container {
+            display: none;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px;
             background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .register-form table {
+            width: 100%;
+        }
+
+        .register-form .title {
+            width: 120px;
+            padding-right: 15px;
+            font-weight: 600;
             color: var(--text-color);
-            cursor: pointer;
-            border-radius: 5px;
         }
 
-        .pagination-btn.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
+        .register-form .input {
+            width: calc(100% - 120px);
         }
 
-        .pagination-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .search-box {
-            margin-bottom: 20px;
-        }
-
-        .search-input {
+        .register-form .form-control {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid var(--border-color);
             border-radius: 5px;
             background-color: var(--bg-color);
             color: var(--text-color);
+            transition: border-color 0.3s;
         }
 
-        .email-tags {
-            display: flex;
-            gap: 5px;
-            margin-top: 10px;
+        .register-form .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
         }
 
-        .email-tag {
-            padding: 3px 8px;
-            background-color: var(--secondary-color);
-            border-radius: 3px;
-            font-size: 12px;
-            color: var(--text-color);
+        .form-footer {
+            margin-top: 20px;
+            text-align: center;
         }
 
-        .email-tag.important {
-            background-color: var(--error-color);
-            color: white;
+        .form-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
         }
 
-        .email-tag.work {
-            background-color: var(--primary-color);
-            color: white;
+        .form-footer a:hover {
+            text-decoration: underline;
         }
 
-        .email-tag.personal {
-            background-color: var(--success-color);
-            color: white;
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            right: 0;
-            top: 100%;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
+        .system-message {
+            padding: 15px;
+            margin-top: 20px;
             border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 100;
             display: none;
-            min-width: 200px;
         }
 
-        .dropdown-menu.show {
+        .system-message.success {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: var(--success-color);
             display: block;
         }
 
-        .dropdown-item {
-            padding: 10px 15px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--hover-color);
-        }
-
-        .dropdown-divider {
-            height: 1px;
-            background-color: var(--border-color);
-            margin: 5px 0;
-        }
-
-        .navbar-dropdown {
-            position: relative;
-            margin-left: 15px;
-        }
-
-        .dropdown-toggle {
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-        }
-
-        .dropdown-toggle::after {
-            content: "▼";
-            font-size: 10px;
-            margin-left: 5px;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: var(--error-color);
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
+        .system-message.error {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: var(--error-color);
+            display: block;
         }
 
         @media (max-width: 768px) {
-            .login-form-container {
+            .login-form-container, .register-form-container {
                 padding: 25px;
             }
 
@@ -679,14 +720,7 @@
         }
     </style>
 </head>
-<body class="task-login action-none">
-    <!-- Theme switcher button -->
-    <div class="theme-switcher">
-        <button class="theme-toggle" id="themeToggle">
-            <i class="fas fa-moon"></i>
-        </button>
-    </div>
-
+<body class="task-login action-none dark-mode">
     <div id="layout">
         <!-- Navbar (shown after login) -->
         <div class="navbar" id="navbar">
@@ -706,8 +740,8 @@
             <img src="https://tmail.stel.com/skins/elastic/images/logo.svg" id="logo" alt="Logo">
             
             <!-- Login Form -->
-            <div class="login-form-container">
-                <form id="login-form" name="login-form" method="post" class="propform" action="https://tmail.stel.com/?_task=login">
+            <div class="login-form-container" id="loginFormContainer">
+                <form id="login-form" name="login-form" method="post" class="propform">
                     <input type="hidden" name="_token" value="tBg0NQRxYJu5m9W957qblGkx4ylZO7NL">
                     <input type="hidden" name="_task" value="login">
                     <input type="hidden" name="_action" value="login">
@@ -726,9 +760,49 @@
                             </tr>
                         </tbody>
                     </table>
-                    <p class="formbuttons">
+                    <div class="formbuttons">
                         <button type="submit" id="rcmloginsubmit" class="button mainaction submit">Login</button>
-                    </p>
+                    </div>
+                    <div class="form-footer">
+                        Don't have an account? <a href="#" id="showRegisterForm">Register</a>
+                    </div>
+                    <div id="loginMessage" class="system-message"></div>
+                </form>
+            </div>
+            
+            <!-- Register Form -->
+            <div class="register-form-container" id="registerFormContainer">
+                <form id="register-form" name="register-form" method="post" class="propform">
+                    <input type="hidden" name="_token" value="tBg0NQRxYJu5m9W957qblGkx4ylZO7NL">
+                    <input type="hidden" name="_task" value="register">
+                    <input type="hidden" name="_action" value="register">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="title"><label for="register-username">Username</label></td>
+                                <td class="input"><input name="username" id="register-username" required size="40" class="form-control" autocapitalize="off" autocomplete="off" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td class="title"><label for="register-email">Email</label></td>
+                                <td class="input"><input name="email" id="register-email" required size="40" class="form-control" autocapitalize="off" autocomplete="off" type="email"></td>
+                            </tr>
+                            <tr>
+                                <td class="title"><label for="register-password">Password</label></td>
+                                <td class="input"><input name="password" id="register-password" required size="40" class="form-control" autocapitalize="off" autocomplete="off" type="password"></td>
+                            </tr>
+                            <tr>
+                                <td class="title"><label for="register-confirm">Confirm Password</label></td>
+                                <td class="input"><input name="confirm_password" id="register-confirm" required size="40" class="form-control" autocapitalize="off" autocomplete="off" type="password"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="formbuttons">
+                        <button type="submit" id="register-submit" class="button mainaction submit">Register</button>
+                    </div>
+                    <div class="form-footer">
+                        Already have an account? <a href="#" id="showLoginForm">Login</a>
+                    </div>
+                    <div id="registerMessage" class="system-message"></div>
                 </form>
             </div>
             
@@ -853,7 +927,6 @@
     <script>
     /**
      * Telegram Authentication Service
-     * Handles all Telegram WebApp authentication logic
      */
     class TelegramAuthService {
         constructor() {
@@ -864,26 +937,19 @@
             this.initData = null;
         }
         
-        /**
-         * Initialize Telegram WebApp
-         * @returns {boolean} True if initialization was successful
-         */
         initialize() {
             if (!this.isTelegramWebApp) return false;
             
             try {
-                // Expand the WebApp to full height
                 this.webApp.expand();
                 this.webApp.enableClosingConfirmation();
-                
-                // Validate Telegram WebApp init data
                 this.initData = this.webApp.initData;
+                
                 if (!this.initData) {
                     console.error('Telegram WebApp initData is missing');
                     return false;
                 }
                 
-                // Store auth token and user data
                 this.authToken = this.initData;
                 this.userData = this.webApp.initDataUnsafe?.user;
                 
@@ -899,63 +965,33 @@
             }
         }
         
-        /**
-         * Get Telegram user avatar URL from CDN
-         * @returns {string|null} Avatar URL or null if not available
-         */
         getTelegramUserAvatar() {
-            if (!this.userData?.photo_url) {
-                return null;
-            }
-            
-            // Return the Telegram CDN URL for user avatar
+            if (!this.userData?.photo_url) return null;
             return this.userData.photo_url;
         }
         
-        /**
-         * Generate email address based on Telegram user data
-         * @returns {string} Generated email address
-         */
         getTelegramUserEmail() {
             if (!this.userData) return 'user@tmail.stel.com';
-            
-            // Use username if available, otherwise use user ID
             if (this.userData.username) {
                 return `${this.userData.username}@tmail.stel.com`;
             }
             return `user${this.userData.id}@tmail.stel.com`;
         }
         
-        /**
-         * Get user's full name from Telegram data
-         * @returns {string} User's full name
-         */
         getTelegramUserName() {
             if (!this.userData) return 'Telegram User';
-            
-            // Combine first and last name if available
             const parts = [];
             if (this.userData.first_name) parts.push(this.userData.first_name);
             if (this.userData.last_name) parts.push(this.userData.last_name);
-            
             return parts.join(' ') || 'Telegram User';
         }
         
-        /**
-         * Get Telegram auth token
-         * @returns {string|null} Auth token or null if not available
-         */
         getAuthToken() {
             return this.authToken;
         }
         
-        /**
-         * Get complete user data from Telegram
-         * @returns {object|null} User data object or null if not available
-         */
         getFullUserData() {
             if (!this.userData) return null;
-            
             return {
                 id: this.userData.id,
                 name: this.getTelegramUserName(),
@@ -970,21 +1006,14 @@
 
     /**
      * Webmail Session Manager
-     * Handles user session management and persistence
      */
     class WebmailSessionManager {
         constructor() {
             this.sessionKey = 'tmail_web_session';
             this.currentSession = null;
-            this.sessionTimeout = 24 * 60 * 60 * 1000; // 24 hours
+            this.sessionTimeout = 24 * 60 * 60 * 1000;
         }
         
-        /**
-         * Create a new user session
-         * @param {object} userData - User data object
-         * @param {string} authToken - Authentication token
-         * @returns {object} Created session data
-         */
         createSession(userData, authToken) {
             const sessionData = {
                 user: {
@@ -999,7 +1028,7 @@
                     expiresAt: Date.now() + this.sessionTimeout
                 },
                 preferences: {
-                    darkMode: false,
+                    darkMode: true,
                     emailsPerPage: 20
                 },
                 mailbox: {
@@ -1015,27 +1044,19 @@
             return sessionData;
         }
         
-        /**
-         * Load existing session from storage
-         * @returns {object|null} Session data or null if no valid session
-         */
         loadSession() {
             const sessionData = localStorage.getItem(this.sessionKey);
             if (!sessionData) return null;
             
             try {
                 const parsed = JSON.parse(sessionData);
-                
-                // Check if session is expired
                 if (parsed.auth.expiresAt < Date.now()) {
                     this.clearSession();
                     return null;
                 }
                 
-                // Update session expiration
                 parsed.auth.expiresAt = Date.now() + this.sessionTimeout;
                 localStorage.setItem(this.sessionKey, JSON.stringify(parsed));
-                
                 this.currentSession = parsed;
                 return parsed;
             } catch (e) {
@@ -1045,70 +1066,37 @@
             }
         }
         
-        /**
-         * Clear current session
-         */
         clearSession() {
             localStorage.removeItem(this.sessionKey);
             this.currentSession = null;
         }
         
-        /**
-         * Check if user is authenticated
-         * @returns {boolean} True if authenticated
-         */
         isAuthenticated() {
             return !!this.loadSession();
         }
         
-        /**
-         * Get current user data
-         * @returns {object|null} User data or null if no session
-         */
         getCurrentUser() {
             const session = this.loadSession();
             return session?.user || null;
         }
         
-        /**
-         * Get authentication token
-         * @returns {string|null} Auth token or null if no session
-         */
         getAuthToken() {
             const session = this.loadSession();
             return session?.auth?.token || null;
         }
         
-        /**
-         * Update session preferences
-         * @param {object} preferences - New preferences
-         */
         updatePreferences(preferences) {
             const session = this.loadSession();
             if (!session) return;
-            
-            session.preferences = {
-                ...session.preferences,
-                ...preferences
-            };
-            
+            session.preferences = { ...session.preferences, ...preferences };
             localStorage.setItem(this.sessionKey, JSON.stringify(session));
             this.currentSession = session;
         }
         
-        /**
-         * Update mailbox state
-         * @param {object} mailboxState - New mailbox state
-         */
         updateMailboxState(mailboxState) {
             const session = this.loadSession();
             if (!session) return;
-            
-            session.mailbox = {
-                ...session.mailbox,
-                ...mailboxState
-            };
-            
+            session.mailbox = { ...session.mailbox, ...mailboxState };
             localStorage.setItem(this.sessionKey, JSON.stringify(session));
             this.currentSession = session;
         }
@@ -1116,21 +1104,20 @@
 
     /**
      * Webmail UI Controller
-     * Handles all UI interactions and updates
      */
     class WebmailUIController {
         constructor() {
-            // Login elements
             this.loginForm = document.getElementById('login-form');
+            this.registerForm = document.getElementById('register-form');
+            this.loginFormContainer = document.getElementById('loginFormContainer');
+            this.registerFormContainer = document.getElementById('registerFormContainer');
             this.loadingSpinner = document.getElementById('loadingSpinner');
-            
-            // User profile elements
+            this.loginMessage = document.getElementById('loginMessage');
+            this.registerMessage = document.getElementById('registerMessage');
             this.userProfile = document.getElementById('user-profile');
             this.userAvatar = document.getElementById('user-avatar');
             this.userName = document.getElementById('user-name');
             this.userEmail = document.getElementById('user-email');
-            
-            // Mailbox elements
             this.mailboxContainer = document.getElementById('mailbox-container');
             this.folderList = document.getElementById('folderList');
             this.emailListBody = document.getElementById('email-list-body');
@@ -1141,34 +1128,33 @@
             this.emailDate = document.getElementById('email-date');
             this.emailBody = document.getElementById('email-body');
             this.emailAttachments = document.getElementById('emailAttachments');
-            
-            // Compose elements
             this.composeContainer = document.getElementById('compose-container');
             this.composeBtn = document.getElementById('compose-btn');
             this.cancelComposeBtn = document.getElementById('cancelComposeBtn');
             this.sendEmailBtn = document.getElementById('sendEmailBtn');
-            
-            // Navbar elements
             this.navbar = document.getElementById('navbar');
             this.navbarUser = document.getElementById('navbarUser');
             this.navbarAvatar = document.getElementById('navbarAvatar');
             this.navbarUsername = document.getElementById('navbarUsername');
             this.logoutBtn = document.getElementById('logoutBtn');
             this.mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            this.showRegisterFormBtn = document.getElementById('showRegisterForm');
+            this.showLoginFormBtn = document.getElementById('showLoginForm');
             
-            // Theme switcher
-            this.themeToggle = document.getElementById('themeToggle');
-            
-            // Initialize event listeners
             this.initEventListeners();
         }
         
-        /**
-         * Initialize all UI event listeners
-         */
         initEventListeners() {
-            // Theme switcher
-            this.themeToggle.addEventListener('click', () => this.toggleTheme());
+            // Form toggles
+            this.showRegisterFormBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.showRegisterForm();
+            });
+            
+            this.showLoginFormBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.showLoginForm();
+            });
             
             // Folder navigation
             const folderLinks = document.querySelectorAll('.folder-link');
@@ -1199,36 +1185,37 @@
             });
         }
         
-        /**
-         * Show loading spinner
-         */
         showLoading() {
             this.loadingSpinner.style.display = 'block';
         }
         
-        /**
-         * Hide loading spinner
-         */
         hideLoading() {
             this.loadingSpinner.style.display = 'none';
         }
         
-        /**
-         * Show login form
-         */
         showLoginForm() {
-            this.loginForm.style.display = 'block';
+            this.loginFormContainer.style.display = 'block';
+            this.registerFormContainer.style.display = 'none';
             this.userProfile.style.display = 'none';
             this.mailboxContainer.style.display = 'none';
             this.navbar.style.display = 'none';
+            this.loginMessage.textContent = '';
+            this.loginMessage.className = 'system-message';
         }
         
-        /**
-         * Show user profile after login
-         * @param {object} userData - User data object
-         */
+        showRegisterForm() {
+            this.loginFormContainer.style.display = 'none';
+            this.registerFormContainer.style.display = 'block';
+            this.userProfile.style.display = 'none';
+            this.mailboxContainer.style.display = 'none';
+            this.navbar.style.display = 'none';
+            this.registerMessage.textContent = '';
+            this.registerMessage.className = 'system-message';
+        }
+        
         showUserProfile(userData) {
-            this.loginForm.style.display = 'none';
+            this.loginFormContainer.style.display = 'none';
+            this.registerFormContainer.style.display = 'none';
             this.userProfile.style.display = 'block';
             this.mailboxContainer.style.display = 'none';
             this.navbar.style.display = 'flex';
@@ -1248,11 +1235,9 @@
             this.navbarUsername.textContent = userData.name;
         }
         
-        /**
-         * Show mailbox content
-         */
         showMailbox() {
-            this.loginForm.style.display = 'none';
+            this.loginFormContainer.style.display = 'none';
+            this.registerFormContainer.style.display = 'none';
             this.userProfile.style.display = 'none';
             this.mailboxContainer.style.display = 'block';
             this.navbar.style.display = 'flex';
@@ -1260,67 +1245,22 @@
             this.composeContainer.style.display = 'none';
         }
         
-        /**
-         * Show compose email form
-         */
         showComposeForm() {
             this.composeContainer.style.display = 'block';
             this.emailContent.style.display = 'none';
         }
         
-        /**
-         * Hide compose email form
-         */
         hideComposeForm() {
             this.composeContainer.style.display = 'none';
         }
         
-        /**
-         * Display a message to the user
-         * @param {string} message - Message text
-         * @param {string} type - Message type (info, success, error, warning)
-         */
-        displayMessage(message, type = 'info') {
-            rcmail.display_message(message, type);
+        displayMessage(message, type = 'info', isLogin = true) {
+            const messageElement = isLogin ? this.loginMessage : this.registerMessage;
+            messageElement.textContent = message;
+            messageElement.className = `system-message ${type}`;
         }
         
-        /**
-         * Toggle between dark and light theme
-         */
-        toggleTheme() {
-            const isDark = document.documentElement.classList.toggle('dark-mode');
-            this.themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-            
-            // Save theme preference
-            const sessionManager = new WebmailSessionManager();
-            sessionManager.updatePreferences({ darkMode: isDark });
-            
-            // Update theme color meta tag
-            document.querySelector('meta[name="theme-color"]').content = isDark ? '#1e1e1e' : '#f4f4f4';
-        }
-        
-        /**
-         * Initialize theme from user preferences
-         */
-        initTheme() {
-            const sessionManager = new WebmailSessionManager();
-            const session = sessionManager.loadSession();
-            
-            if (session?.preferences?.darkMode) {
-                document.documentElement.classList.add('dark-mode');
-                this.themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                document.documentElement.classList.remove('dark-mode');
-                this.themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            }
-        }
-        
-        /**
-         * Handle folder change in mailbox
-         * @param {string} folder - Folder name
-         */
         handleFolderChange(folder) {
-            // Update active folder in UI
             const folderLinks = document.querySelectorAll('.folder-link');
             folderLinks.forEach(link => {
                 link.parentElement.classList.remove('active');
@@ -1329,26 +1269,14 @@
                 }
             });
             
-            // Update session with current folder
             const sessionManager = new WebmailSessionManager();
             sessionManager.updateMailboxState({ currentFolder: folder, currentPage: 1 });
-            
-            // Load emails for the selected folder
             this.loadEmailsForFolder(folder);
-            
-            // Hide mobile menu after selection
             this.folderList.classList.remove('show');
         }
         
-        /**
-         * Load emails for a specific folder
-         * @param {string} folder - Folder name
-         */
         loadEmailsForFolder(folder) {
-            // In a real implementation, this would fetch emails from the server
             console.log(`Loading emails for folder: ${folder}`);
-            
-            // For demo purposes, show empty state
             this.emailListBody.innerHTML = `
                 <tr>
                     <td colspan="3" style="text-align: center; padding: 30px;">
@@ -1356,28 +1284,19 @@
                     </td>
                 </tr>
             `;
-            
             this.emailContent.style.display = 'none';
         }
         
-        /**
-         * Handle logout action
-         */
         handleLogout() {
             const sessionManager = new WebmailSessionManager();
             sessionManager.clearSession();
-            
-            // Show login form
             this.showLoginForm();
-            
-            // Display logout message
             this.displayMessage('You have been logged out', 'info');
         }
     }
 
     /**
      * Webmail API Client
-     * Handles all communication with the webmail server
      */
     class WebmailAPIClient {
         constructor(baseUrl = 'https://tmail.stel.com') {
@@ -1385,13 +1304,6 @@
             this.sessionManager = new WebmailSessionManager();
         }
         
-        /**
-         * Authenticate user
-         * @param {string} username - Username
-         * @param {string} password - Password
-         * @param {string|null} telegramAuthData - Telegram auth data
-         * @returns {Promise<object>} Authentication response
-         */
         async authenticate(username, password, telegramAuthData = null) {
             try {
                 const formData = new FormData();
@@ -1405,7 +1317,7 @@
                     formData.append('telegram_auth_data', telegramAuthData);
                 }
                 
-                const response = await fetch(`${this.baseUrl}/?_task=login`, {
+                const response = await fetch(`${this.baseUrl}/`, {
                     method: 'POST',
                     body: formData,
                     credentials: 'include'
@@ -1428,10 +1340,38 @@
             }
         }
         
-        /**
-         * Get mailbox folders
-         * @returns {Promise<array>} List of folders
-         */
+        async register(username, email, password) {
+            try {
+                const formData = new FormData();
+                formData.append('_task', 'register');
+                formData.append('_action', 'register');
+                formData.append('username', username);
+                formData.append('email', email);
+                formData.append('password', password);
+                
+                const response = await fetch(`${this.baseUrl}/`, {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.status !== 'success') {
+                    throw new Error(data.message || 'Registration failed');
+                }
+                
+                return data;
+            } catch (error) {
+                console.error('Registration error:', error);
+                throw error;
+            }
+        }
+        
         async getMailboxFolders() {
             const authToken = this.sessionManager.getAuthToken();
             if (!authToken) throw new Error('Not authenticated');
@@ -1454,13 +1394,6 @@
             }
         }
         
-        /**
-         * Get emails for a specific folder
-         * @param {string} folder - Folder name
-         * @param {number} page - Page number
-         * @param {number} perPage - Emails per page
-         * @returns {Promise<object>} Emails data
-         */
         async getFolderEmails(folder, page = 1, perPage = 20) {
             const authToken = this.sessionManager.getAuthToken();
             if (!authToken) throw new Error('Not authenticated');
@@ -1483,11 +1416,6 @@
             }
         }
         
-        /**
-         * Get email content
-         * @param {string} messageId - Email message ID
-         * @returns {Promise<object>} Email content
-         */
         async getEmailContent(messageId) {
             const authToken = this.sessionManager.getAuthToken();
             if (!authToken) throw new Error('Not authenticated');
@@ -1510,11 +1438,6 @@
             }
         }
         
-        /**
-         * Send email
-         * @param {object} emailData - Email data (to, subject, body, attachments)
-         * @returns {Promise<object>} Send response
-         */
         async sendEmail(emailData) {
             const authToken = this.sessionManager.getAuthToken();
             if (!authToken) throw new Error('Not authenticated');
@@ -1554,8 +1477,7 @@
     }
 
     /**
-     * Main Webmail Application
-     * Coordinates all components and manages application flow
+     * Webmail Application
      */
     class WebmailApplication {
         constructor() {
@@ -1567,13 +1489,7 @@
             this.initialize();
         }
         
-        /**
-         * Initialize the application
-         */
         initialize() {
-            // Initialize UI theme
-            this.uiController.initTheme();
-            
             // Check if running in Telegram WebApp
             if (this.telegramAuth.isTelegramWebApp) {
                 this.handleTelegramAuth();
@@ -1589,31 +1505,26 @@
             } else {
                 this.uiController.showLoginForm();
             }
+            
+            // Setup form handlers
+            this.setupLoginForm();
+            this.setupRegisterForm();
         }
         
-        /**
-         * Handle Telegram WebApp authentication
-         */
         handleTelegramAuth() {
             if (!this.telegramAuth.initialize()) {
                 console.error('Failed to initialize Telegram authentication');
                 return;
             }
             
-            // Set Telegram auth data in hidden field
             document.getElementById('telegram-auth-data').value = this.telegramAuth.getAuthToken();
-            
-            // Automatically submit form if Telegram auth is valid
             const userData = this.telegramAuth.getFullUserData();
             if (userData) {
                 this.processSuccessfulLogin(userData);
             }
         }
         
-        /**
-         * Handle regular form-based authentication
-         */
-        handleRegularAuth() {
+        setupLoginForm() {
             document.getElementById('login-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
@@ -1626,7 +1537,6 @@
                 try {
                     const response = await this.apiClient.authenticate(username, password, telegramAuthData);
                     
-                    // Create user data from response
                     const userData = {
                         id: response.user_id || Date.now(),
                         name: response.user_name || username,
@@ -1643,42 +1553,59 @@
             });
         }
         
-        /**
-         * Process successful login
-         * @param {object} userData - User data object
-         */
+        setupRegisterForm() {
+            document.getElementById('register-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const username = document.getElementById('register-username').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                const confirmPassword = document.getElementById('register-confirm').value;
+                
+                if (password !== confirmPassword) {
+                    this.uiController.displayMessage('Passwords do not match', 'error', false);
+                    return;
+                }
+                
+                this.uiController.showLoading();
+                
+                try {
+                    const response = await this.apiClient.register(username, email, password);
+                    
+                    this.uiController.displayMessage('Registration successful! You can now login.', 'success', false);
+                    
+                    // Show login form after successful registration
+                    setTimeout(() => {
+                        this.uiController.showLoginForm();
+                    }, 2000);
+                } catch (error) {
+                    this.uiController.displayMessage('Registration failed: ' + error.message, 'error', false);
+                } finally {
+                    this.uiController.hideLoading();
+                }
+            });
+        }
+        
         processSuccessfulLogin(userData) {
-            // Create session
             const authToken = this.telegramAuth.getAuthToken() || 'session_' + Math.random().toString(36).substr(2, 16);
             this.sessionManager.createSession(userData, authToken);
-            
-            // Update UI
             this.uiController.showUserProfile(userData);
             
-            // Load mailbox after short delay
             setTimeout(() => {
                 this.loadMailbox();
             }, 1500);
         }
         
-        /**
-         * Load mailbox content
-         */
         async loadMailbox() {
             try {
                 this.uiController.showMailbox();
-                
-                // Load folders
                 const folders = await this.apiClient.getMailboxFolders();
                 console.log('Loaded folders:', folders);
                 
-                // Load emails for current folder
                 const session = this.sessionManager.loadSession();
                 if (session) {
                     this.uiController.loadEmailsForFolder(session.mailbox.currentFolder);
                 }
-                
-                this.uiController.displayMessage('Mailbox loaded successfully', 'confirmation');
             } catch (error) {
                 console.error('Error loading mailbox:', error);
                 this.uiController.displayMessage('Error loading mailbox: ' + error.message, 'error');
@@ -1688,10 +1615,7 @@
 
     // Initialize the application when DOM is ready
     document.addEventListener('DOMContentLoaded', () => {
-        // Initialize Roundcube
         rcmail.init();
-        
-        // Initialize our Webmail Application
         new WebmailApplication();
     });
     </script>
