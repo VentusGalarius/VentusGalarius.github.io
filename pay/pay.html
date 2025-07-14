@@ -340,7 +340,7 @@
         async processPayment(paymentMethodId) {
             try {
                 const response = await fetch('/process-stripe-payment', {
-                    method: 'GET',
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
