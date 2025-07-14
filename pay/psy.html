@@ -1,0 +1,420 @@
+<script>
+    var RoboxContext = {
+        "allCurrencies": [
+            {
+                "label": "BankCardPSBR",
+                "paymentMethodLabel": "BankCard",
+                "alias": "BankCard",
+                "weight": 40,
+                "amount": {
+                    "sum": 999.00,
+                    "SumFormatted": "999,00",
+                    "currencySymbol": "₽",
+                    "currencySymbolCode": 8381,
+                    "currencyHtmlCode": "&#8381",
+                    "currencyUnit": "рублей",
+                    "currencyISOSymbolCode": "RUR",
+                    "PartLeft": "999",
+                    "PartRight": "00",
+                    "PartSeparator": ",",
+                    "Precision": 2,
+                    "WithCommission": false
+                },
+                "payUntil": "2025-07-14T20:27:36.7074701+03:00"
+            },
+            {
+                "label": "BankCardPSR",
+                "paymentMethodLabel": "BankCard",
+                "alias": "BankCard",
+                "weight": 40,
+                "amount": {
+                    "sum": 999.0,
+                    "SumFormatted": "999,00",
+                    "currencySymbol": "₽",
+                    "currencySymbolCode": 8381,
+                    "currencyHtmlCode": "&#8381",
+                    "currencyUnit": "рублей",
+                    "currencyISOSymbolCode": "RUR",
+                    "PartLeft": "999",
+                    "PartRight": "00",
+                    "PartSeparator": ",",
+                    "Precision": 2,
+                    "WithCommission": false
+                },
+                "payUntil": "2025-07-14T20:27:36.7074701+03:00"
+            },
+            {
+                "label": "SberPayPSR",
+                "paymentMethodLabel": "PayButton",
+                "alias": "SberPay",
+                "weight": 70,
+                "amount": {
+                    "sum": 999.0,
+                    "SumFormatted": "999,00",
+                    "currencySymbol": "₽",
+                    "currencySymbolCode": 8381,
+                    "currencyHtmlCode": "&#8381",
+                    "currencyUnit": "рублей",
+                    "currencyISOSymbolCode": "RUR",
+                    "PartLeft": "999",
+                    "PartRight": "00",
+                    "PartSeparator": ",",
+                    "Precision": 2,
+                    "WithCommission": false
+                },
+                "payUntil": "2025-07-14T20:27:36.7074701+03:00"
+            }
+        ],
+        "order": {
+            "description": "Подписка на 1 месяц, 630742",
+            "email": null,
+            "receipt": {
+                "items": [
+                    {
+                        "name": "Подписка на 1 месяц, 630742",
+                        "qty": 1.0,
+                        "amountPerUnit": "999,00",
+                        "sum": "999,00",
+                        "originalOutSum": "0,00"
+                    }
+                ]
+            },
+            "startDate": "2025-07-14T19:42:36.7074701+03:00",
+            "originalCurrency": null,
+            "originalOutSum": 0.0,
+            "usdOutSum": 0.0,
+            "expirationDate": null,
+            "sum": 999.0
+        },
+        "cardNetworks": {
+            "applePay": "mir",
+            "googlePay": "MIR",
+            "yandexPay": "YaPay.AllowedCardNetwork.Mastercard,YaPay.AllowedCardNetwork.Mir,YaPay.AllowedCardNetwork.Visa",
+            "samsungPay": "",
+            "mtsPay": "masterCard,mir,visa"
+        },
+        "installmentPaymentSettings": {
+            "paymentCount": 24,
+            "percent": 0.0233333333333333333333333333
+        },
+        "error": null,
+        "customization": {
+            "shopLogo": null,
+            "mode": "",
+            "paymentMethods": null,
+            "showAd": true,
+            "appType": 0,
+            "maxPayButtons": 4
+        },
+        "savedCards": null,
+        "subscription": null,
+        "failReturnInfo": {
+            "action": "https://nemilin.pro/webhooks/robokassa",
+            "method": "GET",
+            "params": [
+                {
+                    "Key": "OutSum",
+                    "Value": "999.00"
+                },
+                {
+                    "Key": "InvId",
+                    "Value": "20921810"
+                },
+                {
+                    "Key": "Shp_partner",
+                    "Value": "nemiling"
+                },
+                {
+                    "Key": "Shp_r",
+                    "Value": "1"
+                }
+            ]
+        },
+        "shopParam": {
+            "shopName": "Платная подписка на телеграм канал",
+            "country": "RU",
+            "merchantId": 832970,
+            "mrhInvoiceId": 20921810,
+            "shopDescription": "Подписка на телеграм канал",
+            "shopUrl": "https://pozdman.taplink.ws/"
+        },
+        "paymentMethodsSettings": {
+            "IsTelegramPayment": true,
+            "samsungPay": {
+                "samsungPayCallbackUrl": null,
+                "samsungPayCancelUrl": null,
+                "samsungPayServiceId": null
+            },
+            "telegramPay": {
+                "telegramNewCard": true,
+                "telegramConfirm": true,
+                "telegramPayId": null,
+                "telegramDoneUrl": "https://t.me/RobokassaPaymentBot",
+                "telegramDoneTestUrl": "https://t.me/RobokassaPaymentTestBot"
+            }
+        },
+        "opKey": null,
+        "statementUrl": "https://auth.robokassa.ru/Statements/Doc/Statement",
+        "receiptUrl": "https://auth.robokassa.ru/Receipt",
+        "secureDoneUrl": "https://misc.roboxchange.com/PaySystems/Callback/BANKOCEAN/secureDone.aspx",
+        "stateFetchUrl": "https://auth.robokassa.ru/Merchant/State",
+        "adUrl": "https://share.flocktory.com/exchange/login?ssid=3768&bid=11526",
+        "userName": null,
+        "invoiceLanguage": "ru",
+        "invoiceId": "a978c16d-939f-e27d-4749-9d6858f5625f",
+        "operationState": null,
+        "token": null,
+        "isTestInvoice": false,
+        "isRecurring": true,
+        "incCurrLabel": null
+    };
+</script>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+
+    <script type="text/javascript">
+        window.onload = function () {
+            var mobile = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));
+            if (mobile) {
+                window.isMobile = true;
+            } else {
+                window.isMobile = false;
+            }
+        }
+
+        window.bundleBaseUrl = '/Merchant/bundle/';
+        window.resourceBaseUrl = '/Merchant/';
+    </script>
+    <title>Index - MerchantNew</title>
+
+    <link href='https://auth.robokassa.ru/Merchant/css/fonts.css' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="https://auth.robokassa.ru/Merchant/bundle/style.css?v=2h5WIBcLfPCFI2pFKR8f8pXiln4qUIRcS1erSzynpdQ" runat="server" type="text/css">
+
+    <!-- Stripe Elements CSS -->
+    <style>
+        .stripe-payment-container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .stripe-payment-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #32325d;
+        }
+        #stripe-card-element {
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background: white;
+        }
+        #stripe-card-errors {
+            color: #fa755a;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        #stripe-payment-button {
+            background: #5469d4;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        #stripe-payment-button:hover {
+            background: #4257b2;
+        }
+        .stripe-powered-by {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #6b7c93;
+        }
+    </style>
+    
+    <link rel="icon" type="image/png" href="https://auth.robokassa.ru/Merchant/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="https://auth.robokassa.ru/Merchant/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="https://auth.robokassa.ru/Merchant/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="https://auth.robokassa.ru/Merchant/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Robokassa" />
+</head>
+<body>
+
+<div id="app"></div>
+
+<!-- Stripe Payment Form -->
+<div class="stripe-payment-container" style="display: none;" id="stripe-payment-section">
+    <div class="stripe-payment-title">Оплата банковской картой</div>
+    <div id="stripe-card-element"></div>
+    <div id="stripe-card-errors" role="alert"></div>
+    <button id="stripe-payment-button">Оплатить 999,00 ₽</button>
+    <div class="stripe-powered-by">
+        <span>Оплата через</span>
+        <img src="https://stripe.com/img/v3/homepage/static/logos/stripe.svg" alt="Stripe" style="height: 20px; vertical-align: middle; margin-left: 5px;">
+    </div>
+</div>
+
+<script src="https://pay.google.com/gp/p/js/pay.js"></script>
+<script src="https://pay.mts.ru/js/card-token-btn.js"></script>
+<!-- Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<script type="module" src="https://auth.robokassa.ru//Merchant/bundle/main.js?v=aJ48Z1JWVkvB_TZ5MMqwztVzHPcF_iExRZr8f3Fr0xs"></script>
+
+<script>
+    // Stripe Payment Handler Class
+    class StripePaymentHandler {
+        constructor() {
+            this.stripe = Stripe('pk_test_51Ok5SnB2wi7A5GG4br2eaUkXCr2BtZrFVKmD2lPe4Wv7cYVfPJ6ihCedRiaWNqiQLrYyoWiFK3xVsq75rOfkbjV7001hGHtYTI');
+            this.elements = this.stripe.elements();
+            this.cardElement = null;
+            this.paymentButton = document.getElementById('stripe-payment-button');
+            this.cardErrors = document.getElementById('stripe-card-errors');
+            this.setupStripe();
+        }
+
+        setupStripe() {
+            const style = {
+                base: {
+                    color: '#32325d',
+                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                    fontSmoothing: 'antialiased',
+                    fontSize: '16px',
+                    '::placeholder': {
+                        color: '#aab7c4'
+                    }
+                },
+                invalid: {
+                    color: '#fa755a',
+                    iconColor: '#fa755a'
+                }
+            };
+
+            this.cardElement = this.elements.create('card', { style: style });
+            this.cardElement.mount('#stripe-card-element');
+
+            this.cardElement.on('change', (event) => {
+                if (event.error) {
+                    this.cardErrors.textContent = event.error.message;
+                } else {
+                    this.cardErrors.textContent = '';
+                }
+            });
+
+            this.paymentButton.addEventListener('click', (ev) => {
+                this.handlePayment(ev);
+            });
+        }
+
+        async handlePayment(ev) {
+            ev.preventDefault();
+            this.paymentButton.disabled = true;
+            
+            const { paymentMethod, error } = await this.stripe.createPaymentMethod({
+                type: 'card',
+                card: this.cardElement,
+                billing_details: {
+                    email: 'support@telegram.org',
+                },
+            });
+
+            if (error) {
+                this.cardErrors.textContent = error.message;
+                this.paymentButton.disabled = false;
+            } else {
+                this.processPayment(paymentMethod.id);
+            }
+        }
+
+        async processPayment(paymentMethodId) {
+            try {
+                const response = await fetch('/process-stripe-payment', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        paymentMethodId: paymentMethodId,
+                        amount: 99900, // amount in cents
+                        currency: 'rub',
+                        description: RoboxContext.order.description,
+                        invoiceId: RoboxContext.invoiceId,
+                        customerEmail: 'customer@example.com'
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const paymentIntent = await response.json();
+
+                if (paymentIntent.error) {
+                    throw new Error(paymentIntent.error);
+                }
+
+                if (paymentIntent.requires_action) {
+                    const { error: confirmationError } = await this.stripe.confirmCardPayment(
+                        paymentIntent.client_secret
+                    );
+                    
+                    if (confirmationError) {
+                        throw confirmationError;
+                    }
+                }
+
+                this.paymentSuccess();
+            } catch (err) {
+                this.cardErrors.textContent = err.message;
+                this.paymentButton.disabled = false;
+            }
+        }
+
+        paymentSuccess() {
+            const successUrl = new URL(RoboxContext.secureDoneUrl);
+            successUrl.searchParams.append('InvId', RoboxContext.shopParam.mrhInvoiceId);
+            successUrl.searchParams.append('OutSum', RoboxContext.order.sum);
+            successUrl.searchParams.append('PaymentMethod', 'stripe');
+            
+            window.location.href = successUrl.toString();
+        }
+    }
+
+    // Payment Method Selector Class
+    class PaymentMethodSelector {
+        constructor() {
+            this.stripeHandler = null;
+            this.initialize();
+        }
+
+        initialize() {
+            // Check if Stripe payment method should be shown
+            const shouldShowStripe = true; // In production, this would be dynamic
+            
+            if (shouldShowStripe) {
+                document.getElementById('stripe-payment-section').style.display = 'block';
+                this.stripeHandler = new StripePaymentHandler();
+            }
+        }
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        new PaymentMethodSelector();
+    });
+</script>
+
+<span style="display: none">v-18062022</span>
+</body>
+</html>
