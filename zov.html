@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Правда о крипто-скаме в России</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Roboto:wght@400;500&display=swap');
+        
+        :root {
+            --primary: #1a3a8f;
+            --secondary: #d52b1e;
+            --accent: #f8d700;
+            --dark: #0a0a0a;
+            --light: #f8f8f8;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            padding: 30px 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .title {
+            font-family: 'Roboto Slab', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-top: 10px;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+        
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        h2 {
+            color: var(--primary);
+            font-family: 'Roboto Slab', serif;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        
+        .highlight {
+            background-color: rgba(248, 215, 0, 0.3);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .facts {
+            background-color: rgba(213, 43, 30, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .fact-item {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .fact-item:before {
+            content: "•";
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -5px;
+        }
+        
+        .conclusion {
+            background-color: rgba(26, 58, 143, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        
+        .flag {
+            display: inline-block;
+            width: 20px;
+            height: 15px;
+            background: linear-gradient(to bottom, 
+                white 0%, white 33%, 
+                blue 33%, blue 66%, 
+                red 66%, red 100%);
+            margin: 0 5px;
+            vertical-align: middle;
+        }
+        
+        .patriot-badge {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        
+        @keyframes titleAnimation {
+            0% { transform: scale(0.9); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .animated-title {
+            animation: titleAnimation 1.5s ease-out forwards;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .russian-eagle {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            opacity: 0.1;
+            z-index: 1;
+        }
+        
+        .eagle-left {
+            top: 20px;
+            left: 20px;
+        }
+        
+        .eagle-right {
+            bottom: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNMjU2IDE2QzEyMSA0OCA0NyAxMjEgNDcgMjU2czc0IDIwOCAyMDkgMjQwYzEzNS00OCAyMDktMTIxIDIwOS0yNTZTMzkxIDQ4IDI1NiAxNnptMCA0MTZjLTg4IDAtMTYwLTcyLTE2MC0xNjBTMTY4IDk2IDI1NiA5NnMxNjAgNzIgMTYwIDE2MC03MiAxNjAtMTYwIDE2MHptMC0yODBjLTQ0IDAtODAgMzYtODAgODBzMzYgODAgODAgODAgODAtMzYgODAtODAtMzYtODAtODAtODB6IiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==" class="russian-eagle eagle-left">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNMjU2IDE2QzEyMSA0OCA0NyAxMjEgNDcgMjU2czc0IDIwOCAyMDkgMjQwYzEzNS00OCAyMDktMTIxIDIwOS0yNTZTMzkxIDQ4IDI1NiAxNnptMCA0MTZjLTg4IDAtMTYwLTcyLTE2MC0xNjBTMTY4IDk2IDI1NiA5NnMxNjAgNzIgMTYwIDE2MC03MiAxNjAtMTYwIDE2MHptMC0yODBjLTQ0IDAtODAgMzYtODAgODBzMzYgODAgODAgODAgODAtMzYgODAtODAtMzYtODAtODAtODB6IiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==" class="russian-eagle eagle-right">
+            <h1 class="title animated-title">Правда о крипто-скаме в России</h1>
+            <p class="subtitle">Защитим наших граждан от мошенников в цифровом пространстве</p>
+        </header>
+        
+        <main class="content">
+            <div class="section">
+                <p>В современном цифровом мире, где криптовалюты становятся частью финансовой системы, к сожалению, появляются и мошенники, пытающиеся обмануть доверчивых граждан. Сегодня мы разберём одну из таких схем, маскирующуюся под "элитные" сервисы.</p>
+                
+                <p>Кринж, а не бот. Падаль, а не кошелёк. К чёрту их «верификацию» – все эти ограничения созданы только для того, чтобы скрыть истинную сущность мошеннических схем. Мы знаем этих так называемых «элитных» шарлатанов!</p>
+                
+                <p>Tribute – такой же скам-инструмент, как и многие другие "кошельки". Вспомните громкие истории: сливы средств, «технические ошибки», внезапные блокировки – их сервисы дырявые, как решето. А модераторы лишь делают вид, что «защищают» пользователей, на деле прикрывая гнилую систему.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Факты, которые нельзя игнорировать</h2>
+                
+                <div class="facts">
+                    <div class="fact-item">
+                        <strong>Двойные стандарты:</strong> Кричат про «безопасность» и возрастные ограничения, но сами сотрудничают с откровенными мошенниками из крипто-помоек. Их «этика» – чистое лицемерие.
+                    </div>
+                    
+                    <div class="fact-item">
+                        <strong>Возрастная дискриминация:</strong> «Ой, вам нет 18? Идите нах*й нищие!» Серьёзно? В России есть десятки сервисов, где уважают ЛЮБОГО пользователя – хоть ему 15, хоть 50. Их фишка – реальный функционал, а не искусственные ограничения.
+                    </div>
+                    
+                    <div class="fact-item">
+                        <strong>Мошенническое наследие:</strong> Wallet уже уличали в махинациях – внезапные комиссии, пропажа средств, подозрительные партнёрства. Tribute идёт тем же путём. Их «правила» – просто ширма, чтобы отсеять «неудобных» и снять с себя ответственность.
+                    </div>
+                    
+                    <div class="fact-item">
+                        <strong>Связь с сомнительными структурами:</strong> Думаете, раз они дружат с Дуровым и носят статус «элиты», это их оправдывает? Telegram – свободная платформа (пока что!), а не их личный феодальный удел. Право на мнение есть у ВСЕХ – хоть у школьника, хоть у пенсионера.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Наша позиция</h2>
+                
+                <p>Нам не важны:</p>
+                <ol>
+                    <li>Их 18+ ограничения (это не закон, а их прихоть).</li>
+                    <li>Их попытки назвать критиков «малолетками» (лучше быть честным гражданином, чем мошенником в маске «революционера»).</li>
+                    <li>Их завышенное ЧСВ и дружба с олигархами (они вас сольют при первой же угрозе их доходам).</li>
+                </ol>
+            </div>
+            
+            <div class="section">
+                <h2>Помните, граждане России!</h2>
+                
+                <p><span class="flag"></span> Я – гражданин России, живущий в великой стране. Имею полное право критиковать мошенничество, лицемерие и политику сегрегации по возрасту или толщине кошелька. <span class="patriot-badge">Патриот</span></p>
+                
+                <p>Их оскорбления в стиле «фрик без крипты» – нарушение свободы слова. А унижение за отсутствие Premium, NFT или других "статусных" атрибутов – низость уровня помойной крысы.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Вывод</h2>
+                
+                <div class="conclusion pulse">
+                    <ol>
+                        <li>Tribute – крипто-скам в стиле Wallet, прикрытый фальшивой «элитарностью» и дурацкими возрастными ограничениями.</li>
+                        <li>Их «величие» – пшик. Наши регулирующие органы рано или поздно накроют эту парашу – хотя бы за травлю обычных граждан.</li>
+                        <li>Без поддержки крупных игроков они – пыль. А без них – цифровое пространство станет только чище и безопаснее для наших граждан.</li>
+                    </ol>
+                </div>
+                
+                <p>Будьте бдительны, граждане России! Не позволяйте мошенникам обманывать вас под видом "инновационных технологий". Настоящие технологии должны служить людям, а не обогащать кучку проходимцев.</p>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>© 2025 | Гражданская инициатива за честный цифровой рынок | Россия <span class="flag"></span></p>
+        </footer>
+    </div>
+
+    <script>
+        class ScrollAnimator {
+            constructor() {
+                this.sections = document.querySelectorAll('.section');
+                this.init();
+            }
+            
+            init() {
+                this.checkVisibility();
+                window.addEventListener('scroll', () => this.checkVisibility());
+            }
+            
+            checkVisibility() {
+                const triggerBottom = window.innerHeight / 5 * 4;
+                
+                this.sections.forEach(section => {
+                    const sectionTop = section.getBoundingClientRect().top;
+                    
+                    if (sectionTop < triggerBottom) {
+                        section.classList.add('visible');
+                    }
+                });
+            }
+        }
+        
+        class TitleAnimator {
+            constructor() {
+                this.title = document.querySelector('.title');
+                this.init();
+            }
+            
+            init() {
+                this.title.classList.add('animated-title');
+            }
+        }
+        
+        class PulseAnimator {
+            constructor() {
+                this.element = document.querySelector('.pulse');
+                this.init();
+            }
+            
+            init() {
+                setInterval(() => {
+                    this.element.classList.toggle('pulse');
+                }, 2000);
+            }
+        }
+        
+        // Инициализация всех анимаций
+        document.addEventListener('DOMContentLoaded', () => {
+            new ScrollAnimator();
+            new TitleAnimator();
+            new PulseAnimator();
+        });
+    </script>
+</body>
+</html>
