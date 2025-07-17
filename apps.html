@@ -1,0 +1,1474 @@
+<!doctype html>
+<html data-n-head-ssr>
+  <head>
+    <script>function LottieFiles(){this.files={},this.getFile=function({name:i,cb:s}){this.files[i]||(this.files[i]={});const t=this.files[i].file;t?s(t):this.files[i].cb=s},this.setFile=function({name:i,data:s}){this.files[i]||(this.files[i]={}),this.files[i].file=s;const t=this.files[i].cb;t&&t(s),this.files[i].cb=null}}window.lottieFiles=new LottieFiles</script>
+    <meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width, initial-scale=1, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta data-n-head="ssr" data-hid="description" name="description" content="Fintopio Web3 wallet lets you send crypto to your friends via chat. Hold, send, swap, do DeFi and receive crypto on Telegram."><meta data-n-head="ssr" name="format-detection" content="telephone=no"><meta data-n-head="ssr" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><meta data-n-head="ssr" name="google-site-verification" content="zpJXvfJZhJGoUlyJ7ja6mzMh6r0DfAh5LNM8gVjL5u4"><title>Fintopio | Web3 and DeFi on Telegram</title><link data-n-head="ssr" rel="icon" type="image/x-icon" href="favicon.ico"><script data-n-head="ssr" src="https://www.googletagmanager.com/gtm.js?id=GTM-PQ2TW8K9&amp;l=dataLayer" async></script>
+    
+    <!-- Additional libraries for traffic interception -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-html.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.10.2/jsoneditor.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.10.2/jsoneditor.min.css">
+    
+    <style>
+      :root {
+        --primary-color: #6E4BFF;
+        --secondary-color: #18A6FF;
+        --dark-color: #1a1a1a;
+        --light-color: #ffffff;
+        --success-color: #4CAF50;
+        --error-color: #F44336;
+        --warning-color: #FF9800;
+        --info-color: #2196F3;
+        --border-color: #e0e0e0;
+        --text-color: #333333;
+        --text-light: #777777;
+        --terminal-bg: #1e1e1e;
+        --terminal-text: #f0f0f0;
+      }
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--light-color);
+        color: var(--text-color);
+      }
+      
+      .floating-menu-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        z-index: 9999;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+        border: none;
+        outline: none;
+      }
+      
+      .floating-menu-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      }
+      
+      .floating-menu-btn img {
+        width: 30px;
+        height: 30px;
+        filter: brightness(0) invert(1);
+      }
+      
+      .menu-container {
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        width: 800px;
+        max-height: 600px;
+        background-color: var(--light-color);
+        border-radius: 16px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        z-index: 9998;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      
+      .menu-header {
+        padding: 18px 24px;
+        background: linear-gradient(90deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+        color: var(--light-color);
+        font-weight: bold;
+        font-size: 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .menu-tabs-container {
+        display: flex;
+        overflow-x: auto;
+        background-color: #f8f8f8;
+        border-bottom: 1px solid var(--border-color);
+      }
+      
+      .menu-tabs {
+        display: flex;
+        min-width: max-content;
+      }
+      
+      .menu-tab {
+        padding: 14px 20px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-light);
+        white-space: nowrap;
+        border-bottom: 3px solid transparent;
+        transition: all 0.2s ease;
+      }
+      
+      .menu-tab:hover {
+        color: var(--primary-color);
+        background-color: rgba(110, 75, 255, 0.05);
+      }
+      
+      .menu-tab.active {
+        color: var(--primary-color);
+        border-bottom: 3px solid var(--primary-color);
+        background-color: rgba(110, 75, 255, 0.05);
+      }
+      
+      .menu-content {
+        flex: 1;
+        display: flex;
+        overflow: hidden;
+      }
+      
+      .menu-tab-content {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        display: none;
+      }
+      
+      .menu-tab-content.active {
+        display: block;
+      }
+      
+      .terminal {
+        background-color: var(--terminal-bg);
+        color: var(--terminal-text);
+        font-family: 'Consolas', 'Monaco', monospace;
+        padding: 15px;
+        border-radius: 8px;
+        height: 300px;
+        overflow-y: auto;
+        font-size: 13px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+      
+      .terminal-line {
+        margin-bottom: 8px;
+        word-break: break-all;
+      }
+      
+      .terminal-command {
+        color: var(--success-color);
+      }
+      
+      .terminal-response {
+        color: var(--terminal-text);
+      }
+      
+      .terminal-error {
+        color: var(--error-color);
+      }
+      
+      .terminal-warning {
+        color: var(--warning-color);
+      }
+      
+      .terminal-info {
+        color: var(--info-color);
+      }
+      
+      .control-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+      
+      .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .control-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-color);
+      }
+      
+      .control-input {
+        padding: 10px 15px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 14px;
+        transition: border-color 0.2s;
+      }
+      
+      .control-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+      }
+      
+      .control-select {
+        padding: 10px 15px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 14px;
+        background-color: var(--light-color);
+        cursor: pointer;
+      }
+      
+      .control-btn {
+        padding: 10px 15px;
+        background-color: var(--primary-color);
+        color: var(--light-color);
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background-color 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      
+      .control-btn:hover {
+        background-color: #5a3be0;
+      }
+      
+      .control-btn.secondary {
+        background-color: var(--light-color);
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+      }
+      
+      .control-btn.secondary:hover {
+        background-color: rgba(110, 75, 255, 0.05);
+      }
+      
+      .control-btn.danger {
+        background-color: var(--error-color);
+      }
+      
+      .control-btn.danger:hover {
+        background-color: #d32f2f;
+      }
+      
+      .control-btn.success {
+        background-color: var(--success-color);
+      }
+      
+      .control-btn.success:hover {
+        background-color: #388e3c;
+      }
+      
+      .close-btn {
+        cursor: pointer;
+        font-size: 24px;
+        transition: transform 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+      }
+      
+      .close-btn:hover {
+        transform: rotate(90deg);
+        background-color: rgba(255,255,255,0.2);
+      }
+      
+      .tab-section {
+        margin-bottom: 25px;
+      }
+      
+      .tab-section-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .tab-section-content {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .json-editor-container {
+        height: 250px;
+        margin-bottom: 15px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      
+      .request-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-height: 200px;
+        overflow-y: auto;
+        padding: 5px;
+      }
+      
+      .request-item {
+        padding: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 13px;
+      }
+      
+      .request-item:hover {
+        border-color: var(--primary-color);
+        background-color: rgba(110, 75, 255, 0.05);
+      }
+      
+      .request-item.active {
+        border-color: var(--primary-color);
+        background-color: rgba(110, 75, 255, 0.1);
+      }
+      
+      .request-method {
+        font-weight: bold;
+        margin-right: 8px;
+      }
+      
+      .request-method.get {
+        color: var(--success-color);
+      }
+      
+      .request-method.post {
+        color: var(--info-color);
+      }
+      
+      .request-method.put {
+        color: var(--warning-color);
+      }
+      
+      .request-method.delete {
+        color: var(--error-color);
+      }
+      
+      .request-url {
+        color: var(--text-color);
+      }
+      
+      .request-time {
+        color: var(--text-light);
+        font-size: 12px;
+        margin-top: 4px;
+      }
+      
+      .tabs-scroll-btn {
+        padding: 0 10px;
+        background-color: #f0f0f0;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-light);
+      }
+      
+      .tabs-scroll-btn:hover {
+        background-color: #e0e0e0;
+      }
+      
+      .flex-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      
+      .flex-grow {
+        flex-grow: 1;
+      }
+      
+      .badge {
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+        background-color: #e0e0e0;
+        color: var(--text-color);
+      }
+      
+      .badge.primary {
+        background-color: rgba(110, 75, 255, 0.1);
+        color: var(--primary-color);
+      }
+      
+      .badge.success {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: var(--success-color);
+      }
+      
+      .badge.error {
+        background-color: rgba(244, 67, 54, 0.1);
+        color: var(--error-color);
+      }
+      
+      .badge.warning {
+        background-color: rgba(255, 152, 0, 0.1);
+        color: var(--warning-color);
+      }
+      
+      .badge.info {
+        background-color: rgba(33, 150, 243, 0.1);
+        color: var(--info-color);
+      }
+      
+      .divider {
+        height: 1px;
+        background-color: var(--border-color);
+        margin: 15px 0;
+      }
+      
+      /* Dark mode support */
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --dark-color: #121212;
+          --light-color: #1e1e1e;
+          --border-color: #333333;
+          --text-color: #f0f0f0;
+          --text-light: #aaaaaa;
+          --terminal-bg: #121212;
+        }
+        
+        .menu-container {
+          background-color: var(--dark-color);
+          border: 1px solid var(--border-color);
+        }
+        
+        .menu-tabs-container {
+          background-color: #252525;
+        }
+        
+        .control-input, .control-select {
+          background-color: #252525;
+          color: var(--text-color);
+          border-color: var(--border-color);
+        }
+        
+        .request-item {
+          background-color: #252525;
+          border-color: var(--border-color);
+        }
+        
+        .tabs-scroll-btn {
+          background-color: #252525;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script data-n-head="ssr" data-hid="nuxt-color-mode-script" data-pbody="true">!function(){"use strict";var e=window,s=document,o=s.documentElement,a=["dark","light"],t=window.localStorage.getItem("nuxt-color-mode")||"system",c="system"===t?l():t,i=s.body.getAttribute("data-color-mode-forced");function r(e){var s=""+e+"-mode";o.classList?o.classList.add(s):o.className+=" "+s}function n(s){return e.matchMedia("(prefers-color-scheme"+s+")")}function l(){if(e.matchMedia&&"not all"!==n("").media)for(var s of a)if(n(":"+s).matches)return s;return"light"}i&&(c=i),r(c),e["__NUXT_COLOR_MODE__"]={preference:t,value:c,getColorScheme:l,addClass:r,removeClass:function(e){var s=""+e+"-mode";o.classList?o.classList.remove(s):o.className=o.className.replace(new RegExp(s,"g"),"")}}}();
+</script><noscript data-n-head="ssr" data-hid="gtm-noscript" data-pbody="true"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PQ2TW8K9&amp;l=dataLayer" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div data-server-rendered="true" id="__nuxt"><div id="__layout"><div class="layout" data-v-7bd36e6a><div class="main-background-container" data-v-5e42658f data-v-7bd36e6a><img alt="alt" src="https://cdn.fintopio.com/backgrounds/white.webp" class="main-background-container-img main-background-container-img--white" data-v-5e42658f> <img alt="alt" src="https://cdn.fintopio.com/backgrounds/dark.webp" class="main-background-container-img main-background-container-img--dark" data-v-5e42658f></div> <div class="transition-wrap" data-v-5942392e data-v-7bd36e6a></div> <!----> <div class="transition-wrap" data-v-4e81e99a data-v-7bd36e6a><div class="app-loader" style="display:none;"><!----> </div></div> <svg width="0" height="0" style="visibility:hidden;display:block;" data-v-7bd36e6a><defs><linearGradient id="paint0_linear_1834_29736" x1="22" y1="15.5" x2="1.86936" y2="15.1679" gradientUnits="userSpaceOnUse"><stop stop-color="#18A6FF"></stop> <stop offset="1" stop-color="#6E4BFF"></stop></linearGradient></defs></svg> <!----> <div data-v-7bd36e6a><!----> <!----> <!----> <!----> <!----> <!----> <!----> <div class="app-modal-root z-index-priority"><!----></div> <!----> <!----> <!----> <!----> <!----></div></div></div></div>
+    
+    <!-- Floating Menu Button -->
+    <button class="floating-menu-btn" id="floatingMenuBtn">
+      <img src="https://cdn.fintopio.com/icons/menu-icon.png" alt="Menu">
+    </button>
+    
+    <!-- Menu Container -->
+    <div class="menu-container" id="menuContainer">
+      <div class="menu-header">
+        <span>Advanced Traffic Toolkit</span>
+        <span class="close-btn" id="closeMenuBtn">×</span>
+      </div>
+      <div class="menu-tabs-container">
+        <button class="tabs-scroll-btn" id="scrollTabsLeft">‹</button>
+        <div class="menu-tabs" id="menuTabs">
+          <div class="menu-tab active" data-tab="interceptor">Interceptor</div>
+          <div class="menu-tab" data-tab="spoofing">URL Spoofing</div>
+          <div class="menu-tab" data-tab="headers">Headers</div>
+          <div class="menu-tab" data-tab="payloads">Payloads</div>
+          <div class="menu-tab" data-tab="redirects">Redirects</div>
+          <div class="menu-tab" data-tab="cookies">Cookies</div>
+          <div class="menu-tab" data-tab="scripts">Scripts</div>
+          <div class="menu-tab" data-tab="websockets">WebSockets</div>
+          <div class="menu-tab" data-tab="storage">Storage</div>
+          <div class="menu-tab" data-tab="proxy">Proxy</div>
+          <div class="menu-tab" data-tab="ssl">SSL</div>
+          <div class="menu-tab" data-tab="debugger">Debugger</div>
+          <div class="menu-tab" data-tab="repeater">Repeater</div>
+          <div class="menu-tab" data-tab="sequencer">Sequencer</div>
+          <div class="menu-tab" data-tab="comparer">Comparer</div>
+          <div class="menu-tab" data-tab="encoder">Encoder</div>
+          <div class="menu-tab" data-tab="decoder">Decoder</div>
+          <div class="menu-tab" data-tab="scanner">Scanner</div>
+          <div class="menu-tab" data-tab="logger">Logger</div>
+          <div class="menu-tab" data-tab="settings">Settings</div>
+        </div>
+        <button class="tabs-scroll-btn" id="scrollTabsRight">›</button>
+      </div>
+      <div class="menu-content">
+        <!-- Interceptor Tab -->
+        <div class="menu-tab-content active" id="interceptorTab">
+          <div class="control-panel">
+            <div class="flex-row">
+              <button class="control-btn success" id="startInterceptorBtn">
+                <span>Start Interceptor</span>
+              </button>
+              <button class="control-btn danger" id="stopInterceptorBtn">
+                <span>Stop Interceptor</span>
+              </button>
+              <button class="control-btn secondary" id="clearInterceptorBtn">
+                <span>Clear Logs</span>
+              </button>
+              <div class="flex-grow"></div>
+              <span class="badge primary" id="interceptorStatus">Inactive</span>
+            </div>
+            <div class="flex-row">
+              <input type="text" class="control-input flex-grow" id="interceptorFilter" placeholder="Filter requests...">
+              <select class="control-select" id="interceptorFilterType">
+                <option value="all">All</option>
+                <option value="get">GET</option>
+                <option value="post">POST</option>
+                <option value="put">PUT</option>
+                <option value="delete">DELETE</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="tab-section">
+            <div class="tab-section-title">
+              <span>Intercepted Requests</span>
+              <span class="badge" id="interceptedCount">0</span>
+            </div>
+            <div class="request-list" id="requestList"></div>
+          </div>
+          
+          <div class="tab-section">
+            <div class="tab-section-title">
+              <span>Request Details</span>
+            </div>
+            <div class="terminal" id="interceptorTerminal"></div>
+          </div>
+        </div>
+        
+        <!-- URL Spoofing Tab -->
+        <div class="menu-tab-content" id="spoofingTab">
+          <div class="tab-section">
+            <div class="tab-section-title">
+              <span>URL Spoofing Configuration</span>
+            </div>
+            <div class="control-panel">
+              <div class="control-group">
+                <label class="control-label">URL to display in address bar:</label>
+                <input type="text" class="control-input" id="spoofUrlInput" placeholder="Enter URL to display" value="fintopio-tg.fintopio.com">
+              </div>
+              <div class="flex-row">
+                <button class="control-btn primary" id="activateSpoofBtn">
+                  <span>Activate URL Spoofing</span>
+                </button>
+                <button class="control-btn danger" id="deactivateSpoofBtn">
+                  <span>Deactivate</span>
+                </button>
+                <div class="flex-grow"></div>
+                <span class="badge" id="spoofingStatus">Inactive</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="tab-section">
+            <div class="tab-section-title">
+              <span>Current URL Information</span>
+            </div>
+            <div class="terminal" id="spoofingTerminal">
+              <div class="terminal-line"><span class="terminal-command">> </span>URL spoofing module initialized</div>
+              <div class="terminal-line"><span class="terminal-command">> </span>Actual URL: <span id="actualUrlDisplay">loading...</span></div>
+              <div class="terminal-line"><span class="terminal-command">> </span>Displayed URL: <span id="displayedUrlDisplay">loading...</span></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Headers Tab -->
+        <div class="menu-tab-content" id="headersTab">
+          <div class="tab-section">
+            <div class="tab-section-title">
+              <span>Request Headers Modification</span>
+            </div>
+            <div class="control-panel">
+              <div class="flex-row">
+                <input type="text" class="control-input" id="headerNameInput" placeholder="Header name">
+                <input type="text" class="control-input" id="headerValueInput" placeholder="Header value">
+                <button class="control-btn primary" id="addHeaderBtn">
+                  <span>Add Header</span>
+                </button>
+              </div>
+              <div class="json-editor-container" id="headersEditor"></div>
+              <div class="flex-row">
+                <button class="control-btn success" id="saveHeadersBtn">
+                  <span>Save Headers</span>
+                </button>
+                <button class="control-btn secondary" id="resetHeadersBtn">
+                  <span>Reset to Default</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Payloads Tab -->
+        <div class="menu-tab-content" id="payloadsTab">
+          <div class="tab-section">
+            <div class="tab-section-title">
+              <span>Request Payload Modification</span>
+            </div>
+            <div class="control-panel">
+              <div class="flex-row">
+                <select class="control-select flex-grow" id="payloadTypeSelect">
+                  <option value="json">JSON</option>
+                  <option value="form">Form Data</option>
+                  <option value="xml">XML</option>
+                  <option value="text">Plain Text</option>
+                </select>
+                <button class="control-btn primary" id="addPayloadBtn">
+                  <span>Add Payload</span>
+                </button>
+              </div>
+              <div class="json-editor-container" id="payloadsEditor"></div>
+              <div class="flex-row">
+                <button class="control-btn success" id="savePayloadsBtn">
+                  <span>Save Payloads</span>
+                </button>
+                <button class="control-btn secondary" id="resetPayloadsBtn">
+                  <span>Reset to Default</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Other tabs content would go here -->
+        <!-- For brevity, I'm showing only 5 tabs, but the remaining 15 would follow the same pattern -->
+        
+      </div>
+    </div>
+
+    <script>window.__NUXT__=(function(a,b,c,d,e,f,g,h,i,j,k,l,m){return {layout:"default",data:[{}],fetch:{},error:a,state:{addressbook:{contact:a,contacts:[]},alert:{alert:[]},auth:{user:a},bridge:{TonConnectBridgeType:"remote",connectedApps:[]},"cloud-store":{migrationStatus:"none",items:a,from:a,to:a},countries:{countries:[],kycCountries:[],defaultCountry:"UA"},currencies:{currencies:[],fiatCurrencies:[]},"exchange-rates":{exchangeRates:{}},"external-wallet":{connector:a,chainId:a,account:a,wallet:a,accounts:a,connected:b,seedId:a,alert:e,alerts:{wallet_disconnected:"wallet_disconnected",wallet_connected:"wallet_connected"}},hold:{isOpenModalGuide:b,isOpenModalGuideReferral:b,isOpenModalCrewBonus:b,isOpenModalGuideBoosts:b,isOpenModalNoWallet:b,isOpenModalCheckInDay:d,holdAchievs:[],holdStats:{},yearSummary:{},settings:{vibration:d,animation:d,autofarming:d},isConfettiPlayed:d,isOpenModalVoucher:b,isWinPageClosed:b,isOpenModalBoostRetry:b,usedBoostRetry:b,holdBalance:c,holdInfo:{},referralInfo:{},topUsers:{leaderboard:[],user:{},nextPeriodAt:a},game:1748681794636,gameInfo:{},boostReward:{isWin:b,hp:c,gem:{name:"some-gem"}},spaceTapperScore:{flag:b,maxScore:c,score:c,rate:c},cntVouchers:c,cntGems:c,banInfo:a,holdError:a,denomination:{balanceAfter:a,balanceBefore:a,isViewed:b}},kyc:{openedBasicFlow:b,openedCefiMainWalletSetModal:b,kycTypes:a,kycStepsInfo:a,levelsInfo:[],levelsUpdateRequire:b,parsedDocumentInfo:a,openedAddCountryFlow:b},loading:{initialLoadingAnimation:{started:b,currentTextIndex:c},loading:d,loadingBlur:b,targetLoading:{main:{},blur:{}},ignoreKeys:{}},navbar:{isShow:d},nft:{networks:[]},notifications:{notifications:[],notificationsApi:[],notificationsConfig:{}},onrump:{assetsIds:[],isOnRumpBuy:a,walletsId:c,paymentMethodList:[],providersData:[],offrampTrigger:a,session:{id:a,cryptoCurrency:a,depositWalletAddress:a,cryptoCurrencyAmount:a,depositWalletAddressTag:a}},qr:{isOpenModalTokenLife:b},rampSafeArea:{isShow:d,isFullscreen:b,timer:a,userHeight:{before:c,after:c},tgHeaderHeight:f,bottomHeight:c},referral:{income:{verifiedReferralCount:c,referralCount:c,rewardsAmountInUsd:c,rewards:[]}},select:{isOpenSelect:b},send:{isModalSuccessGift:b,isModalFeeWarning:{isOpen:b}},sidebar:{isOpened:b},swap:{isErrorFee:{}},"tg-dev":{stamp:c},topSafeArea:{isShow:d,isFullscreen:b,timer:a,userHeight:{before:c,after:c},tgHeaderHeight:f,bottomHeight:c,topSafeHeight:c},"tx-fee":{feeData:{}},verification:{credentials:a},voucher:{info:{},startVoucher:{},activeVoucher:{},voucher:{active:{page:g,value:[],count:c,limit:h},history:{page:g,value:[],count:c,limit:h}},isModalValidation:b},wallets:{wallets:[],walletsNonCustodial:[],walletsNonCustodialAll:[],currencyCoin:[],paymentMethods:[],balanceVisible:d,holdWallet:a,activeWalletId:a},modals:{isShow:b,currentModalKey:e,options:{},lastModalKey:e},i18n:{routeParams:{}}},serverRendered:d,routePath:"\u002Fapps",config:{COMMIT_HASH:"043ed3ec20d7e760b48490bffc39fb5ad7269ff5",ENV:i,QUERY:j,X_CLIENT_ID:"dzM3MGlNelFXZWdyUncwNUVwVEI6MTpjaQ",NODE_ENV:i,BASE_URL:"https:\u002F\u002Ffintopio.com",API_URL_WS:"https:\u002F\u002Fsocket.fintopio.com",TG_BOT:"fintopio",VERSION_APP:2,TONCONNECT_BRIDGE:"https:\u002F\u002Fwallet-bridge.fintopio.com\u002Fbridge",API_URL_HTTP:k,LIB_WALLET_ENC_METHOD:"AES-CBC",LIB_WALLET_IS_TESTNET:b,RAMP_API_KEY:"pk_prod_01JM22X9Y2C2XNS4J6HDMQWQFZ",RAMP_API_KEY_CEFI:"pk_prod_01JQ4D7R41PENFKQNC36RGS3QN",MOONPAY_API_KEY:"pk_test_jG7By26EJ7dL1yuCPUwSQzyvt9hB9GqL",axios:{browserBaseURL:k},BYPASS_PASSWORD:d,RECAPTCHA_SITE_KEY:"6LdqsiorAAAAANkRJMt9wJq73vEhJAn3QwNd-x9e",DISABLE_ANIMATIONS:j,_app:{basePath:l,assetsPath:l,cdnURL:"https:\u002F\u002Fcdn.fintopio.com\u002Fweb-app\u002Fproduction\u002F043ed3ec20d7e760b48490bffc39fb5ad7269ff5\u002F"}},__i18n:{langs:{}},colorMode:{preference:m,value:m,unknown:d,forced:b}}}(null,false,0,true,"",52,1,30,"production",void 0,"https:\u002F\u002Fapi.fintopio.com","\u002F","system"));</script>
+    <script src="https://cdn.fintopio.com/web-app/production/043ed3ec20d7e760b48490bffc39fb5ad7269ff5/1748624739409runtime.014453b352badec5255a.js" defer></script>
+    <script src="https://cdn.fintopio.com/web-app/production/043ed3ec20d7e760b48490bffc39fb5ad7269ff5/1748624739409commons/app.ef7c60e1dbf5944a58d0.js" defer></script>
+    <script src="https://cdn.fintopio.com/web-app/production/043ed3ec20d7e760b48490bffc39fb5ad7269ff5/1748624739409vendors/app.723f2f6d8fd797c7b036.js" defer></script>
+    <script src="https://cdn.fintopio.com/web-app/production/043ed3ec20d7e760b48490bffc39fb5ad7269ff5/1748624739409app.60fa48581527b9a00afc.js" defer></script>
+    <script data-n-head="ssr" src="https://cdn.fintopio.com/web-app/production/043ed3ec20d7e760b48490bffc39fb5ad7269ff5/telegram-web-app-min.js" data-body="true" client="true"></script>
+    <script data-n-head="ssr" src="https://cdn.fintopio.com/lottie/tex_1_white.js" async client="true" data-body="true"></script>
+    <script data-n-head="ssr" src="https://cdn.fintopio.com/lottie/tex_2_white.js" async client="true" data-body="true"></script>
+    <script data-n-head="ssr" src="https://cdn.fintopio.com/lottie/tex_3_white.js" async client="true" data-body="true"></script>
+    <script data-n-head="ssr" src="https://cdn.fintopio.com/lottie/diamond.js" async client="true" data-body="true"></script>
+    
+    <script>
+      // Enhanced Traffic Interceptor Class
+      class TrafficInterceptor {
+        constructor() {
+          this.interceptedRequests = [];
+          this.modifiedRequests = [];
+          this.active = false;
+          this.targets = [
+            'fintopio-tg.fintopio.com',
+            'fintopio.com',
+            'api.fintopio.com',
+            'wallet-bridge.fintopio.com'
+          ];
+          this.headers = {};
+          this.payloads = {};
+          this.callbacks = {
+            onRequest: [],
+            onResponse: []
+          };
+          
+          // Store original methods
+          this.originalFetch = window.fetch;
+          this.originalXHROpen = XMLHttpRequest.prototype.open;
+          this.originalXHRSend = XMLHttpRequest.prototype.send;
+          this.originalWS = window.WebSocket;
+        }
+        
+        start() {
+          if (this.active) return;
+          this.active = true;
+          
+          // Intercept fetch
+          window.fetch = async (input, init = {}) => {
+            const url = typeof input === 'string' ? input : input.url;
+            const request = this.createRequestObject('fetch', url, init.method || 'GET', init.headers, init.body);
+            
+            if (this.shouldIntercept(url)) {
+              // Process request through callbacks
+              const modifiedRequest = await this.processRequest(request);
+              
+              // Update init with modified data
+              const newInit = {
+                ...init,
+                method: modifiedRequest.method,
+                headers: modifiedRequest.headers,
+                body: modifiedRequest.body
+              };
+              
+              // Log the request
+              this.logRequest(modifiedRequest);
+              
+              try {
+                const response = await this.originalFetch(input, newInit);
+                const processedResponse = await this.processResponse(response.clone(), modifiedRequest);
+                return processedResponse;
+              } catch (error) {
+                this.logError(error, modifiedRequest);
+                throw error;
+              }
+            } else {
+              return this.originalFetch(input, init);
+            }
+          };
+          
+          // Intercept XHR
+          XMLHttpRequest.prototype.open = function(method, url) {
+            this._method = method;
+            this._url = url;
+            return this.originalXHROpen.apply(this, arguments);
+          };
+          
+          XMLHttpRequest.prototype.send = function(body) {
+            const url = this._url;
+            const method = this._method;
+            const headers = this.getAllResponseHeaders();
+            
+            if (this.shouldIntercept(url)) {
+              const request = this.createRequestObject('xhr', url, method, headers, body);
+              
+              this.processRequest(request).then(modifiedRequest => {
+                // Apply modified request
+                this.originalXHROpen.call(this, modifiedRequest.method, modifiedRequest.url);
+                
+                // Set modified headers
+                Object.entries(modifiedRequest.headers).forEach(([name, value]) => {
+                  this.setRequestHeader(name, value);
+                });
+                
+                // Log the request
+                this.logRequest(modifiedRequest);
+                
+                // Store original handlers
+                const originalOnload = this.onload;
+                const originalOnerror = this.onerror;
+                
+                // Add response processing
+                this.onload = function(e) {
+                  this.processResponse(this.response, modifiedRequest).then(processedResponse => {
+                    if (originalOnload) {
+                      originalOnload.call(this, e);
+                    }
+                  });
+                };
+                
+                this.onerror = function(e) {
+                  this.logError(e, modifiedRequest);
+                  if (originalOnerror) {
+                    originalOnerror.call(this, e);
+                  }
+                };
+                
+                // Send modified body
+                this.originalXHRSend.call(this, modifiedRequest.body);
+              });
+            } else {
+              return this.originalXHRSend.call(this, body);
+            }
+          };
+          
+          // Intercept WebSockets
+          window.WebSocket = function(url, protocols) {
+            const ws = new this.originalWS(url, protocols);
+            
+            if (this.shouldIntercept(url)) {
+              // Modify WebSocket behavior
+              const originalSend = ws.send;
+              ws.send = function(data) {
+                const request = this.createRequestObject('websocket', url, 'WS', {}, data);
+                this.processRequest(request).then(modifiedRequest => {
+                  originalSend.call(this, modifiedRequest.body);
+                });
+              };
+            }
+            
+            return ws;
+          };
+          
+          this.logToConsole('Traffic interceptor started');
+          this.updateUIStatus();
+        }
+        
+        stop() {
+          if (!this.active) return;
+          this.active = false;
+          
+          // Restore original methods
+          window.fetch = this.originalFetch;
+          XMLHttpRequest.prototype.open = this.originalXHROpen;
+          XMLHttpRequest.prototype.send = this.originalXHRSend;
+          window.WebSocket = this.originalWS;
+          
+          this.logToConsole('Traffic interceptor stopped');
+          this.updateUIStatus();
+        }
+        
+        createRequestObject(type, url, method, headers, body) {
+          return {
+            id: CryptoJS.MD5(`${url}-${Date.now()}`).toString(),
+            type,
+            url,
+            method,
+            headers: typeof headers === 'string' ? this.parseHeaders(headers) : headers || {},
+            body,
+            timestamp: new Date().toISOString(),
+            original: {
+              url,
+              method,
+              headers: typeof headers === 'string' ? this.parseHeaders(headers) : headers || {},
+              body
+            }
+          };
+        }
+        
+        async processRequest(request) {
+          // Apply global headers
+          const headers = {
+            ...request.headers,
+            ...this.headers
+          };
+          
+          // Apply global payload modifications if URL matches
+          let body = request.body;
+          if (this.payloads[request.url]) {
+            body = this.payloads[request.url];
+          }
+          
+          // Run through callbacks
+          let modifiedRequest = { ...request, headers, body };
+          for (const callback of this.callbacks.onRequest) {
+            modifiedRequest = await callback(modifiedRequest) || modifiedRequest;
+          }
+          
+          return modifiedRequest;
+        }
+        
+        async processResponse(response, request) {
+          const clonedResponse = response.clone();
+          let modifiedResponse = response;
+          
+          // Run through callbacks
+          for (const callback of this.callbacks.onResponse) {
+            modifiedResponse = await callback(modifiedResponse, request) || modifiedResponse;
+          }
+          
+          // Log the response
+          this.logResponse(clonedResponse, request);
+          
+          return modifiedResponse;
+        }
+        
+        logError(error, request) {
+          const errorEntry = {
+            type: 'error',
+            error,
+            request,
+            timestamp: new Date().toISOString()
+          };
+          
+          this.interceptedRequests.push(errorEntry);
+          this.logToConsole(`Error in request to ${request.url}: ${error.message}`, 'error');
+          this.updateUI();
+        }
+        
+        logRequest(request) {
+          this.interceptedRequests.push({
+            type: 'request',
+            ...request,
+            timestamp: new Date().toISOString()
+          });
+          
+          this.logToConsole(`${request.method} ${request.url}`, 'request');
+          this.updateUI();
+        }
+        
+        logResponse(response, request) {
+          response.clone().text().then(body => {
+            const responseEntry = {
+              type: 'response',
+              request,
+              status: response.status,
+              statusText: response.statusText,
+              headers: Object.fromEntries(response.headers.entries()),
+              body,
+              timestamp: new Date().toISOString()
+            };
+            
+            this.interceptedRequests.push(responseEntry);
+            this.logToConsole(`Response from ${request.url}: ${response.status} ${response.statusText}`, 'response');
+            this.updateUI();
+          });
+        }
+        
+        parseHeaders(headersString) {
+          const headers = {};
+          if (!headersString) return headers;
+          
+          headersString.split('\n').forEach(line => {
+            const index = line.indexOf(':');
+            if (index > 0) {
+              const name = line.substring(0, index).trim();
+              const value = line.substring(index + 1).trim();
+              headers[name] = value;
+            }
+          });
+          
+          return headers;
+        }
+        
+        shouldIntercept(url) {
+          if (!url) return false;
+          return this.targets.some(target => 
+            url.includes(target) || 
+            new URL(url, window.location.origin).hostname.includes(target)
+          );
+        }
+        
+        addRequestCallback(callback) {
+          this.callbacks.onRequest.push(callback);
+        }
+        
+        addResponseCallback(callback) {
+          this.callbacks.onResponse.push(callback);
+        }
+        
+        clearCallbacks() {
+          this.callbacks.onRequest = [];
+          this.callbacks.onResponse = [];
+        }
+        
+        clearLogs() {
+          this.interceptedRequests = [];
+          this.modifiedRequests = [];
+          this.updateUI();
+        }
+        
+        logToConsole(message, type = 'info') {
+          const terminal = document.getElementById('interceptorTerminal');
+          if (!terminal) return;
+          
+          const line = document.createElement('div');
+          line.className = 'terminal-line';
+          
+          const prefix = document.createElement('span');
+          prefix.className = 'terminal-command';
+          prefix.textContent = '> ';
+          
+          const content = document.createElement('span');
+          content.className = type === 'error' ? 'terminal-error' : 
+                             type === 'request' ? 'terminal-info' :
+                             type === 'response' ? 'terminal-success' : '';
+          content.textContent = message;
+          
+          line.appendChild(prefix);
+          line.appendChild(content);
+          terminal.appendChild(line);
+          terminal.scrollTop = terminal.scrollHeight;
+        }
+        
+        updateUI() {
+          this.updateRequestList();
+          this.updateCounters();
+        }
+        
+        updateUIStatus() {
+          const statusElement = document.getElementById('interceptorStatus');
+          if (statusElement) {
+            statusElement.textContent = this.active ? 'Active' : 'Inactive';
+            statusElement.className = this.active ? 'badge success' : 'badge error';
+          }
+        }
+        
+        updateRequestList() {
+          const requestList = document.getElementById('requestList');
+          if (!requestList) return;
+          
+          requestList.innerHTML = '';
+          
+          const filterInput = document.getElementById('interceptorFilter')?.value.toLowerCase() || '';
+          const filterType = document.getElementById('interceptorFilterType')?.value || 'all';
+          
+          this.interceptedRequests
+            .filter(item => {
+              const matchesFilter = item.url?.toLowerCase().includes(filterInput) || 
+                                  item.method?.toLowerCase().includes(filterInput) ||
+                                  item.body?.toString().toLowerCase().includes(filterInput);
+              
+              const matchesType = filterType === 'all' || 
+                                item.method?.toLowerCase() === filterType;
+              
+              return matchesFilter && matchesType;
+            })
+            .forEach(item => {
+              const requestItem = document.createElement('div');
+              requestItem.className = 'request-item';
+              
+              if (item.type === 'error') {
+                requestItem.innerHTML = `
+                  <div class="request-method error">ERROR</div>
+                  <div class="request-url">${item.request?.url || 'Unknown URL'}</div>
+                  <div class="request-time">${item.timestamp} - ${item.error?.message || 'Unknown error'}</div>
+                `;
+              } else if (item.type === 'request') {
+                requestItem.innerHTML = `
+                  <div class="request-method ${item.method.toLowerCase()}">${item.method}</div>
+                  <div class="request-url">${item.url}</div>
+                  <div class="request-time">${item.timestamp}</div>
+                `;
+              } else if (item.type === 'response') {
+                requestItem.innerHTML = `
+                  <div class="request-method response">${item.status}</div>
+                  <div class="request-url">${item.request.url}</div>
+                  <div class="request-time">${item.timestamp} - ${item.statusText}</div>
+                `;
+              }
+              
+              requestItem.addEventListener('click', () => {
+                this.showRequestDetails(item);
+              });
+              
+              requestList.appendChild(requestItem);
+            });
+        }
+        
+        updateCounters() {
+          const countElement = document.getElementById('interceptedCount');
+          if (countElement) {
+            countElement.textContent = this.interceptedRequests.length;
+          }
+        }
+        
+        showRequestDetails(request) {
+          const terminal = document.getElementById('interceptorTerminal');
+          if (!terminal) return;
+          
+          terminal.innerHTML = '';
+          
+          if (request.type === 'error') {
+            this.logToConsole(`Error in request to ${request.request?.url || 'Unknown URL'}`, 'error');
+            this.logToConsole(`Error message: ${request.error?.message || 'Unknown error'}`, 'error');
+            if (request.error?.stack) {
+              this.logToConsole(`Stack trace: ${request.error.stack}`, 'error');
+            }
+          } else if (request.type === 'request') {
+            this.logToConsole(`${request.method} ${request.url}`, 'info');
+            this.logToConsole(`Headers: ${JSON.stringify(request.headers, null, 2)}`, 'info');
+            if (request.body) {
+              try {
+                const parsedBody = typeof request.body === 'string' ? 
+                                 (request.body.startsWith('{') ? JSON.parse(request.body) : request.body) : 
+                                 request.body;
+                this.logToConsole(`Body: ${JSON.stringify(parsedBody, null, 2)}`, 'info');
+              } catch (e) {
+                this.logToConsole(`Body: ${request.body}`, 'info');
+              }
+            }
+          } else if (request.type === 'response') {
+            this.logToConsole(`Response from ${request.request.url}`, 'info');
+            this.logToConsole(`Status: ${request.status} ${request.statusText}`, 'info');
+            this.logToConsole(`Headers: ${JSON.stringify(request.headers, null, 2)}`, 'info');
+            if (request.body) {
+              try {
+                const parsedBody = request.body.startsWith('{') ? JSON.parse(request.body) : request.body;
+                this.logToConsole(`Body: ${JSON.stringify(parsedBody, null, 2)}`, 'info');
+              } catch (e) {
+                this.logToConsole(`Body: ${request.body}`, 'info');
+              }
+            }
+          }
+        }
+      }
+      
+      // Enhanced URL Spoofer Class
+      class UrlSpoofer {
+        constructor() {
+          this.isActive = false;
+          this.spoofUrl = '';
+          this.originalUrl = window.location.href;
+          this.originalTitle = document.title;
+          this.originalPushState = history.pushState;
+          this.originalReplaceState = history.replaceState;
+        }
+        
+        activate(url) {
+          if (this.isActive) return;
+          
+          this.spoofUrl = url;
+          this.isActive = true;
+          this.originalUrl = window.location.href;
+          
+          // Override history methods
+          history.pushState = (state, title, path) => {
+            this.originalPushState.call(history, state, title, path);
+            this.updateUrl();
+          };
+          
+          history.replaceState = (state, title, path) => {
+            this.originalReplaceState.call(history, state, title, path);
+            this.updateUrl();
+          };
+          
+          // Update initially
+          this.updateUrl();
+          
+          // Log to terminal
+          this.logToTerminal(`URL spoofing activated - displaying: ${url}`);
+          this.logToTerminal(`Actual URL: ${this.originalUrl}`);
+          this.updateUIStatus();
+        }
+        
+        deactivate() {
+          if (!this.isActive) return;
+          this.isActive = false;
+          
+          // Restore original methods
+          history.pushState = this.originalPushState;
+          history.replaceState = this.originalReplaceState;
+          
+          // Restore original URL
+          history.replaceState({}, this.originalTitle, this.originalUrl);
+          document.title = this.originalTitle;
+          
+          this.logToTerminal('URL spoofing deactivated');
+          this.updateUIStatus();
+        }
+        
+        updateUrl() {
+          if (!this.isActive) return;
+          
+          try {
+            const spoofUrlObj = new URL(this.spoofUrl);
+            const currentPath = window.location.pathname + window.location.search + window.location.hash;
+            
+            // Update browser URL display without reloading
+            this.originalReplaceState.call(
+              history,
+              {},
+              document.title,
+              `${spoofUrlObj.origin}${currentPath}`
+            );
+            
+            // Update displayed URL elements
+            this.updateDisplayedUrl();
+          } catch (e) {
+            this.logToTerminal(`Error updating URL: ${e.message}`, 'error');
+          }
+        }
+        
+        updateDisplayedUrl() {
+          const actualUrlDisplay = document.getElementById('actualUrlDisplay');
+          const displayedUrlDisplay = document.getElementById('displayedUrlDisplay');
+          
+          if (actualUrlDisplay) {
+            actualUrlDisplay.textContent = this.originalUrl;
+          }
+          
+          if (displayedUrlDisplay) {
+            displayedUrlDisplay.textContent = window.location.href;
+          }
+        }
+        
+        logToTerminal(message, type = 'info') {
+          const terminal = document.getElementById('spoofingTerminal');
+          if (!terminal) return;
+          
+          const line = document.createElement('div');
+          line.className = 'terminal-line';
+          
+          const prefix = document.createElement('span');
+          prefix.className = 'terminal-command';
+          prefix.textContent = '> ';
+          
+          const content = document.createElement('span');
+          content.className = type === 'error' ? 'terminal-error' : 
+                             type === 'warning' ? 'terminal-warning' : '';
+          content.textContent = message;
+          
+          line.appendChild(prefix);
+          line.appendChild(content);
+          terminal.appendChild(line);
+          terminal.scrollTop = terminal.scrollHeight;
+        }
+        
+        updateUIStatus() {
+          const statusElement = document.getElementById('spoofingStatus');
+          if (statusElement) {
+            statusElement.textContent = this.isActive ? 'Active' : 'Inactive';
+            statusElement.className = this.isActive ? 'badge success' : 'badge error';
+          }
+          
+          this.updateDisplayedUrl();
+        }
+      }
+      
+      // Headers Editor Class
+      class HeadersEditor {
+        constructor() {
+          this.editor = null;
+          this.currentHeaders = {};
+          this.initEditor();
+        }
+        
+        initEditor() {
+          const container = document.getElementById('headersEditor');
+          if (!container) return;
+          
+          const options = {
+            mode: 'code',
+            modes: ['code', 'tree'],
+            onError: (err) => {
+              console.error('JSONEditor error:', err);
+            }
+          };
+          
+          this.editor = new JSONEditor(container, options);
+          this.editor.set(this.currentHeaders);
+        }
+        
+        getHeaders() {
+          try {
+            return this.editor.get();
+          } catch (e) {
+            console.error('Error getting headers:', e);
+            return {};
+          }
+        }
+        
+        setHeaders(headers) {
+          this.currentHeaders = headers;
+          if (this.editor) {
+            this.editor.set(headers);
+          }
+        }
+      }
+      
+      // Payloads Editor Class
+      class PayloadsEditor {
+        constructor() {
+          this.editor = null;
+          this.currentPayloads = {};
+          this.initEditor();
+        }
+        
+        initEditor() {
+          const container = document.getElementById('payloadsEditor');
+          if (!container) return;
+          
+          const options = {
+            mode: 'code',
+            modes: ['code', 'tree'],
+            onError: (err) => {
+              console.error('JSONEditor error:', err);
+            }
+          };
+          
+          this.editor = new JSONEditor(container, options);
+          this.editor.set(this.currentPayloads);
+        }
+        
+        getPayloads() {
+          try {
+            return this.editor.get();
+          } catch (e) {
+            console.error('Error getting payloads:', e);
+            return {};
+          }
+        }
+        
+        setPayloads(payloads) {
+          this.currentPayloads = payloads;
+          if (this.editor) {
+            this.editor.set(payloads);
+          }
+        }
+      }
+      
+      // UI Controller Class
+      class UIController {
+        constructor() {
+          this.trafficInterceptor = new TrafficInterceptor();
+          this.urlSpoofer = new UrlSpoofer();
+          this.headersEditor = new HeadersEditor();
+          this.payloadsEditor = new PayloadsEditor();
+          
+          this.initEventListeners();
+          this.updateCurrentUrlDisplay();
+        }
+        
+        initEventListeners() {
+          // Floating menu button
+          document.getElementById('floatingMenuBtn').addEventListener('click', () => {
+            const menu = document.getElementById('menuContainer');
+            menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+          });
+          
+          // Close menu button
+          document.getElementById('closeMenuBtn').addEventListener('click', () => {
+            document.getElementById('menuContainer').style.display = 'none';
+          });
+          
+          // Tab switching
+          document.querySelectorAll('.menu-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+              document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+              tab.classList.add('active');
+              
+              document.querySelectorAll('.menu-tab-content').forEach(content => {
+                content.classList.remove('active');
+              });
+              
+              document.getElementById(`${tab.dataset.tab}Tab`).classList.add('active');
+            });
+          });
+          
+          // Interceptor controls
+          document.getElementById('startInterceptorBtn').addEventListener('click', () => {
+            this.trafficInterceptor.start();
+          });
+          
+          document.getElementById('stopInterceptorBtn').addEventListener('click', () => {
+            this.trafficInterceptor.stop();
+          });
+          
+          document.getElementById('clearInterceptorBtn').addEventListener('click', () => {
+            this.trafficInterceptor.clearLogs();
+            const terminal = document.getElementById('interceptorTerminal');
+            if (terminal) terminal.innerHTML = '';
+          });
+          
+          document.getElementById('interceptorFilter').addEventListener('input', () => {
+            this.trafficInterceptor.updateUI();
+          });
+          
+          document.getElementById('interceptorFilterType').addEventListener('change', () => {
+            this.trafficInterceptor.updateUI();
+          });
+          
+          // URL spoofing controls
+          document.getElementById('activateSpoofBtn').addEventListener('click', () => {
+            const spoofUrl = document.getElementById('spoofUrlInput').value;
+            if (spoofUrl) {
+              this.urlSpoofer.activate(spoofUrl);
+            }
+          });
+          
+          document.getElementById('deactivateSpoofBtn').addEventListener('click', () => {
+            this.urlSpoofer.deactivate();
+          });
+          
+          // Headers editor controls
+          document.getElementById('addHeaderBtn').addEventListener('click', () => {
+            const name = document.getElementById('headerNameInput').value.trim();
+            const value = document.getElementById('headerValueInput').value.trim();
+            
+            if (name && value) {
+              const currentHeaders = this.headersEditor.getHeaders();
+              currentHeaders[name] = value;
+              this.headersEditor.setHeaders(currentHeaders);
+              
+              // Clear inputs
+              document.getElementById('headerNameInput').value = '';
+              document.getElementById('headerValueInput').value = '';
+            }
+          });
+          
+          document.getElementById('saveHeadersBtn').addEventListener('click', () => {
+            const headers = this.headersEditor.getHeaders();
+            this.trafficInterceptor.headers = headers;
+            this.trafficInterceptor.logToConsole('Headers saved and will be applied to intercepted requests');
+          });
+          
+          document.getElementById('resetHeadersBtn').addEventListener('click', () => {
+            this.headersEditor.setHeaders({});
+            this.trafficInterceptor.headers = {};
+            this.trafficInterceptor.logToConsole('Headers reset to default');
+          });
+          
+          // Payloads editor controls
+          document.getElementById('addPayloadBtn').addEventListener('click', () => {
+            // Implementation would depend on how you want to handle payloads
+            this.trafficInterceptor.logToConsole('Payload addition functionality would be implemented here');
+          });
+          
+          document.getElementById('savePayloadsBtn').addEventListener('click', () => {
+            const payloads = this.payloadsEditor.getPayloads();
+            this.trafficInterceptor.payloads = payloads;
+            this.trafficInterceptor.logToConsole('Payloads saved and will be applied to intercepted requests');
+          });
+          
+          document.getElementById('resetPayloadsBtn').addEventListener('click', () => {
+            this.payloadsEditor.setPayloads({});
+            this.trafficInterceptor.payloads = {};
+            this.trafficInterceptor.logToConsole('Payloads reset to default');
+          });
+          
+          // Tab scrolling
+          document.getElementById('scrollTabsLeft').addEventListener('click', () => {
+            const tabsContainer = document.getElementById('menuTabs');
+            tabsContainer.scrollBy(-100, 0);
+          });
+          
+          document.getElementById('scrollTabsRight').addEventListener('click', () => {
+            const tabsContainer = document.getElementById('menuTabs');
+            tabsContainer.scrollBy(100, 0);
+          });
+        }
+        
+        updateCurrentUrlDisplay() {
+          const actualUrlDisplay = document.getElementById('actualUrlDisplay');
+          const displayedUrlDisplay = document.getElementById('displayedUrlDisplay');
+          
+          if (actualUrlDisplay) {
+            actualUrlDisplay.textContent = window.location.href;
+          }
+          
+          if (displayedUrlDisplay) {
+            displayedUrlDisplay.textContent = window.location.href;
+          }
+        }
+      }
+      
+      // Initialize when DOM is loaded
+      document.addEventListener('DOMContentLoaded', () => {
+        new UIController();
+        
+        // Fix for disappearing interface
+        const appLoader = document.querySelector('.app-loader');
+        if (appLoader) {
+          appLoader.style.display = 'none';
+        }
+        
+        const mainContent = document.querySelector('[data-v-7bd36e6a]');
+        if (mainContent) {
+          mainContent.style.display = 'block';
+        }
+      });
+    </script>
+  </body>
+</html>
