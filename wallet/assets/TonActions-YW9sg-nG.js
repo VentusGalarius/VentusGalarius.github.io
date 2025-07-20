@@ -1,0 +1,5 @@
+import{u as a,j as t,h3 as n,h4 as r,h5 as l,s as u,bh as m,ba as p,k as d,b1 as w,g_ as x,hK as h,ag as j,bb as A,q as S}from"./index-pFCF53l2.js";import{d as v,u as f}from"./useSwapMobileNotification-BXB33XwE.js";import{H as k}from"./HideForState-DGbvkaW_.js";const R=({asset:e,chain:o})=>{const s=a();return t.jsx(n,{icon:t.jsx(r,{}),title:"wallet_send",action:()=>s.uiEvents.emit("transfer",{method:"transfer",id:Date.now(),params:{jetton:e,chain:o,from:e==="TON"?"wallet":"token"}})})},T=({chain:e,jetton:o})=>{const s=a();return t.jsx(n,{icon:t.jsx(l,{}),title:"wallet_receive",action:()=>s.uiEvents.emit("receive",{method:"receive",params:{chain:e,jetton:o}})})},_=u(m)`
+    height: 24px;
+    width: 24px;
+    color: ${e=>e.theme.iconPrimary};
+`,y=({fromAsset:e})=>{const[o,s]=v(),[b,i]=f(),c=()=>{e&&i(e),s(!0)};return t.jsx(n,{icon:t.jsx(_,{}),title:"swap_title",action:c})},O=()=>{const e=p(),s=d()===w.TESTNET;return t.jsxs(x,{children:[!s&&t.jsx(h,{}),!e&&t.jsx(R,{}),t.jsx(T,{}),t.jsx(j,{children:t.jsx(k,{feature:A.swap,children:!s&&!e&&t.jsx(y,{fromAsset:S})})})]})};export{O as H,T as R,R as S,y as a};

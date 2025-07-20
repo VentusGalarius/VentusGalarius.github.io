@@ -1,0 +1,1 @@
+import{a as o,J as t,ac as i,r as a}from"./index-pFCF53l2.js";const u=()=>{const{mainnetConfig:s}=o(),n=s.pro_mobile_app_appstore_link,r=t(),{data:e}=i();return a.useMemo(()=>!n||e===void 0||e!=null&&e.dismissMobileQRBanner?null:n,[r,n,e])};export{u};
