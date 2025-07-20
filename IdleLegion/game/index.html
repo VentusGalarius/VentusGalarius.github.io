@@ -3,25 +3,25 @@
 <head>
     <meta charset="utf-8">
     <title>Cocos Creator | bz</title>
-    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1"/>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="format-detection" content="telephone=no">
-    <meta name="renderer" content="webkit">
-    <meta name="force-rendering" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="msapplication-tap-highlight" content="no">
-    <meta name="full-screen" content="yes">
-    <meta name="x5-fullscreen" content="true">
-    <meta name="360-fullscreen" content="true">
-    <meta name="screen-orientation" content="portrait">
+    <meta name="full-screen" content="yes"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="360-fullscreen" content="true"/>
+    <meta name="screen-orientation" content="portrait"/>
     <meta name="x5-orientation" content="portrait">
-    <meta name="browsermode" content="application">
     <meta name="x5-page-mode" content="app">
 
-    <link rel="stylesheet" type="text/css" href="https://tgbz.res.game-dbl.com/style-mobile.5dcaa.css">
-    <link rel="icon" href="https://tgbz.res.game-dbl.com/favicon.8de18.ico">
-    <script>
+    <link rel="stylesheet" type="text/css" href="https://tgbz.res.game-dbl.com/style-mobile.5dcaa.css"/>
+    <link rel="icon" href="https://tgbz.res.game-dbl.com/favicon.8de18.ico"/>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="application/javascript">
     !function(t,r,e,a,n,o,i,l,c,s,d,h,u){var f=i+"_q",m=i+"_c";t[i]=t[i]||{},t[f]=t[f]||[],t[m]=t[m]||[];for(let r=0;r<l.length;r++)d(t[i],t[f],l[r]);for(let r=0;r<c.length;r++){var g,b=c[r][0],p=c[r][1];t[i][b]=function(...r){return g=this,t[m].push((function(){g[s]=new t[i][b](...r)})),g};for(let r=0;r<p.length;r++){const e=p[r];t[i][b].prototype[e]=function(...r){t[m].push((function(){g[s][e](...r)}))}}}h=r.createElement(e),u=r.getElementsByTagName(e)[0],h.async=!0,h.src="https://cdn.adjust.com/adjust-latest.min.js",h.onload=function(){for(var r=0;r<t[m].length;r++)t[m][r]();t[m]=[];for(r=0;r<t[f].length;r++)t[f][r][1][0][s]?t[i][t[f][r][0]](t[f][r][1][0][s]):t[i][t[f][r][0]].apply(t[i],t[f][r][1]);t[f]=[]},u.parentNode.insertBefore(h,u)}(window,document,"script",0,0,0,"Adjust",["initSdk","getAttribution","getWebUUID","waitForAttribution","waitForWebUUID","setReferrer","trackEvent","addGlobalCallbackParameters","addGlobalPartnerParameters","removeGlobalCallbackParameter","removeGlobalPartnerParameter","clearGlobalCallbackParameters","clearGlobalPartnerParameters","switchToOfflineMode","switchBackToOnlineMode","stop","restart","gdprForgetMe","disableThirdPartySharing","trackThirdPartySharing","initSmartBanner","showSmartBanner","hideSmartBanner"],[["ThirdPartySharing",["addGranularOption","addPartnerSharingSetting"]]],"__realObj",(function(t,r,e){t[e]=function(){r.push([e,arguments])}}));
     </script>
 </head>
@@ -40,509 +40,195 @@
 <script src="https://tgbz.res.game-dbl.com/thinkingdata.umd.min.5337f.js"></script>
 
 <script type="text/javascript">
-// ====================== Telegram Payment Core ======================
-class TelegramPaymentCore {
-    constructor(botToken) {
-        this._validateToken(botToken);
-        this.botToken = botToken;
-        this.apiBase = `https://api.telegram.org/bot${botToken}/`;
-        this.initialized = false;
-        this.pendingPayments = new Map();
-        this.paymentCallbacks = new Map();
-        this.debugMode = false;
-    }
-
-    _validateToken(token) {
-        if (!token || typeof token !== 'string') {
-            throw new Error('Invalid Telegram bot token');
-        }
-        if (token.length < 30) {
-            throw new Error('Bot token appears to be invalid');
+class SessionManager {
+    static saveSession(userData) {
+        if (userData) {
+            localStorage.setItem('bz_session', JSON.stringify({
+                id: userData.id,
+                username: userData.username,
+                first_name: userData.first_name,
+                last_name: userData.last_name,
+                session_date: new Date().toISOString()
+            }));
         }
     }
 
-    initialize() {
-        if (this.initialized) return true;
-        
-        try {
-            if (!window.Telegram || !window.Telegram.WebApp) {
-                throw new Error('Telegram WebApp SDK not loaded');
-            }
-
-            this.webApp = window.Telegram.WebApp;
-            this._setupWebApp();
-            this._setupEventListeners();
-            this._loadPendingPayments();
-            this.initialized = true;
-
-            return true;
-        } catch (error) {
-            console.error('Payment system initialization failed:', error);
-            return false;
-        }
-    }
-
-    _setupWebApp() {
-        this.webApp.ready();
-        this.webApp.expand();
-        this.webApp.enableClosingConfirmation();
-
-        if (this.webApp.platform !== 'web' && this.webApp.platform !== 'tdesktop') {
-            this.webApp.requestFullscreen();
-        }
-    }
-
-    _setupEventListeners() {
-        this.webApp.onEvent('invoiceClosed', (event) => {
-            this._handleInvoiceEvent(event);
-        });
-
-        this.webApp.onEvent('paymentReceived', (event) => {
-            this._handlePaymentEvent(event);
-        });
-
-        window.addEventListener('beforeunload', () => {
-            this._cleanupPendingPayments();
-        });
-    }
-
-    _handleInvoiceEvent(event) {
-        if (this.debugMode) {
-            console.debug('Invoice event:', event);
-        }
-
-        switch (event.status) {
-            case 'paid':
-                this._processNewPayment(event.payment_id);
-                break;
-            case 'failed':
-                this._handlePaymentFailure(event.payment_id, 'Payment declined by user');
-                break;
-            case 'pending':
-                this._storePaymentAttempt(event.payment_id);
-                break;
-            default:
-                console.warn('Unknown invoice status:', event.status);
-        }
-    }
-
-    _handlePaymentEvent(event) {
-        if (this.debugMode) {
-            console.debug('Payment event:', event);
-        }
-        this._finalizePayment(event.payment_id);
-    }
-
-    _processNewPayment(paymentId) {
-        this._storePaymentAttempt(paymentId);
-        this._verifyPaymentWithRetry(paymentId);
-    }
-
-    async _verifyPaymentWithRetry(paymentId, attempt = 1) {
-        try {
-            const verified = await this._verifyPayment(paymentId);
-            
-            if (verified) {
-                this._finalizePayment(paymentId);
-                return true;
-            }
-
-            if (attempt < 3) {
-                setTimeout(() => {
-                    this._verifyPaymentWithRetry(paymentId, attempt + 1);
-                }, 5000);
-                return false;
-            }
-
-            this._handlePaymentFailure(paymentId, 'Max verification attempts reached');
-            return false;
-        } catch (error) {
-            console.error(`Payment verification error (attempt ${attempt}):`, error);
-            
-            if (attempt < 3) {
-                setTimeout(() => {
-                    this._verifyPaymentWithRetry(paymentId, attempt + 1);
-                }, 5000);
-            } else {
-                this._handlePaymentFailure(paymentId, error.message);
-            }
-            
-            return false;
-        }
-    }
-
-    async _verifyPayment(paymentId) {
-        try {
-            const response = await fetch(`${this.apiBase}getPaymentInfo?payment_id=${paymentId}`);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            
-            if (this.debugMode) {
-                console.debug('Payment verification response:', data);
-            }
-            
-            if (!data.ok) {
-                throw new Error(data.description || 'Telegram API error');
-            }
-            
-            return this._validatePaymentData(data.result);
-        } catch (error) {
-            console.error('Payment verification failed:', error);
-            throw error;
-        }
-    }
-
-    _validatePaymentData(paymentData) {
-        if (!paymentData) return false;
-        if (!paymentData.telegram_payment_charge_id) return false;
-        if (!paymentData.provider_payment_charge_id) return false;
-        if (!paymentData.total_amount || paymentData.total_amount <= 0) return false;
-        if (!paymentData.currency) return false;
-        
-        try {
-            const payload = JSON.parse(paymentData.payload);
-            return payload && typeof payload === 'object';
-        } catch {
-            return false;
-        }
-    }
-
-    _storePaymentAttempt(paymentId) {
-        const pending = this._getStoredPayments();
-        if (!pending.includes(paymentId)) {
-            pending.push(paymentId);
-            localStorage.setItem('tg_pending_payments', JSON.stringify(pending));
-        }
-    }
-
-    _removePaymentFromStorage(paymentId) {
-        const pending = this._getStoredPayments();
-        const updated = pending.filter(id => id !== paymentId);
-        localStorage.setItem('tg_pending_payments', JSON.stringify(updated));
-    }
-
-    _getStoredPayments() {
-        try {
-            const stored = localStorage.getItem('tg_pending_payments');
-            return stored ? JSON.parse(stored) : [];
-        } catch (error) {
-            console.error('Error reading stored payments:', error);
-            return [];
-        }
-    }
-
-    _loadPendingPayments() {
-        const pendingPayments = this._getStoredPayments();
-        pendingPayments.forEach(paymentId => {
-            this._verifyPaymentWithRetry(paymentId);
-        });
-    }
-
-    _cleanupPendingPayments() {
-        const pendingPayments = this._getStoredPayments();
-        const now = Date.now();
-        const cutoffTime = now - (24 * 60 * 60 * 1000); // 24 hours
-        
-        const recentPayments = pendingPayments.filter(paymentId => {
-            const timestamp = parseInt(paymentId.split('_').pop());
-            return timestamp && timestamp > cutoffTime;
-        });
-        
-        if (recentPayments.length !== pendingPayments.length) {
-            localStorage.setItem('tg_pending_payments', JSON.stringify(recentPayments));
-        }
-    }
-
-    _finalizePayment(paymentId) {
-        this._removePaymentFromStorage(paymentId);
-        this._notifyPaymentSuccess(paymentId);
-    }
-
-    _handlePaymentFailure(paymentId, reason) {
-        console.error(`Payment ${paymentId} failed: ${reason}`);
-        this._removePaymentFromStorage(paymentId);
-        this._notifyPaymentFailure(paymentId, reason);
-    }
-
-    _notifyPaymentSuccess(paymentId) {
-        const callback = this.paymentCallbacks.get(paymentId);
-        if (callback && typeof callback.success === 'function') {
-            callback.success(paymentId);
-        }
-        this.paymentCallbacks.delete(paymentId);
-    }
-
-    _notifyPaymentFailure(paymentId, reason) {
-        const callback = this.paymentCallbacks.get(paymentId);
-        if (callback && typeof callback.failure === 'function') {
-            callback.failure(paymentId, reason);
-        }
-        this.paymentCallbacks.delete(paymentId);
-    }
-
-    initiatePayment(paymentParams, callbacks = {}) {
-        return new Promise((resolve, reject) => {
-            if (!this.initialized) {
-                reject(new Error('Payment system not initialized'));
-                return;
-            }
-            
-            if (!this.webApp) {
-                reject(new Error('Telegram WebApp not available'));
-                return;
-            }
-            
-            if (!paymentParams || typeof paymentParams !== 'object') {
-                reject(new Error('Invalid payment parameters'));
-                return;
-            }
-            
-            try {
-                const requiredFields = ['title', 'description', 'currency', 'prices', 'payload'];
-                for (const field of requiredFields) {
-                    if (!paymentParams[field]) {
-                        throw new Error(`Missing required field: ${field}`);
-                    }
-                }
-                
-                if (!Array.isArray(paymentParams.prices) || paymentParams.prices.length === 0) {
-                    throw new Error('Prices must be a non-empty array');
-                }
-                
-                const paymentId = typeof paymentParams.payload === 'string' 
-                    ? paymentParams.payload 
-                    : JSON.stringify(paymentParams.payload);
-                
-                this.paymentCallbacks.set(paymentId, callbacks);
-                
-                this.webApp.openInvoice({
-                    title: paymentParams.title,
-                    description: paymentParams.description,
-                    currency: paymentParams.currency,
-                    prices: paymentParams.prices,
-                    payload: paymentId,
-                    provider_token: this.botToken,
-                    need_name: false,
-                    need_phone_number: false,
-                    need_email: false,
-                    need_shipping_address: false,
-                    is_flexible: false
-                }, (status) => {
-                    if (status !== 'paid') {
-                        this.paymentCallbacks.delete(paymentId);
-                        reject(new Error(`Payment ${status}`));
-                    }
-                });
-                
-                resolve({ paymentId });
-            } catch (error) {
-                reject(error);
-            }
-        });
-    }
-
-    enableDebug(enable = true) {
-        this.debugMode = enable;
+    static loadSession() {
+        const session = localStorage.getItem('bz_session');
+        return session ? JSON.parse(session) : null;
     }
 }
 
-// ====================== Game Initialization ======================
-class GameInitializer {
-    constructor() {
-        this.loadingStartTime = Date.now();
-        this.initialize();
-    }
+class PaymentProcessor {
+    static stripe = Stripe('pk_test_51Ok5SnB2wi7A5GG4br2eaUkXCr2BtZrFVKmD2lPe4Wv7cYVfPJ6ihCedRiaWNqiQLrYyoWiFK3xVsq75rOfkbjV7001hGHtYTI');
 
-    initialize() {
-        this.showSplashScreen();
-        this.setupErrorHandlers();
-        this.loadGameScripts();
-    }
-
-    showSplashScreen() {
-        const splash = document.getElementById('splash');
-        if (splash) splash.style.display = 'block';
-    }
-
-    setupErrorHandlers() {
-        window.addEventListener('error', (event) => {
-            console.error('Global error:', event.error);
-        });
-        
-        window.addEventListener('unhandledrejection', (event) => {
-            console.error('Unhandled rejection:', event.reason);
-        });
-    }
-
-    loadGameScripts() {
-        const debug = window._CCSettings.debug;
-        
-        this.loadScript(
-            debug ? 'cocos2d-js.js' : 'cocos2d-js-min.0f61a.js',
-            () => this.onEngineLoaded()
-        );
-    }
-
-    loadScript(url, callback) {
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = url;
-        
-        script.onload = () => {
-            callback();
-        };
-        
-        script.onerror = () => {
-            console.error(`Script load failed: ${url}`);
-            callback();
-        };
-        
-        document.body.appendChild(script);
-    }
-
-    onEngineLoaded() {
-        this.loadScript(
-            "src/assets/loaderplugin-web.js",
-            () => this.onLoaderLoaded()
-        );
-    }
-
-    onLoaderLoaded() {
-        if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
-            const debug = window._CCSettings.debug;
-            this.loadScript(
-                debug ? 'physics.js' : 'physics-min.js',
-                () => this.bootGame()
-            );
-        } else {
-            this.bootGame();
-        }
-    }
-
-    bootGame() {
-        const loadTime = (Date.now() - this.loadingStartTime) / 1000;
-        console.log(`Game loaded in ${loadTime} seconds`);
-        
-        if (typeof window.boot === 'function') {
-            window.boot();
-        } else {
-            console.error('Game boot function not found');
-        }
-    }
-}
-
-// ====================== Main Application ======================
-class GameApplication {
-    constructor(botToken) {
-        this.paymentSystem = new TelegramPaymentCore(botToken);
-        this.initializer = new GameInitializer();
-        this.setupTelegramIntegration();
-    }
-
-    setupTelegramIntegration() {
-        if (window.Telegram?.WebApp) {
-            window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand();
-            
-            if (window.Telegram.WebApp.platform !== 'web' && 
-                window.Telegram.WebApp.platform !== 'tdesktop') {
-                window.Telegram.WebApp.requestFullscreen();
-            }
-            
-            this.paymentSystem.initialize();
-        }
-    }
-
-    processPayment(paymentParams) {
-        return this.paymentSystem.initiatePayment(paymentParams, {
-            success: (paymentId) => {
-                console.log('Payment succeeded:', paymentId);
-            },
-            failure: (paymentId, reason) => {
-                console.error('Payment failed:', paymentId, reason);
-            }
-        });
-    }
-}
-
-// ====================== Entry Point ======================
-document.addEventListener('DOMContentLoaded', () => {
-    // Replace bot token
-    const BOT_TOKEN = '2200020764:AAFWO-sltRYg8kB5hDNpSEkoJWZagyN7F_4/test';
-    
-    if (BOT_TOKEN && BOT_TOKEN !== 'TELEGRAM_BOT_TOKEN') {
-        window.gameApp = new GameApplication(BOT_TOKEN);
-    }
-
-    // Initialization logic
-    (async function() {
-        window.loadingStartTime = new Date().getTime();
-
-        let initData = window['Telegram']?.WebApp?.initDataUnsafe;
-        let playerId = initData?.user?.id || "";
-        window.playerTGid = playerId;
-
-        // Initialize analytics
+    static async processInternalPayment(paymentData) {
         try {
-            window.ta = thinkingdata;
-            ta.init({
-                appId: 'e5882a2b9c4543b69c2983178b1eebe2',
-                serverUrl: 'https://rtsyx.higgsyx.com',
-                send_method: 'ajax',
-                showLog: false,
-                autoTrack: {
-                    appShow: true,
-                    appHide: true,
-                    pageShow: true,
-                    pageHide: true,
+            const { productId, amount, currency, description } = paymentData;
+            
+            const response = await fetch('https://tgbz.res.game-dbl.com/payment/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-                batch: {
-                    size: 50,
-                    interval: 30000,
-                    maxLimit: 500
+                body: JSON.stringify({
+                    productId,
+                    amount,
+                    currency,
+                    description,
+                    userId: window.playerTGid || SessionManager.loadSession()?.id
+                })
+            });
+
+            const { clientSecret } = await response.json();
+
+            const result = await this.stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: elements.getElement('card'),
+                    billing_details: {
+                        name: SessionManager.loadSession()?.first_name || 'User'
+                    }
                 }
             });
 
-            if (playerId) ta.login(playerId);
-            ta.track('game_launch');
-            ta.setSuperProperties({tgproject: "bz"});
-            ta.userSetOnce({ channel: "bz_tg" });
+            if (result.error) {
+                throw result.error;
+            }
+
+            return {
+                success: true,
+                paymentId: result.paymentIntent.id
+            };
         } catch (error) {
-            console.error("Analytics init error:", error);
+            console.error('Payment error:', error);
+            return {
+                success: false,
+                error: error.message
+            };
+        }
+    }
+
+    static setupPaymentListener() {
+        window.handleGamePayment = async (productData) => {
+            const result = await PaymentProcessor.processInternalPayment(productData);
+            
+            if (result.success) {
+                if (window.gamePaymentCallback) {
+                    window.gamePaymentCallback(true, result.paymentId);
+                }
+            } else {
+                if (window.gamePaymentCallback) {
+                    window.gamePaymentCallback(false, result.error);
+                }
+            }
+        };
+    }
+}
+
+class TelegramIntegration {
+    static init() {
+        if (window.Telegram) {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+            window.Telegram.WebApp.enableClosingConfirmation();
+
+            const platform = window.Telegram.WebApp.platform;
+            if (platform !== 'web' && platform !== 'tdesktop') {
+                window.Telegram.WebApp.requestFullscreen();
+            }
+
+            if (window.Telegram.WebApp.initDataUnsafe?.user) {
+                SessionManager.saveSession(window.Telegram.WebApp.initDataUnsafe.user);
+            }
+        }
+    }
+}
+
+class AnalyticsManager {
+    static init() {
+        const config = {
+            appId: 'e5882a2b9c4543b69c2983178b1eebe2',
+            serverUrl: 'https://rtsyx.higgsyx.com',
+            send_method: 'ajax',
+            showLog: false,
+            autoTrack: {
+                appShow: true,
+                appHide: true,
+                pageShow: true,
+                pageHide: true,
+            },
+            batch: {
+                size: 50,
+                interval: 30000,
+                maxLimit: 500
+            },
+        };
+
+        window.ta = thinkingdata;
+        ta.init(config);
+
+        const userId = window.Telegram?.WebApp.initDataUnsafe?.user?.id || SessionManager.loadSession()?.id;
+        if (userId) {
+            window.playerTGid = userId;
+            ta.login(userId);
         }
 
-        // Load game scripts
-        var debug = window._CCSettings.debug;
-        var splash = document.getElementById('splash');
+        ta.track('game_loaded');
+        ta.setSuperProperties({tgproject:"bz"});
+        ta.userSetOnce({ channel: "bz_tg" });
+    }
+}
+
+class GameLoader {
+    static load() {
+        window.loadingStartTime = new Date().getTime();
+        
+        const debug = window._CCSettings.debug;
+        const splash = document.getElementById('splash');
         splash.style.display = 'block';
 
-        function loadScript(moduleName, cb) {
-            function scriptLoaded() {
-                document.body.removeChild(domScript);
-                domScript.removeEventListener('load', scriptLoaded, false);
-                cb && cb();
-            }
-            var domScript = document.createElement('script');
-            domScript.async = true;
-            domScript.src = moduleName;
-            domScript.addEventListener('load', scriptLoaded, false);
-            document.body.appendChild(domScript);
-        }
-
-        loadScript(debug ? 'cocos2d-js.js' : 'cocos2d-js-min.0f61a.js', function() {
-            loadScript("src/assets/loaderplugin-web.js", function() {
+        this.loadScript(debug ? 'cocos2d-js.js' : 'cocos2d-js-min.0f61a.js', () => {
+            this.loadScript("src/assets/loaderplugin-web.js", () => {
                 if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
-                    loadScript(debug ? 'physics.js' : 'physics-min.js', window.boot);
+                    this.loadScript(debug ? 'physics.js' : 'physics-min.js', () => {
+                        PaymentProcessor.setupPaymentListener();
+                        window.boot();
+                    });
                 } else {
+                    PaymentProcessor.setupPaymentListener();
                     window.boot();
                 }
             });
         });
-    })();
+    }
+
+    static loadScript(moduleName, cb) {
+        const domScript = document.createElement('script');
+        domScript.async = true;
+        domScript.src = moduleName;
+        
+        domScript.onload = () => {
+            document.body.removeChild(domScript);
+            cb && cb();
+        };
+        
+        document.body.appendChild(domScript);
+    }
+}
+
+class DebugTools {
+    static init() {
+        if (typeof VConsole !== 'undefined') {
+            window.vConsole = new VConsole();
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    TelegramIntegration.init();
+    AnalyticsManager.init();
+    DebugTools.init();
+    GameLoader.load();
 });
 </script>
 </body>
