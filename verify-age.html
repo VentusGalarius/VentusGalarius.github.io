@@ -1,0 +1,665 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[T] Age Verification</title>
+    <!-- Adding 4D/VR camera libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/VRControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/effects/VREffect.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/webvr-polyfill@0.10.12/build/webvr-polyfill.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/webvr-boilerplate@0.6.0/build/webvr-manager.min.js"></script>
+    <!-- 4D visualization library -->
+    <script src="https://cdn.jsdelivr.net/npm/hyperspace@1.0.0/dist/hyperspace.min.js"></script>
+</head>
+<body>
+    <div id="face">
+        <div id="camera">
+            <div class="no-permission" onclick="requestVideo()">
+                <span class="icon"></span>
+            </div>
+            <video class="blurred" style="display: none"></video>
+            <canvas style="display: none"></canvas>
+            <!-- 4D/VR container -->
+            <div id="vr-container" style="display: none; position: absolute; width: 100%; height: 100%;"></div>
+        </div>
+        <div id="indicators"></div>
+        <div id="indicators-circle"></div>
+    </div>
+    <div id="verdict-debug">
+        <div id="age"></div>
+        <div id="result"></div>
+    </div>
+    <div id="hint-loading" class="hint">
+        Loading...
+    </div>
+    <div id="hint-move" class="hint hidden">
+        Move your head slowly to complete the circle.
+    </div>
+    <div id="hint-smile" class="hint hidden">
+        Please, smile.
+    </div>
+    <div id="hint-dont-smile" class="hint hidden">
+        Please, don't smile.
+    </div>
+    <div id="hint-another-face" class="hint hidden">
+        Another face detected.
+    </div>
+    <script src="https://a-ttgme.stel.com/js/telegram-web-app.js?58"></script>
+</body>
+</html>
+
+<style>
+html, head, body {
+    background: #000;
+    color: #fff;
+}
+
+#face {
+    position: absolute;
+    width: 60vmin;
+    height: 60vmin;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 65px;
+}
+#face #indicators {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    pointer-events: none;
+}
+#face #indicators-circle {
+    position: absolute;
+    top: 60px;
+    left: 60px;
+    right: 60px;
+    bottom: 60px;
+    pointer-events: none;
+    border-radius: 50%;
+    outline: 0px solid rgba(64, 64, 64, 0.0);
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#face #indicators .indicator {
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 4px;
+    left: 50%;
+    margin-left: -4px;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#face #indicators .indicator > span {
+    display: block;
+    width: 100%;
+    height: 16px;
+    border-radius: 2px;
+    background: #424242;
+    margin-top: 44px;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#face #indicators .indicator.active > span {
+    background: #69F372;
+    margin-top: 30px;
+    height: 30px;
+}
+#face #indicators .indicator.loading > span {
+    background: yellow;
+    margin-top: 30px;
+    height: 30px;
+}
+#face #indicators .indicator.error > span {
+    background: red;
+    margin-top: 30px;
+    height: 30px;
+}
+#face.circled #indicators-circle {
+    outline: 6px solid #424242;
+}
+#face.circled #indicators .indicator {
+    width: 8px;
+}
+#face.circled #indicators .indicator > span {
+    background: #424242;
+    margin-top: 57px !important;
+    height: 3px !important;
+}
+#face.circled.active #indicators .indicator > span {
+    background: #69F372;
+}
+#face.circled.active #indicators-circle {
+    outline: 8px solid #69F372;
+}
+
+#face #camera {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+#face #camera .no-permission {
+    background: #111;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0; right: 0; bottom: 0;
+    cursor: pointer;
+}
+#face #camera .no-permission .icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: url(verify-age-camera.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35%;
+    opacity: 0.25;
+}
+#face #camera video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0; right: 0; bottom: 0;
+    object-fit: cover;
+    transform: scaleX(-1);
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#face #camera video.blurred {
+    filter: blur(25px);
+}
+#face #camera canvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0; right: 0; bottom: 0;
+    transform: scaleX(-1);
+}
+
+#verdict-debug {
+    position: absolute;
+    bottom: 10vmin;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 90px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.passed {
+    color: lightgreen;
+}
+.not-passed {
+    color: red;
+}
+.hint {
+    position: absolute;
+    top: 75vmin;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 90px;
+    text-align: center;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    transition-property: opacity, transform;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+    transform-origin: -50% 50%;
+}
+.hint.hidden {
+    opacity: 0;
+    transform: scale(0.5);
+}
+</style>
+
+<script>
+class AgeVerificationApp {
+    constructor() {
+        this.initTelegram();
+        this.initElements();
+        this.initVR();
+        this.init4D();
+        this.initFaceDetection();
+    }
+
+    initTelegram() {
+        try {
+            window.Telegram.WebApp.setHeaderColor('#000000');
+            window.Telegram.WebApp.setBackgroundColor('#000000');
+            window.Telegram.WebApp.setBottomBarColor('#000000');
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    initElements() {
+        this.video = document.querySelector('#camera video');
+        this.canvas = document.createElement('canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.debug = location.href.endsWith('?debug');
+        this.hints = [...document.querySelectorAll('.hint')];
+        this.face = document.querySelector('#face');
+        this.indicatorsParent = document.querySelector('#indicators');
+        this.indicators = [];
+        
+        for (let i = 0; i < 74; ++i) {
+            const deg = i / 74 * 360;
+            const indicator = document.createElement('span');
+            indicator.className = 'indicator';
+            indicator.style.transform = `rotate(${deg}deg)`;
+            const inner = document.createElement('span');
+            indicator.appendChild(inner);
+            this.indicatorsParent.appendChild(indicator);
+            this.indicators.push(indicator);
+        }
+    }
+
+    initVR() {
+        this.vrEnabled = false;
+        this.vrManager = null;
+        this.vrEffect = null;
+        this.vrControls = null;
+        this.vrScene = null;
+        this.vrCamera = null;
+        this.vrRenderer = null;
+        
+        if (navigator.getVRDisplays) {
+            this.initVRScene();
+        }
+    }
+
+    init4D() {
+        this.hyperspace = new Hyperspace({
+            container: document.getElementById('vr-container'),
+            tesseract: true,
+            rotate: true
+        });
+    }
+
+    initVRScene() {
+        this.vrScene = new THREE.Scene();
+        this.vrCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        
+        this.vrRenderer = new THREE.WebGLRenderer({ antialias: true });
+        this.vrRenderer.setPixelRatio(window.devicePixelRatio);
+        this.vrRenderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('vr-container').appendChild(this.vrRenderer.domElement);
+        
+        this.vrEffect = new THREE.VREffect(this.vrRenderer);
+        this.vrControls = new THREE.VRControls(this.vrCamera);
+        
+        this.vrManager = new WebVRManager(this.vrRenderer, this.vrEffect, { hideButton: false });
+        
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const cube = new THREE.Mesh(geometry, material);
+        this.vrScene.add(cube);
+        
+        this.vrCamera.position.z = 5;
+        
+        this.animateVRScene();
+    }
+
+    animateVRScene() {
+        if (!this.vrScene) return;
+        
+        this.vrControls.update();
+        this.vrEffect.render(this.vrScene, this.vrCamera);
+        
+        requestAnimationFrame(() => this.animateVRScene());
+    }
+
+    initFaceDetection() {
+        this.loading = true;
+        this.result = {};
+        this.active = false;
+        this.challenge = 'move';
+        this.loadingProgress = 0;
+        
+        this.worker = new Worker('/js/verify-age-worker.js');
+        this.workerCallbacks = {};
+        this.workerLastId = 0;
+        
+        this.worker.addEventListener('message', e => {
+            if (typeof e.data.progress === 'number') {
+                this.loadingProgress = e.data.progress;
+                return;
+            }
+            const { id, result } = e.data;
+            const callback = this.workerCallbacks[id];
+            if (callback) {
+                delete this.workerCallbacks[id];
+                callback(result);
+            }
+        });
+        
+        this.requestVideo();
+    }
+
+    sendWorkerMessage(type, data) {
+        const id = this.workerLastId++;
+        const promise = new Promise(resolve => {
+            this.workerCallbacks[id] = resolve;
+        });
+        this.worker.postMessage({ id, type, data });
+        return promise;
+    }
+
+    isMobile() {
+        let check = false;
+        (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;})(navigator.userAgent||navigator.vendor||window.opera);
+        return check;
+    }
+
+    showHint(name) {
+        for (const hint of this.hints) {
+            hint.className = hint.id === 'hint-' + name ? 'hint' : 'hint hidden';
+        }
+    }
+
+    isVideoReady(video) {
+        return video.readyState >= 2 &&
+               video.videoWidth > 0 && 
+               video.videoHeight > 0 &&
+               !video.paused &&
+               !video.ended;
+    }
+
+    updateIndicators(callback) {
+        let count = 0;
+        for (let i = 0; i < this.indicators.length; ++i) {
+            const active = callback(i / 74 * 360);
+            if (active) count++;
+            this.indicators[i].className = `indicator ${active ? 'active' : ''}`;
+        }
+        return count / this.indicators.length;
+    }
+
+    updateIndicatorsError() {
+        for (let i = 0; i < this.indicators.length; ++i) {
+            this.indicators[i].className = `indicator error`;
+        }
+    }
+
+    updateIndicatorsLoading(enable, angle, swipe = 35) {
+        let count = 0;
+        for (let i = 0; i < this.indicators.length; ++i) {
+            const thisAngle = i / 74 * 360;
+            const loading = enable && this.anglesDistance(thisAngle, angle) < swipe;
+            this.indicators[i].className = `indicator ${loading ? 'loading' : ''}`;
+        }
+        return count / this.indicators.length;
+    }
+
+    anglesDistance(a, b) {
+        return Math.min(Math.abs(a - b), 360 - Math.abs(a - b));
+    }
+
+    euclideanDistance(t, e) {
+        if (t.length !== e.length)
+            throw new Error("euclideanDistance: arr1.length !== arr2.length");
+        var n = Array.from(t), r = Array.from(e);
+        return Math.sqrt(n.map(function(t, e) {
+            return t - r[e]
+        }).reduce(function(t, e) {
+            return t + Math.pow(e, 2)
+        }, 0));
+    }
+
+    setupResult(detections) {
+        const ages = detections.map(d => d.age);
+        ages.sort((a, b) => a - b);
+        const ageAverage = ages.reduce((acc, x) => x + acc, 0) / ages.length;
+        const ageMedian = ages[~~(ages.length / 2)];
+        const passed = ageAverage >= 18;
+
+        const getGenderDetection = (gender) => {
+            const thoseDetections = detections.filter(d => d.gender === gender);
+            if (thoseDetections.length <= 0) return 0;
+            return thoseDetections.reduce((acc, d) => acc + d.genderProbability, 0) / thoseDetections.length;
+        };
+        const male = getGenderDetection('male');
+        const female = getGenderDetection('female');
+        const gender = male > female ? 'male' : 'female';
+        const genderProbability = male > female ? male : female;
+
+        return {
+            passed,
+            age: ageAverage,
+            gender,
+            genderProbability
+        };
+    }
+
+    showDebugResult(result) {
+        if (!this.debug) return;
+
+        const ageDiv = document.querySelector('#verdict-debug #age');
+        ageDiv.innerText = `Age: ${result.age.toFixed(1)}`;
+
+        const resultDiv = document.querySelector('#verdict-debug #result');
+        resultDiv.className = result.passed ? 'passed' : 'not-passed';
+        resultDiv.innerText = result.age >= 18 ? 'Passed.' : 'Not Passed.';
+    }
+
+    async requestVideo() {
+        if (this.active) return;
+
+        let loadingAngle = 0;
+        let loadingLastTime = Date.now();
+
+        const loopLoadingAnimation = () => {
+            if (!this.loading) return;
+            const now = Date.now();
+            const deltaTimeMs = now - loadingLastTime;
+            const deltaTime = deltaTimeMs / 1000.0;
+            loadingLastTime = now;
+
+            loadingAngle += 360 * deltaTime;
+            loadingAngle = loadingAngle % 360;
+            this.updateIndicatorsLoading(true, loadingAngle, 20 + this.loadingProgress * 150);
+
+            requestAnimationFrame(loopLoadingAnimation);
+        };
+        const startLoadingAnimationTimeout = setTimeout(loopLoadingAnimation, 500);
+
+        if (this.debug) {
+            await new Promise(resolve => setTimeout(resolve, 2500));
+        }
+
+        let stream;
+        try {
+            this.video.muted = true;
+            stream = await navigator.mediaDevices.getUserMedia({
+                video: {
+                    width: { ideal: 640 },
+                    height: { ideal: 640 },
+                    facingMode: 'user'
+                },
+                audio: false
+            });
+            this.video.srcObject = stream;
+            const p = this.video.play();
+            if (p) {
+                await p;
+            }
+        } catch (e) {
+            console.error(e);
+
+            this.loading = false;
+            clearTimeout(startLoadingAnimationTimeout);
+            this.updateIndicatorsLoading(false);
+            this.updateIndicatorsError();
+            return;
+        }
+        if (!this.loading) return;
+
+        this.video.style.display = 'block';
+
+        await this.sendWorkerMessage('loadModels', null);
+        this.active = true;
+
+        const STRAIGHT = Number.POSITIVE_INFINITY;
+        this.detections = [];
+        this.smileDetections = [];
+        this.lastDescriptor = null;
+        this.lastDetection = 0;
+
+        this.onFrame();
+    }
+
+    async onFrame() {
+        if (!this.isVideoReady(this.video)) {
+            requestAnimationFrame(() => this.onFrame());
+            return;
+        }
+
+        const bitmap = await createImageBitmap(this.video);
+
+        const detection = await this.sendWorkerMessage('detect', { bitmap, mobile: this.isMobile() });
+
+        if (this.loading) {
+            this.loading = false;
+            this.video.className = '';
+            this.showHint('move');
+        }
+
+        if (detection && detection.descriptor) {
+            const allDescriptors = 
+                [...this.detections.map(d => d.descriptor), ...this.smileDetections.map(d => d.descriptor)];
+            const avgDistance = allDescriptors.reduce((acc, d) => 
+                acc + this.euclideanDistance(d, detection.descriptor)
+            , 0) / allDescriptors.length;
+            if (avgDistance >= 0.6) {
+                this.detections = [];
+                this.smileDetections = [];
+                this.lastDescriptor = null;
+
+                this.challenge = 'move';
+                this.face.className = '';
+                this.showHint('another-face');
+                this.updateIndicatorsError();
+                setTimeout(() => {
+                    this.showHint('move');
+                    this.onFrame();
+                }, 1000);
+                return;
+            }
+        }
+
+        const next = () => requestAnimationFrame(() => this.onFrame());
+        
+        if (this.challenge === 'move') {
+            if (detection) {
+                const { age, gender, genderProbability, descriptor } = detection;
+                const { pitch, yaw } = detection.angle;
+                const smile = detection.expressions.happy;
+                const pitchN = 2.5 * pitch;
+                if (Math.abs(pitchN) > 2 || Math.abs(yaw) > 2) {
+                    let angle = Math.atan2(yaw, pitchN) / Math.PI * 180;
+                    angle = ((angle % 360) + 360) % 360;
+                    if (this.debug) console.log('angle: ', angle);
+
+                    this.updateIndicators(a => this.anglesDistance(angle, a) < 25);
+
+                    this.detections.push({ angle, age, gender, genderProbability, smile, descriptor });
+                    this.lastDetection = Date.now();
+                } else {
+                    if (this.debug) console.log('straight');
+                    this.detections.push({ angle: STRAIGHT, age, gender, genderProbability, smile, descriptor });
+                    this.lastDetection = Date.now();
+                }
+
+                this.showDebugResult({ age, gender, genderProbability, passed: age >= 18 });
+            } else {
+                if (this.debug) console.log('no detection');
+                if (Date.now() - this.lastDetection > 6000) {
+                    this.detections = [];
+                }
+            }
+
+            const done = this.updateIndicators(angle => 
+                !!this.detections.find(d =>
+                    d.angle != STRAIGHT &&
+                    this.anglesDistance(d.angle, angle) < 25
+                )
+            );
+
+            if (done > 0.95) {
+                const wasSmiling = this.detections.map(d => d.smile).reduce((acc, x) => acc + x, 0) / this.detections.length;
+                this.result = this.setupResult(this.detections);
+                this.showDebugResult(this.result);
+                this.showHint(undefined);
+
+                if (!this.result.passed) {
+                    this.updateIndicatorsError();
+                    setTimeout(() => {
+                        Telegram.WebView.postEvent("web_app_verify_age", null, this.result);
+                        Telegram.WebApp.invokeCustomMethod('sendVerifiedAge', this.result, () => {
+                            Telegram.WebApp.close();
+                        });
+                    }, this.debug ? 5000 : 700);
+                } else {
+                    this.updateIndicators(angle => true);
+                    this.challenge = wasSmiling > 0.5 ? 'dont-smile' : 'smile';
+                    this.showHint();
+                    setTimeout(() => {
+                        this.face.className = 'circled';
+                        this.showHint(this.challenge);
+                        this.onFrame();
+                    }, 300);
+                }
+            } else {
+                next();
+            }
+        } else if (this.challenge === 'smile' || this.challenge === 'dont-smile') {
+            if (!detection) {
+                if (this.debug) console.log('no detection');
+                if (Date.now() - this.lastDetection > 6000) {
+                    this.detections = [];
+                    this.smileDetections = [];
+                    this.lastDescriptor = null;
+
+                    this.challenge = 'move';
+                    this.showHint('move');
+                }
+                next();
+                return;
+            }
+
+            const { age, gender, genderProbability, descriptor } = detection;
+            const smile = detection.expressions.happy;
+            const smiling = smile > 0.5;
+            const needSmiling = this.challenge === 'smile';
+            const passed = smiling === needSmiling;
+
+            this.smileDetections.push({ age, gender, genderProbability, smile, descriptor });
+            this.lastDetection = Date.now();
+
+            if (!passed) {
+                next();
+                return;
+            }
+
+            const smileResult = this.setupResult(this.smileDetections);
+            this.result.age = this.result.age * 0.8 + smileResult.age * 0.2;
+            this.result.passed = this.result.age >= 18;
+            this.showDebugResult(this.result);
+
+            this.face.className = 'circled active';
+            
+            this.showHint(undefined);
+            setTimeout(() => {
+                Telegram.WebView.postEvent("web_app_verify_age", null, this.result);
+                Telegram.WebApp.invokeCustomMethod('sendVerifiedAge', this.result, () => {
+                    Telegram.WebApp.close();
+                });
+            }, this.debug ? 5000 : 700);
+        }
+    }
+}
+
+// Initialize the app
+const app = new AgeVerificationApp();
+</script>
