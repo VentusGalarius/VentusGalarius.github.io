@@ -1,0 +1,294 @@
+<html lang="en">
+<head>
+    <link rel="icon" type="image/svg+xml" href="https://wchatpy.pythonanywhere.com/static/images/icon.svg">
+    <link rel="alternate icon" href="https://wchatpy.pythonanywhere.com/static/images/icon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DepyXa Settings</title>
+    <link rel="stylesheet" href="https://wchatpy.pythonanywhere.com/static/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://wchatpy.pythonanywhere.com/static/css/setting.css">
+</head>
+
+<body>
+    <header>
+        <button class="openbtn" onclick="openNav()">☰Menu</button>
+        <span>DepyXa Settings</span>
+        <div class="tg"></div>
+    </header>
+
+    <nav id="mySidepanel" class="sidepanel">
+        <ul>
+            <li><a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a></li>
+            
+            <li><a href="https://wchatpy.pythonanywhere.com/web_chat"><i class="fa fa-globe" aria-hidden="true"></i>Web chat</a></li>
+            <li><a href="https://wchatpy.pythonanywhere.com/profile/3"><i class="fa fa-user" aria-hidden="true"></i>My Profile</a></li>
+            <li><a href="https://wchatpy.pythonanywhere.com/private_chats"><i class="fa fa-comment" aria-hidden="true"></i>Chats</a></li>
+            <li><a href="/settings"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
+            <li><a href="https://wchatpy.pythonanywhere.com/donate"><i class="fa fa-money" aria-hidden="true"></i>Donate</a></li>
+            
+            <li><a href="https://wchatpy.pythonanywhere.com/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+            
+        </ul>
+    </nav>
+
+    <section id="mainContent">
+        <p class="str">Your unique code <code id="uniqueCode">ln7bWoG42I398dMcDfw84UaVNG48aWxhoBhze-I53WY</code></p>
+        <p class="str">Do not tell anyone your unique code, even if an administrator asks you to. This code is needed to restore access to your account if you have lost your password.</p>
+
+        <form id="passwordForm">
+            <h2>Change Password</h2>
+            <label class="str" for="old_password">Old Password:</label>
+            <input type="password" maxlength="16" name="old_password" id="old_password" required> <br><br>
+            <label class="str" for="new_password">New Password:</label>
+            <input type="password" maxlength="16" name="new_password" id="new_password" required><br><br>
+            <button type="submit" name="change_password">Change</button>
+        </form><br><br>
+
+        <form id="avatarForm">
+            <h2 class="str">Change Avatar</h2>
+            <div class="current-avatar">
+                <img src="https://wchatpy.pythonanywhere.com/static/images/avatars/RDT_20250721_1704037435491974128721421_%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%BE%20_%D0%9A%D0%94.jpg" 
+                     alt="Current Avatar" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px;">
+            </div>
+            <input type="file" name="avatar" id="avatar" accept="image/*" required>
+            <button type="submit" name="change_avatar">Update</button>
+        </form><br><br>
+
+        <form id="descriptionForm">
+            <h2 class="str">Update Account Description</h2>
+            <label class="str" for="about">About</label><br><br>
+            <textarea name="about" id="about" rows="4" cols="50" autocomplete="off" maxlength="2000" required>...</textarea><br><br>
+            <button type="submit" name="update_description">Update</button>
+        </form>
+
+        <form id="birthYearForm">
+            <h2 class="str">Update Birth Year</h2>
+            <label class="str" for="birth_year">Birth Year:</label><br><br>
+            <input type="date" name="birth_year" id="birth_year" value="" required min="1955-01-01" max="2025-12-31"><br><br>
+            <button type="submit" name="update_birth_year">Save</button>
+        </form><br><br>
+
+        <form id="languageForm">
+            <div class="form-group">
+                <label class="str" for="language">Language:</label>
+                <select class="form-control" id="language" name="language">
+                    <option value="eng" selected>English</option>
+                    <option value="ukr">Українська</option>
+                    <option value="ru">Русский</option>
+                </select>
+            </div>
+            <button type="submit" name="change_language" class="btn btn-primary">Change</button>
+        </form><br><br>
+
+        <form id="nicknameForm">
+            <div class="form-group">
+                <label class="str" for="new_nickname">New Nickname</label><br><br>
+                <input type="text" class="form-control" id="new_nickname" name="new_nickname" 
+                       autocomplete="off" maxlength="80" value="Дмитро КД" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Change Nickname</button>
+        </form><br><br>
+
+        <form id="statusForm">
+            <label class="str" for="status">Status</label><br><br>
+            <input type="text" id="status" name="status" maxlength="100" value="Looking for someone to talk to..."><br><br>
+            <button type="submit" name="update_status">Save</button>
+        </form><br><br>
+
+        <form id="genderForm">
+            <label class="str" for="gender">Sex:</label>
+            <select id="gender" name="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Prefer not to say" selected>Prefer not to say</option>
+            </select><br><br>
+            <button type="submit" name="update_gender">Save</button>
+        </form>
+    </section>
+
+    <footer>
+        <span>© 2024 WChat. All rights reserved</span>
+    </footer>
+
+    <script>
+        // Current user data from profile
+        const currentUser = {
+            id: 3,
+            name: "Дмитро КД",
+            avatar: "https://wchatpy.pythonanywhere.com/static/images/avatars/RDT_20250721_1704037435491974128721421_%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%BE%20_%D0%9A%D0%94.jpg",
+            about: "...",
+            status: "Looking for someone to talk to...",
+            gender: "Prefer not to say",
+            privilege: "Admin",
+            premium: true,
+            createdAt: "2025-06-16 18:33",
+            lastOnline: "1 months ago"
+        };
+
+        // Initialize form values
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current values from user data
+            document.getElementById('about').value = currentUser.about;
+            document.getElementById('status').value = currentUser.status;
+            document.getElementById('gender').value = currentUser.gender;
+            document.getElementById('new_nickname').value = currentUser.name;
+            
+            // Setup form handlers
+            setupFormHandlers();
+        });
+
+        function setupFormHandlers() {
+            // Password form
+            document.getElementById('passwordForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = {
+                    type: 'change_password',
+                    old_password: document.getElementById('old_password').value,
+                    new_password: document.getElementById('new_password').value
+                };
+                sendPostMessage(formData);
+            });
+
+            // Avatar form
+            document.getElementById('avatarForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const fileInput = document.getElementById('avatar');
+                if (fileInput.files.length > 0) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const formData = {
+                            type: 'change_avatar',
+                            avatar: e.target.result
+                        };
+                        sendPostMessage(formData);
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                }
+            });
+
+            // Description form
+            document.getElementById('descriptionForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = {
+                    type: 'update_description',
+                    about: document.getElementById('about').value
+                };
+                sendPostMessage(formData);
+            });
+
+            // Birth year form
+            document.getElementById('birthYearForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = {
+                    type: 'update_birth_year',
+                    birth_year: document.getElementById('birth_year').value
+                };
+                sendPostMessage(formData);
+            });
+
+            // Language form
+            document.getElementById('languageForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = {
+                    type: 'change_language',
+                    language: document.getElementById('language').value
+                };
+                sendPostMessage(formData);
+            });
+
+            // Nickname form
+            document.getElementById('nicknameForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = {
+                    type: 'change_nickname',
+                    new_nickname: document.getElementById('new_nickname').value
+                };
+                sendPostMessage(formData);
+            });
+
+            // Status form
+            document.getElementById('statusForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = {
+                    type: 'update_status',
+                    status: document.getElementById('status').value
+                };
+                sendPostMessage(formData);
+            });
+
+            // Gender form
+            document.getElementById('genderForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = {
+                    type: 'update_gender',
+                    gender: document.getElementById('gender').value
+                };
+                sendPostMessage(formData);
+            });
+        }
+
+        function sendPostMessage(data) {
+            // Send data via postMessage to parent window or other target
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage({
+                    action: 'user_settings_update',
+                    data: data,
+                    timestamp: new Date().toISOString(),
+                    userId: currentUser.id
+                }, '*');
+            }
+            
+            // Also log to console for debugging
+            console.log('PostMessage sent:', data);
+            
+            // Show success message (in real app this would come from response)
+            showNotification('Settings updated successfully!');
+        }
+
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 5px;
+                z-index: 1000;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function openNav() {
+            document.getElementById("mySidepanel").style.width = "250px";
+            document.getElementById("mySidepanel").style.boxShadow = "3px 0px 14px 5px rgba(103, 189, 255, 0.17)";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidepanel").style.width = "0";
+            document.getElementById("mySidepanel").style.boxShadow = "0px 0px 0px 0px rgba(103, 189, 255, 0)";
+        }
+
+        // Listen for responses from parent window
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.action === 'settings_update_response') {
+                if (event.data.success) {
+                    showNotification('Settings saved successfully!');
+                } else {
+                    showNotification('Error: ' + (event.data.error || 'Failed to save settings'));
+                }
+            }
+        });
+    </script>
+</body>
+</html>
