@@ -1,0 +1,974 @@
+<html><head>
+    <meta charset="utf-8">
+    <title>Bug: «incorrect display of status when the account was online, the account is displayed as deleted!» – Bugs and Suggestions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="MobileOptimized" content="176">
+<meta name="HandheldFriendly" content="True"><meta name="twitter:card" content="summary">
+<meta property="og:title" content="Bugs and Suggestions">
+<meta property="og:image" content="https://bugs.telegram.org/img/BugsPreviewImage.jpg">
+<meta property="og:description" content="Report issues in Telegram apps and view known bugs.">
+
+    <link rel="shortcut icon" href="https://bugs.telegram.org/img/bt_favicon.ico" type="image/x-icon">
+<link rel="mask-icon" href="https://bugs.telegram.org/img/bt_icon.svg" color="#238fe1">
+    <script>document.cookie="stel_dt="+encodeURIComponent((new Date).getTimezoneOffset())+";path=/;max-age=31536000;samesite=None;secure"</script>
+    
+    <link href="//telegram.org/css/font-roboto.css?1" rel="stylesheet" type="text/css">
+    <link href="//telegram.org/css/bootstrap.min.css?3" rel="stylesheet">
+    <link href="//telegram.org/css/bootstrap-extra.css?2" rel="stylesheet">
+    <link href="https://bugs.telegram.org/css/telegram.css?247" rel="stylesheet">
+<link href="https://bugs.telegram.org/css/bugtracker.css?72" rel="stylesheet">
+<link href="https://bugs.telegram.org/css/bugtracker-bugs.css?4" rel="stylesheet">
+<link href="https://bugs.telegram.org/css/contest-zoo.css?7" rel="stylesheet">
+<link href="https://bugs.telegram.org/css/jquery-ui.min.css?1" rel="stylesheet">
+<link href="https://bugs.telegram.org/css/codemirror.css?1" rel="stylesheet">
+
+  </head>
+  <body class="emoji_image" style="overflow: hidden;">
+      <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <defs>
+      <path id="icon-like" d="m16 14h-1.6c-.44 0-.8-.35-.8-.78v-7c0-.43.36-.78.8-.78h1.6zm-15.86-5.54c-.09-.19-.14-.4-.14-.62v-.84c0-.86.72-1.56 1.6-1.56h4.4l-.74-3.61c-.04-.17-.01-.36.07-.52.18-.35.41-.66.7-.94l.37-.37 5.13 4.99c.3.29.47.69.47 1.1v6.09c0 1-.84 1.82-1.87 1.82h-6.48c-.57 0-1.09-.29-1.38-.75z"></path>
+      <path id="icon-dislike" d="m16 0h-1.6c-.4 0-.8.3-.8.8v7c0 .4.4.8.8.8h1.6zm-15.9 5.5c-.1.2-.1.4-.1.7v.8c0 .9.7 1.6 1.6 1.6h4.4l-.7 3.6c-.1.1-.1.3 0 .5.2.3.4.7.7.9l.4.4 5.1-5c.3-.3.5-.7.5-1.1v-6.1c0-1-.8-1.8-1.9-1.8h-6.5c-.5 0-1 .3-1.3.8z"></path>
+      <path id="icon-replies" d="m5.951.078-.072.061-5.73 5.911c-.192.198-.214.5-.066.723l.063.079 5.731 6.007c.088.091.209.143.336.143.228 0 .417-.164.457-.38l.006-.072v-3.374c.106-.006.211-.01.318-.013l.319-.004c2.919 0 5.42.819 7.179 2.457.121-.075.284-.109.463-.124l.045.263c-.511-3.167-1.332-4.236-2.573-5.476-1.348-1.345-3.132-2.19-5.353-2.536l-.397-.056v-3.225c0-.126-.051-.246-.141-.333-.161-.157-.406-.173-.585-.051z"></path>
+      <path id="icon-subscribe" d="m9.47 14c.07.16.12.32.12.5c0 .83-.9 1.5-2 1.5c-1.11 0-2-.67-2-1.5c0-.18.04-.34.11-.5zm-1.88-14c.55 0 1 .45 1 1v.1c2.28.46 4 2.48 4 4.9v4l1.29 1.29c.39.39.39 1.03 0 1.42c-.19.18-.44.29-.71.29h-11.17c-.55 0-1-.45-1-1c0-.27.11-.52.29-.71l1.3-1.29v-4c0-2.42 1.71-4.44 4-4.9v-.1c0-.55.44-1 1-1z"></path>
+      <path id="icon-trending" d="m7.5 11.96-3.62 2.14c-.4.24-.92.1-1.15-.3-.11-.18-.15-.4-.1-.61l.91-4.1-3.15-2.79c-.35-.31-.38-.84-.07-1.19.14-.16.33-.26.54-.28l4.19-.4 1.68-3.86c.18-.42.68-.62 1.1-.43.2.08.36.24.44.43l1.68 3.86 4.19.4c.46.05.8.46.75.92-.02.21-.12.41-.28.55l-3.15 2.79.91 4.1c.1.46-.18.91-.64 1.01-.2.04-.42.01-.61-.1z"></path>
+      <path id="icon-copy" d="m17.8 13.3c.7 0 1.2.5 1.2 1.2v1c0 3.6-2.9 6.5-6.5 6.5s-6.5-2.9-6.5-6.5v-1c0-.7.5-1.2 1.2-1.2s1.2.5 1.2 1.2v1c0 2.3 1.8 4.1 4.1 4.1s4.1-1.8 4.1-4.1v-1c0-.7.5-1.2 1.2-1.2zm-5.3-5.3c.7 0 1.3.6 1.3 1.3v5.4c0 .7-.6 1.3-1.3 1.3s-1.3-.6-1.3-1.3v-5.4c0-.7.6-1.3 1.3-1.3zm0-6c3.6 0 6.5 2.9 6.5 6.5v1c0 .7-.5 1.2-1.2 1.2s-1.2-.5-1.2-1.2v-1c0-2.3-1.8-4.1-4.1-4.1s-4.1 1.8-4.1 4.1v1c0 .7-.5 1.2-1.2 1.2s-1.2-.5-1.2-1.2v-1c0-3.6 2.9-6.5 6.5-6.5z" transform="matrix(.70710678 .70710678 -.70710678 .70710678 9.146447 -8.324116)"></path>
+      <g id="icon-arrow" fill-rule="evenodd"><rect height="2" rx="1" width="13" x="5" y="11"></rect><rect height="2.2" rx="1.1" transform="rotate(135 18 12.1)" width="10" x="16.9" y="11"></rect><rect height="2.2" rx="1.1" transform="rotate(-135, 18, 11.9)" width="10" x="16.9" y="10.8"></rect></g>
+      <g id="icon-close" fill-rule="evenodd"><rect id="icon-part1" height="16" rx="1.05" transform="rotate(-45 12 12)" width="2.1" x="10.95" y="3.95"></rect><use transform="rotate(90 12 12)" xlink:href="#icon-part1"></use></g>
+      <g id="icon-layer-close" fill-rule="evenodd"><rect id="icon-part2" height="19" rx="1.25" transform="rotate(-45 12 12)" width="2.5" x="10.75" y="2.25"></rect><use transform="rotate(90 12 12)" xlink:href="#icon-part2"></use></g>
+      <g id="icon-dd" fill-rule="evenodd"><path d="m.78.69c-.38.33-.42.91-.08 1.29.02.03.05.06.08.08l4.81 4.25c.44.4 1.11.4 1.55 0 .38-.33.42-.91.08-1.29-.02-.03-.05-.06-.08-.08l-4.81-4.25c-.44-.4-1.11-.4-1.55 0z"></path><path d="m12.14.69c.38.33.42.91.08 1.29-.02.03-.05.06-.08.08l-4.81 4.25c-.44.4-1.11.4-1.55 0-.38-.33-.42-.91-.08-1.29.02-.03.05-.06.08-.08l4.81-4.25c.44-.4 1.11-.4 1.55 0z"></path></g>
+    </defs>
+  </svg>
+    <div id="aj_progress" class="progress-bar" style="width: 100%; transition: width 0.3s linear, box-shadow 0.2s; position: fixed; z-index: 1000; top: 0px; height: 3px; box-shadow: inset 0 0 0 var(--accent-color, #39ade7);"></div>
+    
+    <div id="aj_content"><div class="bt-container">
+  <header>
+  <div class="container">
+    <div class="header-wrap">
+      <div id="header-panel" class="header-panel">
+        <div class="header-auth">
+  <div class="header-auth-item header-user-item"><span class="bt-dropdown-wrap"><span class="header-auth-photo bt-dropdown dropdown-toggle" data-toggle="dropdown"><img src="https://cdn4.telesco.pe/file/QWXbN6DFWf40QGm0ICYqI6zoT9xIq1dcus1BLpeIfd97JlqPx4Hy-NLhEBJ2Rv7UaEneJno5Xo8r7dAZRRq0izwwgGY9CgNqpSlZI1dhlfECpWyrARyXXtoEo-GkQXbaKDDf8166m6Cr5Rulbllz9Gr3IUZV2REzbFxkg5GpEnF0Y0bJQ3eVf6TT2NuX-P3e5eENMARkiPXfnKX0CB6FpbVhmoQYjFi3kWPcC8FJsd8qrhOqSGokOUAjSRC24xiSVwqDFE0MZ7_-Sgj8FOr2vAbtKDse4ia78Pq7oj8s_U9FDjdZq5yohLK_zh1cjBzfK_79qiELOSfawQTERXWVUw.jpg"></span><span class="dropdown-menu"><ul class="dropdown-menu"><li><span class="bt-dropdown-item">Mark</span></li><li><a href="https://bugs.telegram.org/subscriptions" data-layer="" class="bt-dropdown-item">Subscriptions</a></li><li><a href="https://bugs.telegram.org/#logout" class="bt-dropdown-item logout-link">Log out</a></li></ul></span></span></div>
+</div>
+        <div class="header-breadcrumb header-breadcrumb-simple">
+          <ol id="breadcrumb" class="header-nav breadcrumb"><li class="cd-logo"><a href="/"><i class="cd-icon"></i><span class="cd-logo-title">Bugs and Suggestions</span></a></li></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</header><header class="bt-search-header sticky">
+  <div class="sticky-box">
+    <div class="container">
+      <section class="bt-search">
+        <form action="/" class="cd-form bt-main-search-form">
+          <input type="hidden" name="type" value="">
+          <input type="hidden" name="sort" value="rate">
+          <div class="form-group">
+            <div class="bt-form-input cd-form-select bt-select-query">
+              <div class="select" data-name="filters" data-value="">
+                <div class="select-enter selected"><svg class="icon"><use xlink:href="#icon-arrow"></use></svg></div>
+                <span class="select-clear"><svg class="icon"><use xlink:href="#icon-close"></use></svg></span>
+                <div class="selected-items">
+                  
+                  <input type="search" class="form-control cd-form-control" placeholder="Describe your issue or suggestion" name="query" value="" autocomplete="off">
+                </div>
+                <div class="items-list collapsed"><div class="search-item" data-i="0"><div class="select-list-item c-cyan">Open</div></div><div class="search-item" data-i="1"><div class="select-list-item c-orange">Closed</div></div><div class="search-item" data-i="2"><div class="select-list-item c-lightgreen">Fix coming</div></div><div class="search-item" data-i="3"><div class="select-list-item c-green">Fixed</div></div><div class="search-item" data-i="4"><div class="select-list-item">General</div></div><div class="search-item" data-i="5"><div class="select-list-item">Android</div></div><div class="search-item" data-i="6"><div class="select-list-item">iOS</div></div><div class="search-item" data-i="7"><div class="select-list-item">Telegram Desktop</div></div><div class="search-item" data-i="8"><div class="select-list-item">macOS</div></div><div class="search-item" data-i="9"><div class="select-list-item">Web</div></div><div class="search-item" data-i="10"><div class="select-list-item">Android X</div></div><div class="search-item" data-i="11"><div class="select-list-item">Bot API</div></div><div class="search-item" data-i="12"><div class="select-list-item">Accessibility</div></div><div class="search-item" data-i="13"><div class="select-list-item">Calls</div></div><div class="search-item" data-i="14"><div class="select-list-item">Tablet</div></div><div class="search-item" data-i="15"><div class="select-list-item">Tip</div></div><div class="search-item" data-i="16"><div class="select-list-item">WebK</div></div><div class="search-item" data-i="17"><div class="select-list-item">WebA</div></div><div class="search-item" data-i="18"><div class="select-list-item">Translation Platform</div></div><div class="search-item" data-i="19"><div class="select-list-item">GmailBot</div></div><div class="search-item" data-i="20"><div class="select-list-item">Contest</div></div><div class="search-item" data-i="21"><div class="select-list-item">Unigram</div></div><div class="search-item" data-i="22"><div class="select-list-item">Mini Apps</div></div><div class="search-item" data-i="23"><div class="select-list-item">iOS 26</div></div></div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="bt-search-tabs">
+          <span class="bt-search-tab">All</span><a href="https://bugs.telegram.org/?type=issues&amp;sort=rate" class="bt-search-tab">Issues</a><a href="https://bugs.telegram.org/?type=suggestions&amp;sort=rate" class="bt-search-tab">Suggestions</a><span class="bt-search-tabs-right"><a href="https://bugs.telegram.org/my" class="bt-search-tab">My Cards</a></span>
+        </div>
+      </section>
+    </div>
+  </div>
+</header>
+  <main class="container"><section class="cd-content with-trending">
+    <span class="bt-sort-wrap" data-value="rate">
+    <a class="bt-sort-item selected" data-value="rate">by rating</a>
+    <a class="bt-sort-item" data-value="time">by time</a>
+  </span><h3 class="bt-header" data-count="36101">36101 Cards</h3>
+<a href="https://bugs.telegram.org/c/203" data-layer="" class="bt-card-row trending" data-card-id="203">
+  <div class="bt-card-thumb thumb-issue thumb-icon bumblebee thumb-color3"><span class="bt-card-thumb-status">Fixed</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      App's badge counter shows unread messages when all chats are read
+    </div>
+    <div class="bt-card-preview">Badge counters inside the app and on the app's icon may sometimes show unread messages while there are no unread chats in the list. Workaround Tap 10 times on the Settings tab icon &gt; Reindex Unread Counters.…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Nov 13, 2020 at 01:16" class="short">Nov 13, 2020</time><span class="bt-card-status"></span><span class="add-info">Issue, iOS</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">179</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class="bt-issue-trending"><svg class="icon"><use xlink:href="#icon-trending"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/746" data-layer="" class="bt-card-row trending" data-card-id="746">
+  <div class="bt-card-thumb thumb-animal thumb-icon cock thumb-color2"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      About this platform
+    </div>
+    <div class="bt-card-preview"> All users are welcome to create new entries, view existing entries and vote on them. What is this for? This platform is a place where users can vote for feature suggestions for Telegram or report issues…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Dec 23, 2020 at 17:57" class="short">Dec 23, 2020</time><span class="bt-card-status"><span class="add-info">Closed</span></span><span class="add-info">Tip</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">96</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class="bt-issue-trending"><svg class="icon"><use xlink:href="#icon-trending"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/14753" data-layer="" class="bt-card-row trending" data-card-id="14753">
+  <div class="bt-card-thumb thumb-issue" style="background-image:url('https://telegra.ph/file/thumb/12ea8c825b7d3a6392840-c7f7ec8d17ee2abc60.jpg')"><span class="bt-card-thumb-status">Fixed</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Missing parts of message history
+    </div>
+    <div class="bt-card-preview"> Your help needed: The team needs help with app's logs. Messages are missing on mobile but visible on Telegram Web and Desktop. Notifications of new messages are received, but messages don't appear in…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Feb 15, 2022 at 04:42" class="short">Feb 15, 2022</time><span class="bt-card-status"></span><span class="add-info">Issue, Android</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">118</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class="bt-issue-trending"><svg class="icon"><use xlink:href="#icon-trending"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/30207" data-layer="" class="bt-card-row" data-card-id="30207">
+  <div class="bt-card-thumb thumb-feature thumb-icon currant thumb-color7"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      An option to disable the Stories feature
+    </div>
+    <div class="bt-card-preview">An option in the app settings to completely disable the Stories feature to reduce visual clutter. Official Response: Stories take up no extra space in the Telegram UI –&nbsp;but if you'd prefer not to see…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Jul 21, 2023 at 09:57" class="short">Jul 21, 2023</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">1540</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">7047</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/3944" data-layer="" class="bt-card-row" data-card-id="3944">
+  <div class="bt-card-thumb thumb-feature" style="background-image:url('https://telegra.ph/file/thumb/7a8c5ab7b26d242b2f493-8c12e66e9788cbdac1.jpg')"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Shadowsocks proxy support
+    </div>
+    <div class="bt-card-preview">Add Built-in VMess, Shadowsocks, SSR, Trojan-GFW proxies support The ( vmess / vmess1 / ss / ssr / trojan ) proxy link in the message can be clicked</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Apr 11, 2021 at 14:06" class="short">Apr 11, 2021</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">104</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">6323</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/724" data-layer="" class="bt-card-row" data-card-id="724">
+  <div class="bt-card-thumb thumb-feature thumb-icon carambola thumb-color4"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Improve the ability to search chat history for Asian regional languages, such as Chinese and Japanese
+    </div>
+    <div class="bt-card-preview">Improve the ability to search chat history for Asian regional languages, such as Chinese and Japanese. Telegram's chat history search function is based on words, and is suitable for languages such as…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Dec 23, 2020 at 11:56" class="short">Dec 23, 2020</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">183</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">3618</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/82" data-layer="" class="bt-card-row" data-card-id="82">
+  <div class="bt-card-thumb thumb-feature thumb-icon banana thumb-color2"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Silent sign up
+    </div>
+    <div class="bt-card-preview">A feature to join Telegram incognito, making the phone number privacy set to Nobody before creating a new account. Current users who have that number added to their contacts list will not get a new c…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Dec 12, 2019 at 09:44" class="short">Dec 12, 2019</time><span class="bt-card-status"></span><span class="add-info">Suggestion</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">149</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">3182</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/15763" data-layer="" class="bt-card-row" data-card-id="15763">
+  <div class="bt-card-thumb thumb-feature" style="background-image:url('https://telegra.ph/file/thumb/696b56fe76edb9110c03a-b8eef57fc267a188ec.jpg')"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      The sticker text is covered of the time of the message
+    </div>
+    <div class="bt-card-preview">The time of the message is displayed on the sticker. It is not comfortable to read sticker. It often happens that time covers part of the text on the sticker. And if the sticker is sent from the channel…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Mar 20, 2022 at 14:48" class="short">Mar 20, 2022</time><span class="bt-card-status"></span><span class="add-info">Android, Suggestion</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">11</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">2306</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/2775" data-layer="" class="bt-card-row" data-card-id="2775">
+  <div class="bt-card-thumb thumb-feature" style="background-image:url('https://telegra.ph/file/thumb/2320d5aaba534ba33185a-3d49a617762f01a522.jpg')"><div class="bt-card-thumb-label">1:52</div><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Emergency passcode to hide chats
+    </div>
+    <div class="bt-card-preview">Option to set an alternative passcode ("double bottom") that either opens a limited set of chats, opens a different account, or destroys one of the connected accounts completely when entered. Use cases…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Feb 28, 2021 at 02:18" class="short">Feb 28, 2021</time><span class="bt-card-status"></span><span class="add-info">Suggestion</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">64</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1834</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/67" data-layer="" class="bt-card-row" data-card-id="67">
+  <div class="bt-card-thumb thumb-feature thumb-icon pitaya fixed thumb-color3"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Group Video Calls
+    </div>
+    <div class="bt-card-preview"> Group Video Calls has been implemented in June 2021. Related suggestions: Group Video Calls with Contacts, Screen Sharing in private chats.</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Dec 11, 2019 at 14:50" class="short">Dec 11, 2019</time><span class="bt-card-status"><span class="add-info">Fixed</span></span><span class="add-info">Suggestion, Calls</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">88</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1762</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/808" data-layer="" class="bt-card-row" data-card-id="808">
+  <div class="bt-card-thumb thumb-feature" style="background-image:url('https://telegra.ph/file/thumb/c3fd10f0757f15620128f-758028fed0f2f79cd1.jpg')"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Cryptocurrency donations for bots, groups and channels
+    </div>
+    <div class="bt-card-preview">Show a button for&nbsp;sending quick donations to maintainers of bots, groups or channels using cryptocurrency. This could use either an established cryptocurrency like Bitcoin, Etherium, EOS, etc. – or some…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Dec 25, 2020 at 12:04" class="short">Dec 25, 2020</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">114</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1731</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/8013" data-layer="" class="bt-card-row" data-card-id="8013">
+  <div class="bt-card-thumb thumb-feature thumb-icon java-apple thumb-color5"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Chat permissions: Can Talk
+    </div>
+    <div class="bt-card-preview">Please add chat permission: Can Talk. How it works If it's enabled, user can talk in a voice chat. Otherwise user is muted. For users In apps it would be useful for chat owners - they will be able to…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Aug 3, 2021 at 19:22" class="short">Aug 3, 2021</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">9</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1667</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/11" data-layer="" class="bt-card-row" data-card-id="11">
+  <div class="bt-card-thumb thumb-feature thumb-icon guava thumb-color3"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Notify all group members
+    </div>
+    <div class="bt-card-preview">An option to notify all group members or admins using a special mention (e.g. @all and @admins). Use cases Important news and major updates in big communities.  Potential issues Some group admins already…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Nov 4, 2019 at 15:27" class="short">Nov 4, 2019</time><span class="bt-card-status"></span><span class="add-info">Suggestion</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">119</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1619</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/7941" data-layer="" class="bt-card-row" data-card-id="7941">
+  <div class="bt-card-thumb thumb-feature thumb-icon papaya thumb-color5"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Add "Ban Users" permission for admins of channels
+    </div>
+    <div class="bt-card-preview">In channels, admins can always ban users regardless of their permissions, it would be useful to remove the permission to ban users to some admins. Possible Solution - It could be added as sub-permission…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Aug 1, 2021 at 13:03" class="short">Aug 1, 2021</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">20</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1450</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/383" data-layer="" class="bt-card-row" data-card-id="383">
+  <div class="bt-card-thumb thumb-feature thumb-icon pear fixed thumb-color7"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Choose a different default folder instead of "All Chats"
+    </div>
+    <div class="bt-card-preview"> This feature is available as part of Telegram Premium. An option to pin one of your folders as the main folder instead of All Chats. When you open the app, it would show you the folder you chose. Pressing…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Nov 17, 2020 at 02:32" class="short">Nov 17, 2020</time><span class="bt-card-status"><span class="add-info">Fixed</span></span><span class="add-info">Suggestion</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">79</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1419</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/68" data-layer="" class="bt-card-row" data-card-id="68">
+  <div class="bt-card-thumb thumb-feature thumb-icon plum thumb-color4"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Unlimited favorite stickers
+    </div>
+    <div class="bt-card-preview">Increase the limit for favorite stickers. The current limit is five stickers. When you add another one, the first sticker is replaced. Use cases Choose a limited set of stickers which you will always…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Dec 11, 2019 at 15:13" class="short">Dec 11, 2019</time><span class="bt-card-status"></span><span class="add-info">Suggestion</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">78</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1400</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/36812" data-layer="" class="bt-card-row" data-card-id="36812">
+  <div class="bt-card-thumb thumb-issue" style="background-image:url('https://telegra.ph/file/thumb/1bb32f93f091d5186ee8c-ac0ebb31705216e8b6.jpg')"><div class="bt-card-thumb-label">0:27</div><span class="bt-card-thumb-status">Fixed</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Removing the restriction of adding members to Telegram groups
+    </div>
+    <div class="bt-card-preview">1: We enter the group 2: In the add member section 3: Selection of contacts or members 4: Add to the group But no member is added to our group Steps to reproduce 1: We enter the group 2: In the add member…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Jan 31, 2024 at 14:24" class="short">Jan 31, 2024</time><span class="bt-card-status"></span><span class="add-info">Issue</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">72</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1349</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/47089" data-layer="" class="bt-card-row" data-card-id="47089">
+  <div class="bt-card-thumb thumb-issue thumb-icon colorado-potato-larvae fixed thumb-color1"><span class="bt-card-thumb-status">Fixed</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Live streams have low speed audio resulting in almost no sound
+    </div>
+    <div class="bt-card-preview">Since the latest stable update, audio from Live Streams is missing. The audio track is actually slightly audible if you max out the volume of your device, but it will be barely noticeable, and feels extremely…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Jan 4 at 20:29" class="short">Jan 4</time><span class="bt-card-status"><span class="add-info">Fixed</span></span><span class="add-info">Issue, iOS</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">8</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1323</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/1050" data-layer="" class="bt-card-row" data-card-id="1050">
+  <div class="bt-card-thumb thumb-feature fixed" style="background-image:url('https://telegra.ph/file/thumb/20212d5f1082687d28079-38523307aef6b3b586.jpg')"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Partial reply
+    </div>
+    <div class="bt-card-preview">Reply only on parts of a message. This would be very useful, if someone wrote a very long message and you only want to refer to one or two sentences - or even only one or a few words.&nbsp; If you click on…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Jan 24, 2021 at 00:44" class="short">Jan 24, 2021</time><span class="bt-card-status"><span class="add-info">Fixed</span></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">79</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1304</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/65" data-layer="" class="bt-card-row" data-card-id="65">
+  <div class="bt-card-thumb thumb-feature thumb-icon physalis thumb-color1"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Disable "New Contact Joined" chats
+    </div>
+    <div class="bt-card-preview">Users receive a notification when one of their contacts becomes available on Telegram. It is currently possible to disable the notification: the new chats will appear in the list without sending a notification.…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Dec 11, 2019 at 14:23" class="short">Dec 11, 2019</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">83</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1231</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/16550" data-layer="" class="bt-card-row" data-card-id="16550">
+  <div class="bt-card-thumb thumb-feature thumb-icon pumpkin thumb-color6"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Allow adding Bots (Web Apps) to the Attachment Menu to all bots
+    </div>
+    <div class="bt-card-preview">Now only selected bots can be added to the Attachment Menu. But as a developer of inline bots, I see this as a barrier to make telegram a better messenger Let users decide, what they want to see in their…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Apr 17, 2022 at 16:06" class="short">Apr 17, 2022</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">51</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1218</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/406" data-layer="" class="bt-card-row" data-card-id="406">
+  <div class="bt-card-thumb thumb-feature thumb-icon cloudberry fixed thumb-color6"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Alternate profile pictures
+    </div>
+    <div class="bt-card-preview">When setting a profile picture or video that's only visible to contacts (or certain users, groups etc.), allow choosing an alternate picture or video that will be shown to everyone else.  Use cases -…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Nov 17, 2020 at 19:48" class="short">Nov 17, 2020</time><span class="bt-card-status"><span class="add-info">Fixed</span></span><span class="add-info">Suggestion</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">60</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1094</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/19148" data-layer="" class="bt-card-row" data-card-id="19148">
+  <div class="bt-card-thumb thumb-issue" style="background-image:url('https://telegra.ph/file/thumb/9706892a7cf530bdf5711-ad3df433e458b3bd7c.jpg')"><span class="bt-card-thumb-status">Fixed</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Telegram's Message Limit: Old Messages Gone Forever
+    </div>
+    <div class="bt-card-preview">When the message count reaches a million, old messages disappear. Steps to reproduce 1. Be an active Telegram user 2. Wait until the coveted number of incoming/outgoing messages is reached. 3. Eh, it's…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Jul 19, 2022 at 21:47" class="short">Jul 19, 2022</time><span class="bt-card-status"></span><span class="add-info">Issue, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">102</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1084</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/46474" data-layer="" class="bt-card-row" data-card-id="46474">
+  <div class="bt-card-thumb thumb-issue thumb-icon snail thumb-color2"><span class="bt-card-thumb-status">Fixed</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Incorrect Search Ban for Quality channels
+    </div>
+    <div class="bt-card-preview">Incorrect Search Ban on one of The Largest Telegram Channel Steps to reproduce My Channel @Funny is one of the largest English Entertainment channel with Over 250K Subscribers &amp; great Engagement. But…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Dec 15, 2024 at 18:15" class="short">Dec 15, 2024</time><span class="bt-card-status"></span><span class="add-info">Issue, Android</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">105</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1061</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/23899" data-layer="" class="bt-card-row" data-card-id="23899">
+  <div class="bt-card-thumb thumb-feature thumb-icon mangosteen thumb-color3"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Armenian language official translation in telegram
+    </div>
+    <div class="bt-card-preview">Dear Telegram administration. We ask you to make the translation of the Armenian language official in telegram. Not a few people speak Armenian, and a full-fledged Armenian segment has already formed…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Jan 8, 2023 at 22:21" class="short">Jan 8, 2023</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">204</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1049</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/1035" data-layer="" class="bt-card-row" data-card-id="1035">
+  <div class="bt-card-thumb thumb-feature thumb-icon strawberry thumb-color3"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Allow site owners to make their own Instant View templates
+    </div>
+    <div class="bt-card-preview">Instant View templates are currently created and maintained by Telegram, the list of supported websites is expanded gradually. Some site owners would like to get IV support for their websites sooner.…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Jan 23, 2021 at 20:41" class="short">Jan 23, 2021</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">66</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">1002</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/755" data-layer="" class="bt-card-row" data-card-id="755">
+  <div class="bt-card-thumb thumb-feature thumb-icon strawberry fixed thumb-color3"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Add Instant View to Telegram Desktop
+    </div>
+    <div class="bt-card-preview">Add Instant View to Telegram Desktop. The feature is there right now for MacOS Telegram App, but missing from regular Telegram Desktop. Preferably, it should open an article in the existing telegram window…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Dec 23, 2020 at 20:11" class="short">Dec 23, 2020</time><span class="bt-card-status"><span class="add-info">Fixed</span></span><span class="add-info">Suggestion, Telegram Desktop</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">66</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">995</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/1964" data-layer="" class="bt-card-row" data-card-id="1964">
+  <div class="bt-card-thumb thumb-feature thumb-icon carambola thumb-color4"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Better global search
+    </div>
+    <div class="bt-card-preview">Make global search a place to find all communities in channels and public chats.</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Feb 9, 2021 at 05:25" class="short">Feb 9, 2021</time><span class="bt-card-status"></span><span class="add-info">Suggestion, Android</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">50</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">969</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/24621" data-layer="" class="bt-card-row" data-card-id="24621">
+  <div class="bt-card-thumb thumb-feature thumb-icon papaya thumb-color5"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      No one open the video in the groups conversations without the admins permission
+    </div>
+    <div class="bt-card-preview">During the meeting conversations in telegram, some members want to speak so when we open the Microphone for them to speak, they open video with sexual content. This leads to annoy the members and they…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Jan 30, 2023 at 22:42" class="short">Jan 30, 2023</time><span class="bt-card-status"></span><span class="add-info">Android, Suggestion</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">22</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">936</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/772" data-layer="" class="bt-card-row" data-card-id="772">
+  <div class="bt-card-thumb thumb-feature thumb-icon honeysuckle fixed thumb-color4"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Transfer ownership if creator account was deleted
+    </div>
+    <div class="bt-card-preview">Option to transfer ownership in groups and channels if the creator was deleted so the first admin with all permissions will become a creator!  Thumbs up if you want this to happen <i class="emoji" style="background-image:url('//telegram.org/img/emoji/40/F09F918D.png')"><b>👍</b></i> App: all</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Dec 24, 2020 at 07:47" class="short">Dec 24, 2020</time><span class="bt-card-status"><span class="add-info">Fixed</span></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">140</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">927</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/44987" data-layer="" class="bt-card-row" data-card-id="44987">
+  <div class="bt-card-thumb thumb-issue fixed" style="background-image:url('https://telegra.ph/file/thumb/2ac7cfdb172a72e9ab3bf-068cb04c21a9a79f8e.jpg')"><span class="bt-card-thumb-status">Fixed</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Status displaying issue for iranian numbers
+    </div>
+    <div class="bt-card-preview">Title: Unreasonable Restrictions on Iranian Accounts Description: Viewing Premium Statuses: Non-premium Iranian accounts cannot see the statuses of premium users. However, purchasing a premium subscription…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Oct 26, 2024 at 22:45" class="short">Oct 26, 2024</time><span class="bt-card-status"><span class="add-info">Fixed</span></span><span class="add-info">Issue, Android</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">71</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">918</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/21941" data-layer="" class="bt-card-row" data-card-id="21941">
+  <div class="bt-card-thumb thumb-feature" style="background-image:url('https://telegra.ph/file/thumb/3364c1910c0e849103a7d-5c4350bc7d04b49d18.jpg')"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Proper support for inline video messages fro bots
+    </div>
+    <div class="bt-card-preview">Proper support for Video Notes (aka round videos) in inline mode for bots</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Nov 9, 2022 at 06:43" class="short">Nov 9, 2022</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">43</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">866</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/20748" data-layer="" class="bt-card-row" data-card-id="20748">
+  <div class="bt-card-thumb thumb-feature thumb-icon plum fixed thumb-color4"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Add an option to disable auto-ordering of sticker packs on mobile
+    </div>
+    <div class="bt-card-preview">Add an option to disable auto-ordering of sticker packs. If you have a lot of packs, it make sense to order them in a way that makes it easy for you to find the right sticker. This has been the behaviour…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Sep 19, 2022 at 20:52" class="short">Sep 19, 2022</time><span class="bt-card-status"><span class="add-info">Fixed</span></span><span class="add-info">Suggestion, Android, iOS</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">223</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">856</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/54902" data-layer="" class="bt-card-row" data-card-id="54902">
+  <div class="bt-card-thumb thumb-feature thumb-icon peach thumb-color6"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      NTF Stickers
+    </div>
+    <div class="bt-card-preview">Dear Telegram Team, This is a proposal to enhance the Telegram ecosystem: the introduction of NFT stickers — unique digital stickers based on blockchain technology, which can not only be used in chats…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Oct 10 at 20:27" class="short">Oct 10</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">469</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">855</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/407" data-layer="" class="bt-card-row" data-card-id="407">
+  <div class="bt-card-thumb thumb-feature thumb-icon currant thumb-color7"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Custom icons for folders
+    </div>
+    <div class="bt-card-preview">Add the ability to choose icons for folders on mobile platforms – like in Telegram Desktop and Telegram macOS. Sync them on all devices. Use cases - Find folders you're looking for more easily. - Save…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Nov 17, 2020 at 20:11" class="short">Nov 17, 2020</time><span class="bt-card-status"></span><span class="add-info">Suggestion, iOS, Android</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">24</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">839</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/42114" data-layer="" class="bt-card-row" data-card-id="42114">
+  <div class="bt-card-thumb thumb-feature" style="background-image:url('https://telegra.ph/file/thumb/f15ca21470904fac69f93-0b3bb1d9487f80f57d.jpg')"><div class="bt-card-thumb-label">0:14</div><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Pedophilic Content on Telegram: A Growing Concern
+    </div>
+    <div class="bt-card-preview">The dissemination of pedophilic content is one of the gravest online crimes that severely infringes on children’s rights. Such content not only promotes and reinforces sexual abuse of children but also…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Jul 25, 2024 at 21:49" class="short">Jul 25, 2024</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">174</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">834</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/37" data-layer="" class="bt-card-row" data-card-id="37">
+  <div class="bt-card-thumb thumb-feature thumb-icon tamarind thumb-color5"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Hide messages from blocked users in groups
+    </div>
+    <div class="bt-card-preview">Sometimes you don't want to see messages from people you blocked, even in the groups you share with them. Such messages could be automatically collapsed and hidden under a spoiler (like 'You blocked Doge.…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Nov 5, 2019 at 18:36" class="short">Nov 5, 2019</time><span class="bt-card-status"></span><span class="add-info">Suggestion</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">189</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">816</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/729" data-layer="" class="bt-card-row" data-card-id="729">
+  <div class="bt-card-thumb thumb-feature thumb-icon gooseberry thumb-color1"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Call transfer between devices
+    </div>
+    <div class="bt-card-preview">An option to seamlessly transfer ongoing voice and video calls between different devices with one account: e.g., from a mobile phone to a desktop PC and vice versa.</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Dec 23, 2020 at 14:43" class="short">Dec 23, 2020</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General, Calls</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">28</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">798</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/31" data-layer="" class="bt-card-row" data-card-id="31">
+  <div class="bt-card-thumb thumb-feature thumb-icon rambutan thumb-color7"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      More Two-Factor Authentication methods
+    </div>
+    <div class="bt-card-preview">An option to add an authenticator app with temporary, one-time passwords (e.g. Authy, Google Authenticator) as another second factor.</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Nov 5, 2019 at 18:17" class="short">Nov 5, 2019</time><span class="bt-card-status"></span><span class="add-info">Suggestion</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">31</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">787</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/28" data-layer="" class="bt-card-row" data-card-id="28">
+  <div class="bt-card-thumb thumb-feature thumb-icon plum thumb-color4"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Separate passcode lock for specific chats or Archive
+    </div>
+    <div class="bt-card-preview">Option to lock certain chats with a separate passcode. On a chat-by-chat basis, or for an entire Chat Folder, e.g. the Archive. Use cases Family iPads and other shared devices. Can also be used in environments…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Nov 5, 2019 at 18:09" class="short">Nov 5, 2019</time><span class="bt-card-status"></span><span class="add-info">Suggestion</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">53</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">784</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/15046" data-layer="" class="bt-card-row" data-card-id="15046">
+  <div class="bt-card-thumb thumb-feature" style="background-image:url('https://telegra.ph/file/thumb/7e80f02a247c12ac57bae-eeba7d6d2b80df70f7.jpg')"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      An option for a channel/group owner to better interact with subscribers without the risk of being reported as spammer by trolls.
+    </div>
+    <div class="bt-card-preview">An option for the owner of a channel or a group to set a visible flag informing all new members that they might be privately contacted one single time by the owner/admins of the channel/group they are…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Feb 26, 2022 at 11:54" class="short">Feb 26, 2022</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">23</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">755</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/83" data-layer="" class="bt-card-row" data-card-id="83">
+  <div class="bt-card-thumb thumb-feature thumb-icon blueberry fixed thumb-color3"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Stories / Statuses
+    </div>
+    <div class="bt-card-preview">An option to share moments (media, like photos or short videos, texts, etc.) with your mutual contacts (this can be adapted with granular privacy permissions) to view, interact, and forward. Such statuses…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Dec 12, 2019 at 15:09" class="short">Dec 12, 2019</time><span class="bt-card-status"><span class="add-info">Fixed</span></span><span class="add-info">Suggestion</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">968</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">704</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/33679" data-layer="" class="bt-card-row" data-card-id="33679">
+  <div class="bt-card-thumb thumb-feature thumb-icon watermelon thumb-color7"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Allow opening media directly from the preview.
+    </div>
+    <div class="bt-card-preview">When someone posts a link, Telegram generates a link preview with title, media and some of the text from the page linked. Ever since the October 2023 update, clicking or tapping anywhere inside the preview…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Oct 29, 2023 at 17:45" class="short">Oct 29, 2023</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">66</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">685</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/1066" data-layer="" class="bt-card-row" data-card-id="1066">
+  <div class="bt-card-thumb thumb-feature" style="background-image:url('https://telegra.ph/file/thumb/42a571d0d1c575711cb36-b93789c32870b63aa7.jpg')"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Tmail - Telegram Email Service
+    </div>
+    <div class="bt-card-preview">Telegram is a great messenger, but it can also be a great Email service. So without further introductions, let's start. It may seem like Email service is for the previous generation, but many people,…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Jan 24, 2021 at 15:37" class="short">Jan 24, 2021</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">83</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">676</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/21" data-layer="" class="bt-card-row" data-card-id="21">
+  <div class="bt-card-thumb thumb-feature thumb-icon papaya thumb-color5"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Different background images for each chat
+    </div>
+    <div class="bt-card-preview">A feature to set a individual wallpaper for specific chats. (f.e. One wallpaper for a specific group, another for a chat with a friend...) Use cases This would make navigation between chats easier, especially…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Nov 5, 2019 at 17:51" class="short">Nov 5, 2019</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">43</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">672</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/824" data-layer="" class="bt-card-row" data-card-id="824">
+  <div class="bt-card-thumb thumb-feature fixed" style="background-image:url('https://telegra.ph/file/thumb/edd42527ffa14fa26c0e0-e3d4796ef732c40f28.jpg')"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Syntax highlighting in code blocks
+    </div>
+    <div class="bt-card-preview">An optional extension to the backtick syntax to specify a language to highlight.  Similar examples are the likes of Gitlab and GitHub comments.</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Dec 27, 2020 at 12:29" class="short">Dec 27, 2020</time><span class="bt-card-status"><span class="add-info">Fixed</span></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">47</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">617</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/789" data-layer="" class="bt-card-row" data-card-id="789">
+  <div class="bt-card-thumb thumb-feature thumb-icon pomegrenate thumb-color5"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Change file names in Telegram
+    </div>
+    <div class="bt-card-preview">Option to change file name on Telegram without needing to re-upload the file. App: all</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Dec 24, 2020 at 18:54" class="short">Dec 24, 2020</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">31</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">591</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/504" data-layer="" class="bt-card-row" data-card-id="504">
+  <div class="bt-card-thumb thumb-feature thumb-icon persimmon fixed thumb-color0"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Requests to join group or channel
+    </div>
+    <div class="bt-card-preview">If enabled, the user attempting to join the group/channel will only be able to view the content and send things after being accepted by an administrator (optional: only admins who have the "accept/decline…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Nov 23, 2020 at 23:47" class="short">Nov 23, 2020</time><span class="bt-card-status"><span class="add-info">Fixed</span></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">155</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">570</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/10548" data-layer="" class="bt-card-row" data-card-id="10548">
+  <div class="bt-card-thumb thumb-feature thumb-icon plum thumb-color4"><span class="bt-card-thumb-status">Added</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      [Privacy] [Private] New privacy option to not allow private messages from non-contacts.
+    </div>
+    <div class="bt-card-preview">Like many have asked before (for different reasons) for years (even before we had this suggestions platform) and as you can see with other suggestions in this platform too: https://bugs.telegram.org/c/1748…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Oct 24, 2021 at 17:10" class="short">Oct 24, 2021</time><span class="bt-card-status"></span><span class="add-info">Suggestion, General</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">106</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">569</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><a href="https://bugs.telegram.org/c/6765" data-layer="" class="bt-card-row" data-card-id="6765">
+  <div class="bt-card-thumb thumb-issue thumb-icon carrot-weevil fixed thumb-color5"><span class="bt-card-thumb-status">Fixed</span></div>
+  <div class="bt-card-row-body">
+    <div class="bt-card-title">
+      Telegram downloads images instead of using bitmap data from clipboard
+    </div>
+    <div class="bt-card-preview">When I paste an image copied from Firefox, Telegram downloads it again instead of using the bitmap data from the clipboard. This happens because the clipboard also stores the image URL. If I paste the…</div>
+    <div class="bt-issue-footer-wrap">
+      <div class="bt-issue-footer">
+        <time title="Jun 28, 2021 at 01:45" class="short">Jun 28, 2021</time><span class="bt-card-status"><span class="add-info">Fixed</span></span><span class="add-info">Issue, Telegram Desktop</span>
+      </div>
+      <div class="bt-issue-counters likes-wrap"><span class="cd-issue-replies"><span class="value">15</span><svg class="icon"><use xlink:href="#icon-replies"></use></svg></span><span class=" cd-issue-like"><span class="value">518</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span></div>
+    </div>
+  </div>
+</a><div class="bt-load-more-wrap js-load-more" data-offset="50"><a class="bt-load-more" data-loading="Loading"></a></div>
+</section></main>
+</div><div class="popup-container aj_popup" id="layer-popup-container"><section class="bt-layer-content bt-layer-blocks popup-no-close">
+  <div class="bt-layer-block">
+    <div class="bt-layer-side-buttons">
+      <a href="/" data-layer-close="" class="bt-layer-side-button bt-layer-close"><svg class="icon"><use xlink:href="#icon-layer-close"></use></svg></a>
+          <span class="bt-layer-side-button bt-menu-wrap bt-dropdown-wrap">
+      <span class="bt-menu-btn bt-dropdown dropdown-toggle" data-toggle="dropdown"></span>
+      <span class="dropdown-menu">
+        <ul class="dropdown-menu">
+          <li><a href="https://bugs.telegram.org/c/50836" class="bt-dropdown-item bt-issue-copy-link" data-copy="https://bugs.telegram.org/c/50836">Copy Link</a></li>
+        </ul>
+      </span>
+    </span>
+    </div>
+    <div class="bt-issue-title-wrap">
+      <div class="bt-issue-title">
+        <span class="cd-author">Bug: «incorrect display of status when the account was online, the account is displayed as deleted!»</span>
+      </div>
+    </div>
+    <div class="bt-issue-label">
+      <span class="bt-issue-author"><span dir="auto">Mark</span></span>, <time datetime="2025-05-25T11:07:25+00:00">May 25 at 14:07</time>, edited 
+    </div>
+    
+    <div class="bt-issue-tags">
+      <a href="https://bugs.telegram.org/?status=0" class="bt-status c-cyan">Open</a><a href="https://bugs.telegram.org/?type=issues" class="bt-tag">Issue</a><a href="https://bugs.telegram.org/?tag_ids=2" class="bt-tag">Android</a>
+    </div>
+    <div class="bt-issue">
+      <div class="bt-issue-body">
+        <div class="bt-issue-text bt-markdown"><p>I am a tester, when I communicate with colleagues at work or friends, a strange thing happens. Their status is shown as if they were a long time ago, but this is not the case. They, in turn, don’t understand what I’m talking about. Their profiles are shown as deleted accounts. Unfortunately I couldn't capture it. For reference: the bug was noticed on the test backend of Telegram!</p>
+<h2>Steps to reproduce</h2>
+<p>The bug cannot be received, it occurs in private messages, the reasons for its occurrence are unknown</p>
+<hr>
+<h2>Device info</h2>
+<p>while talking to a colleague I found a bug status when he was online, I told him: Your status as "Was a long time ago"<i class="emoji" style="background-image:url('//telegram.org/img/emoji/40/F09FA494.png')"><b>🤔</b></i></p></div>
+        <div class="bt-issue-files many" data-thumb-src="https://telegra.ph/file/thumb/71fe48d25012852f3553f-792dfc4eccb35ee531.jpg" data-attach="2 photos"><a href="https://telegra.ph/file/4806d07f2c4e92265e8f7-67c93c81ab0c50d2a4.jpg" class="bt-issue-file bt-view-media" data-width="576" data-height="1280" data-cover="https://telegra.ph/file/cover/4806d07f2c4e92265e8f7-67c93c81ab0c50d2a4.jpg" target="_blank">
+  <div class="bt-issue-cover" style="background-image:url('https://telegra.ph/file/cover/4806d07f2c4e92265e8f7-67c93c81ab0c50d2a4.jpg')"></div>
+  
+</a><a href="https://telegra.ph/file/71fe48d25012852f3553f-792dfc4eccb35ee531.jpg" class="bt-issue-file bt-view-media" data-width="576" data-height="1280" data-cover="https://telegra.ph/file/cover/71fe48d25012852f3553f-792dfc4eccb35ee531.jpg" target="_blank">
+  <div class="bt-issue-cover" style="background-image:url('https://telegra.ph/file/cover/71fe48d25012852f3553f-792dfc4eccb35ee531.jpg')"></div>
+  
+</a></div>
+          <div class="bt-issue-actions">
+    <div class="bt-issue-voting likes-wrap liked">
+      <span class="cd-issue-like bt-active-btn"><span class="value" data-value="1">1</span><svg class="icon"><use xlink:href="#icon-like"></use></svg></span><!--
+   --><span class="cd-issue-dislike bt-active-btn"><span class="value empty" data-value="0">1</span><svg class="icon"><use xlink:href="#icon-dislike"></use></svg></span><!--
+   -->  <span class="bt-issue-subscribe bt-active-btn subscribed"><svg class="icon"><use xlink:href="#icon-subscribe"></use></svg><span class="label"><div class="unsubscribed">Subscribe</div><div class="subscribed">Subscribed</div></span></span><!--
+   --><a href="https://bugs.telegram.org/c/50836" class="bt-issue-copy-link" data-copy="https://bugs.telegram.org/c/50836"><svg class="icon"><use xlink:href="#icon-copy" transform="scale(0.85)"></use></svg><span class="label">Copy link</span></a>
+    </div>
+  </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div class="bt-layer-block">
+      <div class="bt-comments-wrap">
+    <div class="bt-comments-header"><div class="bt-header-tab" data-mode="public"><span class="bt-header-label">Comments</span><span class="bt-header-cnt">4</span></div></div>
+    <div class="bt-comments"><div class="bt-comment" data-comment-id="1">
+  <div class="bt-comment-box">
+    <div class="bt-comment-photo"><img src="https://cdn4.telesco.pe/file/QWXbN6DFWf40QGm0ICYqI6zoT9xIq1dcus1BLpeIfd97JlqPx4Hy-NLhEBJ2Rv7UaEneJno5Xo8r7dAZRRq0izwwgGY9CgNqpSlZI1dhlfECpWyrARyXXtoEo-GkQXbaKDDf8166m6Cr5Rulbllz9Gr3IUZV2REzbFxkg5GpEnF0Y0bJQ3eVf6TT2NuX-P3e5eENMARkiPXfnKX0CB6FpbVhmoQYjFi3kWPcC8FJsd8qrhOqSGokOUAjSRC24xiSVwqDFE0MZ7_-Sgj8FOr2vAbtKDse4ia78Pq7oj8s_U9FDjdZq5yohLK_zh1cjBzfK_79qiELOSfawQTERXWVUw.jpg"></div>
+    <div class="bt-comment-body">
+      
+      <a class="bt-action-btn bt-reply-btn bt-reply-my"><svg class="icon"><use xlink:href="#icon-replies"></use></svg></a>
+      <div class="bt-comment-author">
+        <span class="bt-comment-author-name"><span dir="auto">Mark</span></span>
+        <a href="https://bugs.telegram.org/c/50836/1" data-layer="" class="bt-comment-date bt-reply-btn"><time title="May 25 at 14:40" class="short">May 25</time></a>
+      </div>
+      
+      <div class="bt-comment-text">Test</div>
+      <div class="bt-issue-files"></div>
+    </div>
+  </div>
+  
+</div><div class="bt-comment" data-comment-id="2">
+  <div class="bt-comment-box">
+    <div class="bt-comment-photo"><img src="https://cdn4.telesco.pe/file/QWXbN6DFWf40QGm0ICYqI6zoT9xIq1dcus1BLpeIfd97JlqPx4Hy-NLhEBJ2Rv7UaEneJno5Xo8r7dAZRRq0izwwgGY9CgNqpSlZI1dhlfECpWyrARyXXtoEo-GkQXbaKDDf8166m6Cr5Rulbllz9Gr3IUZV2REzbFxkg5GpEnF0Y0bJQ3eVf6TT2NuX-P3e5eENMARkiPXfnKX0CB6FpbVhmoQYjFi3kWPcC8FJsd8qrhOqSGokOUAjSRC24xiSVwqDFE0MZ7_-Sgj8FOr2vAbtKDse4ia78Pq7oj8s_U9FDjdZq5yohLK_zh1cjBzfK_79qiELOSfawQTERXWVUw.jpg"></div>
+    <div class="bt-comment-body">
+      
+      <a class="bt-action-btn bt-reply-btn bt-reply-my"><svg class="icon"><use xlink:href="#icon-replies"></use></svg></a>
+      <div class="bt-comment-author">
+        <span class="bt-comment-author-name"><span dir="auto">Mark</span></span>
+        <a href="https://bugs.telegram.org/c/50836/2" data-layer="" class="bt-comment-date bt-reply-btn"><time title="May 25 at 14:40" class="short">May 25</time></a>
+      </div>
+      <a href="https://bugs.telegram.org/c/50836/1" data-layer="" class="bt-comment-reply-content" data-comment-link="1">
+  
+  <div class="bt-comment-head"><span dir="auto">Mark</span></div>
+  <div class="bt-comment-text">Test</div>
+</a>
+      <div class="bt-comment-text">qweewrsdytxyxyf uguguguguguvubggjv gujggjvjuvubibib ohojihubibiggkvjbh vjubuvivivgjv</div>
+      <div class="bt-issue-files"></div>
+    </div>
+  </div>
+  
+</div><div class="bt-comment" data-comment-id="3">
+  <div class="bt-comment-box">
+    <div class="bt-comment-photo"><img src="https://cdn4.telesco.pe/file/QWXbN6DFWf40QGm0ICYqI6zoT9xIq1dcus1BLpeIfd97JlqPx4Hy-NLhEBJ2Rv7UaEneJno5Xo8r7dAZRRq0izwwgGY9CgNqpSlZI1dhlfECpWyrARyXXtoEo-GkQXbaKDDf8166m6Cr5Rulbllz9Gr3IUZV2REzbFxkg5GpEnF0Y0bJQ3eVf6TT2NuX-P3e5eENMARkiPXfnKX0CB6FpbVhmoQYjFi3kWPcC8FJsd8qrhOqSGokOUAjSRC24xiSVwqDFE0MZ7_-Sgj8FOr2vAbtKDse4ia78Pq7oj8s_U9FDjdZq5yohLK_zh1cjBzfK_79qiELOSfawQTERXWVUw.jpg"></div>
+    <div class="bt-comment-body">
+      
+      <a class="bt-action-btn bt-reply-btn bt-reply-my"><svg class="icon"><use xlink:href="#icon-replies"></use></svg></a>
+      <div class="bt-comment-author">
+        <span class="bt-comment-author-name"><span dir="auto">Mark</span></span>
+        <a href="https://bugs.telegram.org/c/50836/3" data-layer="" class="bt-comment-date bt-reply-btn"><time title="May 25 at 14:41" class="short">May 25</time></a>
+      </div>
+      
+      <div class="bt-comment-text">kjkjgdjjydx bibjkhb kjjkjhkjhhff kjkkhg dgqwwq</div>
+      <div class="bt-issue-files"></div>
+    </div>
+  </div>
+  
+</div><div class="bt-comment" data-comment-id="4">
+  <div class="bt-comment-box">
+    <div class="bt-comment-photo"><img src="https://cdn4.telesco.pe/file/QWXbN6DFWf40QGm0ICYqI6zoT9xIq1dcus1BLpeIfd97JlqPx4Hy-NLhEBJ2Rv7UaEneJno5Xo8r7dAZRRq0izwwgGY9CgNqpSlZI1dhlfECpWyrARyXXtoEo-GkQXbaKDDf8166m6Cr5Rulbllz9Gr3IUZV2REzbFxkg5GpEnF0Y0bJQ3eVf6TT2NuX-P3e5eENMARkiPXfnKX0CB6FpbVhmoQYjFi3kWPcC8FJsd8qrhOqSGokOUAjSRC24xiSVwqDFE0MZ7_-Sgj8FOr2vAbtKDse4ia78Pq7oj8s_U9FDjdZq5yohLK_zh1cjBzfK_79qiELOSfawQTERXWVUw.jpg"></div>
+    <div class="bt-comment-body">
+          <span class="bt-action-menu-wrap bt-dropdown-wrap">
+      <span class="bt-action-btn bt-action-menu-btn bt-dropdown dropdown-toggle" data-toggle="dropdown"></span>
+      <span class="dropdown-menu">
+        <ul class="dropdown-menu">
+          <li><a class="bt-dropdown-item bt-delete-comment-btn">Delete</a></li>
+        </ul>
+      </span>
+    </span>
+      <a class="bt-action-btn bt-reply-btn bt-reply-my"><svg class="icon"><use xlink:href="#icon-replies"></use></svg></a>
+      <div class="bt-comment-author">
+        <span class="bt-comment-author-name"><span dir="auto">Mark</span></span>
+        <a href="https://bugs.telegram.org/c/50836/4" data-layer="" class="bt-comment-date bt-reply-btn"><time class="short">15:38</time></a>
+      </div>
+      
+      <div class="bt-comment-text">Test</div>
+      <div class="bt-issue-files"></div>
+    </div>
+  </div>
+  <div class="bt-comment-deleted"><span class="bt-comment-deleted-label">Comment deleted.</span> <a href="#undo" class="bt-restore-comment-btn">Undo</a></div>
+</div><div class="bt-comments-more cd-autoload hide" data-after="4"></div></div>
+    <div class="bt-comments-footer">
+          <div class="bt-comments-footer-buttons">
+      <div class="form-group">
+        <div class="bt-toggle-comment-form-wrap">
+          <a href="#comment" class="bt-toggle-comment-form">Add info about this issue</a>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary bt-init-dialog-btn" data-mode="issue" data-init-hash="c02dda77b4e829c5ff">Report a problem</button><!--
+     --><button class="btn btn-primary btn-primary-green bt-init-dialog-btn" data-mode="suggestion" data-init-hash="c02dda77b4e829c5ff">Suggest a feature</button>
+      </div>
+    </div>
+      <form class="cd-form cd-comment-form bt-comments-footer-form">
+        <input type="hidden" name="issue_id" value="50836">
+        
+            <div class="form-group">
+      <div class="cd-input-field">
+        <div class="input form-control cd-form-control cd-issue-input empty" data-name="text" data-value="" data-placeholder="Write a comment..." contenteditable="true"><br></div>
+      </div>
+      <div class="bt-issue-files"></div>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-default bt-attach-btn"><span class="bt-attach-btn-label">Attach File<span></span></span></button>
+      <button class="btn btn-primary cd-submit-issue-btn">Send</button>
+    </div>
+      </form>
+    </div>
+  </div>
+  </div>
+</section>
+</div></div>
+    <script src="//telegram.org/js/jquery.min.js?1"></script>
+    <script src="//telegram.org/js/bootstrap.min.js"></script>
+    <script src="//telegram.org/js/main-aj.js?72"></script>
+    <script src="https://bugs.telegram.org/js/bugtracker.js?72"></script>
+<script src="https://bugs.telegram.org/js/jquery-ui.min.js?1"></script>
+<script src="https://bugs.telegram.org/js/codemirror/codemirror.js?1"></script>
+<script src="https://bugs.telegram.org/js/codemirror/overlay.js?1"></script>
+<script src="https://bugs.telegram.org/js/codemirror/markdown.js?1"></script>
+<script src="https://bugs.telegram.org/js/codemirror/gfm.js?1"></script>
+
+    <script>ajInit({"version":734,"apiUrl":"https://bugs.telegram.org\/api?hash=c3b8b8f5e622b02361","state":{"queryValues":[{"prefix":"s:","val":0,"name":"Open","field":"status","group":"s","class":"c-cyan"},{"prefix":"s:","val":2,"name":"Closed","field":"status","group":"s","class":"c-orange"},{"prefix":"s:","val":1,"name":"Fix coming","field":"status","group":"s","class":"c-lightgreen"},{"prefix":"s:","val":3,"name":"Fixed","field":"status","group":"s","class":"c-green"},{"prefix":"t:","val":26,"name":"General","field":"tag_ids"},{"prefix":"t:","val":2,"name":"Android","field":"tag_ids"},{"prefix":"t:","val":1,"name":"iOS","field":"tag_ids"},{"prefix":"t:","val":4,"name":"Telegram Desktop","field":"tag_ids"},{"prefix":"t:","val":3,"name":"macOS","field":"tag_ids"},{"prefix":"t:","val":22,"name":"Web","field":"tag_ids"},{"prefix":"t:","val":19,"name":"Android X","field":"tag_ids"},{"prefix":"t:","val":25,"name":"Bot API","field":"tag_ids"},{"prefix":"t:","val":29,"name":"Accessibility","field":"tag_ids"},{"prefix":"t:","val":31,"name":"Calls","field":"tag_ids"},{"prefix":"t:","val":30,"name":"Tablet","field":"tag_ids"},{"prefix":"t:","val":13,"name":"Tip","field":"tag_ids"},{"prefix":"t:","val":40,"name":"WebK","field":"tag_ids"},{"prefix":"t:","val":41,"name":"WebA","field":"tag_ids"},{"prefix":"t:","val":43,"name":"Translation Platform","field":"tag_ids"},{"prefix":"t:","val":44,"name":"GmailBot","field":"tag_ids"},{"prefix":"t:","val":45,"name":"Contest","field":"tag_ids"},{"prefix":"t:","val":47,"name":"Unigram","field":"tag_ids"},{"prefix":"t:","val":48,"name":"Mini Apps","field":"tag_ids"},{"prefix":"t:","val":49,"name":"iOS 26","field":"tag_ids"}],"emptyValues":[],"searchMethod":"searchIssues","headerLangKey":"WEB_N_CARDS_HEADER","headerNullLangKey":"WEB_CARDS_HEADER"}});</script>
+    <script id="aj_script">l.add({"WEB_NO_TAGS_FOUND":"No tags found","WEB_N_CARDS_HEADER":"{{n:# Card|# Cards}}","WEB_CARDS_HEADER":"Cards"});
+Filters.init();
+Bugtracker.init();
+</script>
+    <script>Aj.pageLoaded();</script>
+    
+</body><div style="background: rgba(50, 131, 168, 0.5); position: absolute; z-index: 2147483647;"></div></html>
