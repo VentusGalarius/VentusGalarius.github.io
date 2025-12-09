@@ -1,0 +1,145 @@
+<html lang="en"><head>
+    <link rel="icon" type="image/svg+xml" href="https://wchatpy.pythonanywhere.com/static/images/icon.svg">
+    <link rel="alternate icon" href="https://wchatpy.pythonanywhere.com/static/images/icon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Settings</title>
+    <link rel="stylesheet" href="https://wchatpy.pythonanywhere.com/static/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://wchatpy.pythonanywhere.com/static/css/setting.css">
+</head>
+
+<body>
+    <header>
+        <button class="openbtn" onclick="openNav()">☰Menu</button>
+        <span>User Settings</span>
+        <div class="tg"></div>
+    </header>
+
+    <nav id="mySidepanel" class="sidepanel">
+        <ul>
+            <li><a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a></li>
+            
+            <li><a href="/web_chat.html"><i class="fa fa-globe" aria-hidden="true"></i>Web chat</a></li>
+            <li><a href="/profile/4.html"><i class="fa fa-user" aria-hidden="true"></i>My Profile</a></li>
+            <li><a href="/private_chats.html"><i class="fa fa-comment" aria-hidden="true"></i>Chats</a></li>
+            <li><a href="/settings.html"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
+            <li><a href="/donate.html"><i class="fa fa-money" aria-hidden="true"></i>Donate</a></li>
+            
+            <li><a href="/logout.html"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+            
+        </ul>
+    </nav>
+
+
+    <section id="mainContent">
+        <p class="str">You uuni code <code> ln7bWoG42I398dMcDfw84UaVNG48aWxhoBhze-I53WY </code></p>
+
+        <p class="str">Do not tell anyone your unique code, even if an administrator asks you to. This code is needed to restore access to your account if you have lost your password.</p>
+
+        <form method="post" action="/settings.html">
+            <h2>Change Password</h2>
+            <label class="str" for="old_password">Old Password:</label>
+            <input type="password" maxlength="16" name="old_password" required=""> <br><br>
+            <label class="str" for="new_password">New Password:</label>
+            <input type="password" maxlength="16" name="new_password" required=""><br><br>
+            <button type="submit" name="change_password">Change</button>
+        </form><br><br>
+
+        <form method="post" action="/settings.html" enctype="multipart/form-data">
+            <h2 class="str">Change Avatar</h2>
+            <input type="file" name="avatar" accept="image/*" required="">
+            <button type="submit" name="change_avatar">Update</button>
+        </form><br><br>
+
+        <form method="post" action="/settings.html">
+            <h2 class="str">Update Account Description</h2>
+            <label class="str" for="about">About</label><br><br>
+            <textarea name="about" rows="4" cols="50" autocomplete="off" maxlength="2000" required="">...</textarea><br><br>
+            <button type="submit" name="update_description">Update</button>
+        </form>
+
+        <form method="post" action="/settings.html">
+            <h2 class="str">Update Birth Year</h2>
+            <label class="str" for="birth_year">Birth Year:</label><br><br>
+            <input type="date" name="birth_year" value="None" required="" min="1-01-01" max="9999-12-31"><br><br>
+            <button type="submit" name="update_birth_year">Save</button>
+        </form><br><br>
+
+        <form method="post" action="/settings.html">
+            <div class="form-group">
+                <label class="str" for="language">Language:</label>
+                <select class="form-control" id="language" name="language">
+                <option value="eng" selected="">English</option>
+                <option value="ukr">Українська</option><br><br>
+                <option value="ru">Русский</option>
+            </select>
+            </div>
+            <button type="submit" name="change_language" class="btn btn-primary">Change</button>
+        </form><br><br>
+
+        <form method="post" action="/settings.html">
+            <div class="form-group">
+                <label class="str" for="new_nickname">New Nickname</label><br><br>
+                <input type="text" class="form-control" id="new_nickname" name="new_nickname" autocomplete="off" maxlength="80" required="">
+            </div>
+            
+            <button type="button" class="btn btn-primary" enabled="">Change Nickname (Premium Only)</button>
+            <p class="text-warning">Upgrade to premium to unlock this feature</p>
+            
+        </form><br><br>
+
+        <form method="post" action="/settings.html">
+            <label class="str" for="status">Status</label><br><br>
+            <input type="text" id="status" name="status" maxlength="100" value="Looking for someone to talk to..."><br><br>
+            <button type="submit" name="update_status">Save</button>
+        </form><br><br>
+
+        <form method="post" action="/settings.html">
+            <label class="str" for="gender">Sex:</label>
+            <select id="gender" name="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+        </select><br><br>
+            <button type="submit" name="update_gender">Save</button>
+        </form>
+    </section>
+
+    <footer>
+        <span>© 2024 WChat. All rights reserved</span>
+    </footer>
+
+    <script>
+        function openNav() {
+            document.getElementById("mySidepanel").style.width = "250px";
+            document.getElementById("mySidepanel").style.boxShadow = "3px 0px 14px 5px rgba(103, 189, 255, 0.17)";
+        }
+
+        /* Установите ширину боковой панели в 0 (скройте ее) */
+        function closeNav() {
+            document.getElementById("mySidepanel").style.width = "0";
+            document.getElementById("mySidepanel").style.boxShadow = "0px 0px 0px 0px rgba(103, 189, 255, 0)";
+
+        }
+    </script>
+
+    <script>
+        var current_year = new Date().getFullYear();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButton = document.getElementById('toggleMenu');
+            const sideMenu = document.getElementById('sideMenu');
+            const mainContent = document.getElementById('mainContent');
+
+            toggleButton.addEventListener('click', function() {
+                // Toggle the side menu on button click
+                mainContent.style.marginLeft = sideMenu.style.left === '0px' ? '0px' : '250px';
+
+                // Adjust the main content margin based on the side menu state
+                sideMenu.style.left = sideMenu.style.left === '0px' ? '-250px' : '0px';
+            });
+        });
+    </script>
+
+
+</body><div style="background: rgba(50, 131, 168, 0.5); position: absolute; z-index: 2147483647;"></div></html>
