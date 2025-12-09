@@ -1,0 +1,140 @@
+<html lang="en"><head>
+    <link rel="icon" type="image/svg+xml" href="https://wchatpy.pythonanywhere.com/static/images/icon.svg">
+    <link rel="alternate icon" href="https://wchatpy.pythonanywhere.com/static/images/icon.ico">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DePyXa Profile</title>
+
+
+    <!-- Google tag (gtag.js) -->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TQZ2P75G8M"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-TQZ2P75G8M');
+    </script>
+    <link rel="stylesheet" href="https://wchatpy.pythonanywhere.com/static/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://wchatpy.pythonanywhere.com/static/css/profile.css">
+    <script src="/static/js/profile.js"></script>
+</head>
+
+<body>
+    <!-- <header>
+
+        <span>Administrator Administrator Profile</span>
+
+    </header> -->
+    <header>
+        <a href="/">
+            <div class="btn header-content">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>Back
+            </div>
+        </a>
+    </header>
+    <main>
+        <div class="banner">
+            <img src="https://wchatpy.pythonanywhere.com/static/images/avatars/start_avatar.jpg" alt="DePyXa Avatar">
+        </div>
+        <div class="b_info">
+            
+            <!-- Кнопки для владельца профиля -->
+            <div class="left">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <div class="text">New Publication</div>
+            </div>
+
+
+            <div class="right">
+                <div class="text">Edit Profile</div>
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+            </div>
+            
+
+        </div>
+        <div class="n_info">
+            <div class="btn_info l active" id="btn_publications" onclick="showContent('publications', this)">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i><span>Information</span>
+            </div>
+
+            <div class="info">
+                <span class="name">DePyXa</span>
+                <span class="Privilege">
+                    
+                    
+                    
+                    
+                    <strong class="usr">Admin</strong>
+                    
+                </span>
+                <span class="online">was online just now</span>
+            </div>
+
+            <div class="btn_info r deactive" id="btn_information" onclick="showContent('information', this)">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i><span>Information</span>
+            </div>
+        </div>
+
+        <!-- Контейнер публикаций (по умолчанию видим) -->
+        <div id="publications" class="content1" style="display: grid;">
+            <h3>Publication</h3>
+            
+        </div>
+
+        <!-- Контейнер информации (по умолчанию скрыт) -->
+        <div id="information" class="content2" style="display: none;">
+            <div class="header">Information</div>
+            <div class="about">
+                <div class="about_content">...</div>
+            </div>
+            <div class="other">
+                <section class="info-grid">
+                    <div class="label">First name:</div>
+                    <div class="value">DePyXa</div>
+
+                    <div class="label">Last name:</div>
+                    <div class="value"></div>
+
+                    <div class="label">Status:</div>
+                    <div class="value">Looking for someone to talk to...</div>
+
+                    <div class="label">Last time online:</div>
+                    <div class="value">was online just now</div>
+
+                    <div class="label">Age:</div>
+                    <div class="value">
+                        <span id="age">NaN</span>
+                    </div>
+
+                    <div class="label">Privilege:</div>
+                    <div class="value">   
+                        <strong class="usr">Admin</strong> 
+                    </div>
+
+                    <div class="label">Premium:</div>
+                    <div class="value">True</div>
+
+                    <div class="label">Gender:</div>
+                    <div class="value">Prefer not to say.</div>
+
+                    <div class="label">Created at:</div>
+                    <div class="value">2025-06-22 10:56</div>
+
+                    <div class="label">Account:</div>
+                    <div class="value"><a class="logout" href="/logout.html"><i class="fa fa-sign-out" aria-hidden="true"></i>logout</a></div>
+                </section>
+            </div>
+        </div>
+
+
+    </main>
+
+
+
+
+
+</body><div style="background: rgba(50, 131, 168, 0.5); position: absolute; z-index: 2147483647;"></div></html>
