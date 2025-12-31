@@ -1,1 +1,0 @@
-import{k as i,r as t,iG as u,p as a,l as f}from"./index-pFCF53l2.js";function d(e){const o=i(),n=t.useRef(!0),{isLoading:c,data:s,mutate:r}=u();return t.useEffect(()=>{n.current=!1,r({address:e})},[e]),{recipient:t.useMemo(()=>({address:{address:f(e,o,!0),blockchain:a.TON},comment:"",done:!1,toAccount:s}),[s,o]),isLoading:n.current?!0:c}}export{d as u};

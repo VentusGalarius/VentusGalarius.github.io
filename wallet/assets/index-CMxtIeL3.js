@@ -1,1 +1,0 @@
-import{j as e,c1 as o}from"./index-pFCF53l2.js";import{d as s}from"./useSwapMobileNotification-BXB33XwE.js";const n=()=>{const[r,t]=s();return t(!0),e.jsx(o,{to:"..",replace:!0})};export{n as default};
