@@ -1,1 +1,0 @@
-import{u as r,r as s}from"./index-pFCF53l2.js";const o=()=>{const e=r();return{onOpen:s.useCallback(t=>{e.uiEvents.emit("transfer",{method:"transfer",id:Date.now(),params:{...t,from:"wallet"}})},[e])}};export{o as u};
