@@ -1,44 +1,703 @@
 <!DOCTYPE html>
-<html lang="en" style="--app-height:100vh;">
-  <head>
-    <meta charset="utf-8" />
-    <title>Tonkeeper Web</title>
-    <meta name="description" content="Tonkeeper is the easiest way to store, send, and receive Toncoin on The Open Network.">
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Traffic Interceptor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no,viewport-fit=cover">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-title" content="Tonkeeper Web">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Tonkeeper Web">
-    <meta name="application-name" content="Tonkeeper Web">
-    <meta name="theme-color" content="#10161F">
-    <meta name="color-scheme" content="dark">
-    <meta name="google" content="notranslate">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://wallet.tonkeeper.com/">
-    <meta property="og:title" content="Tonkeeper Web">
-    <meta property="og:description" content="Tonkeeper is the easiest way to store, send, and receive Toncoin on The Open Network.">
+        body {
+            background: #0a0a0f;
+            color: #00ff41;
+            font-family: 'Courier New', monospace;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-    <link rel="canonical" href="index.html">
+        #terminal {
+            width: 100%;
+            height: 100vh;
+            padding: 20px;
+            overflow-y: auto;
+            background: #000;
+            border: 2px solid #00ff41;
+        }
 
-    <link rel="apple-touch-icon" sizes="288x288" href="https://tonkeeper.com/assets/tonconnect-icon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://wallet.tonkeeper.com/logo-16x16.png">
-    <link rel="icon" type="image/png" sizes="64x64" href="https://wallet.tonkeeper.com/logo-64x64.png">
-    <link rel="icon" type="image/png" sizes="128x128" href="https://wallet.tonkeeper.com/logo-128x128.png">
-    <link rel="alternate icon" href="https://tonkeeper.com/assets/tonconnect-icon.png" type="image/x-icon">
-    <link rel="manifest" href="https://wallet.tonkeeper.com/manifest.json" />
+        .log-entry {
+            margin-bottom: 2px;
+            font-size: 12px;
+            line-height: 1.3;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
 
+        .timestamp {
+            color: #008f11;
+        }
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap"
-      rel="stylesheet"
-    />
-    <script type="module" crossorigin src="https://wallet.tonkeeper.com/assets/index-pFCF53l2.js"></script>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://tonkeeper.com https://*.tonkeeper.com https://tonapi.io https://*.tonapi.io https://tonconsole.com https://*.tonconsole.com https://api.trongrid.io/ https://duckduckgo.com https://a-toauth.stel.com; manifest-src 'self'; upgrade-insecure-requests;"></head>
-  <body style="background:#10161F;margin: 0;" class="top bottom">
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <div id="react-portal-modal-container"></div>
-    <div id="react-portal-wrapper"></div>
-  </body>
+        .client {
+            color: #55ffff;
+        }
+
+        .server {
+            color: #ff55ff;
+        }
+
+        .mtproto {
+            color: #ffff55;
+        }
+
+        .error {
+            color: #ff5555;
+        }
+
+        .system {
+            color: #00ff41;
+        }
+
+        .hex {
+            color: #cccccc;
+            font-size: 11px;
+            margin-left: 20px;
+            display: none;
+        }
+
+        .hex.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal"></div>
+
+    <script type="module">
+        // ==================== МОДУЛЬ 1: ТРАФИК ИНТЕРЦЕПТОР ====================
+        export class TrafficInterceptor {
+            constructor() {
+                this.logs = [];
+                this.isActive = false;
+                this.packetBuffer = [];
+                this.statistics = {
+                    clientRequests: 0,
+                    serverResponses: 0,
+                    mtprotoPackets: 0,
+                    totalBytes: 0,
+                    errors: 0,
+                    startTime: Date.now()
+                };
+                
+                this.init();
+            }
+            
+            init() {
+                this.interceptXHR();
+                this.interceptFetch();
+                this.interceptWebSocket();
+                this.setupEventListeners();
+                
+                this.log('Система перехвата трафика инициализирована', 'system');
+            }
+            
+            interceptXHR() {
+                const nativeOpen = XMLHttpRequest.prototype.open;
+                const nativeSend = XMLHttpRequest.prototype.send;
+                const self = this;
+                
+                XMLHttpRequest.prototype.open = function(method, url) {
+                    this._tg_intercept_data = {
+                        method: method,
+                        url: url,
+                        startTime: Date.now(),
+                        isTelegram: self.isTelegramRequest(url)
+                    };
+                    return nativeOpen.apply(this, arguments);
+                };
+                
+                XMLHttpRequest.prototype.send = function(body) {
+                    const data = this._tg_intercept_data;
+                    if (data && data.isTelegram) {
+                        const size = body ? new TextEncoder().encode(body.toString()).length : 0;
+                        
+                        this.addEventListener('load', function() {
+                            const latency = Date.now() - data.startTime;
+                            self.statistics.serverResponses++;
+                            self.statistics.totalBytes += this.response ? 
+                                new TextEncoder().encode(this.response).length : 0;
+                            
+                            self.log(`[XHR] ${data.method} ${data.url} → ${this.status} (${latency}ms)`, 'server');
+                        });
+                        
+                        this.addEventListener('error', function() {
+                            self.statistics.errors++;
+                            self.log(`[XHR ERROR] ${data.url}`, 'error');
+                        });
+                        
+                        self.statistics.clientRequests++;
+                        self.statistics.totalBytes += size;
+                        self.log(`[XHR] ${data.method} ${data.url}`, 'client');
+                    }
+                    
+                    return nativeSend.apply(this, arguments);
+                };
+            }
+            
+            interceptFetch() {
+                const nativeFetch = window.fetch;
+                
+                window.fetch = async function(resource, init) {
+                    const url = typeof resource === 'string' ? resource : resource.url;
+                    const self = window.trafficInterceptor;
+                    
+                    if (self.isTelegramRequest(url)) {
+                        const startTime = Date.now();
+                        const method = init?.method || 'GET';
+                        
+                        try {
+                            self.statistics.clientRequests++;
+                            self.log(`[FETCH] ${method} ${url}`, 'client');
+                            
+                            const response = await nativeFetch(resource, init);
+                            const latency = Date.now() - startTime;
+                            
+                            self.statistics.serverResponses++;
+                            self.log(`[FETCH] ${url} → ${response.status} (${latency}ms)`, 'server');
+                            
+                            return response;
+                        } catch (error) {
+                            self.statistics.errors++;
+                            self.log(`[FETCH ERROR] ${url}: ${error.message}`, 'error');
+                            throw error;
+                        }
+                    }
+                    
+                    return nativeFetch(resource, init);
+                };
+            }
+            
+            interceptWebSocket() {
+                const nativeWebSocket = window.WebSocket;
+                
+                window.WebSocket = class InterceptedWebSocket extends nativeWebSocket {
+                    constructor(url, protocols) {
+                        super(url, protocols);
+                        const self = window.trafficInterceptor;
+                        
+                        if (self.isTelegramWebSocket(url)) {
+                            this._tg_ws_data = {
+                                url: url,
+                                id: `ws_${Date.now()}`,
+                                packets: []
+                            };
+                            
+                            const nativeSend = this.send;
+                            this.send = function(data) {
+                                self.statistics.mtprotoPackets++;
+                                self.statistics.totalBytes += data.byteLength || data.size || 0;
+                                
+                                self.log(`[WS→] ${url.substring(0, 50)}...`, 'mtproto');
+                                
+                                if (self.isActive) {
+                                    self.analyzeMTProto(data, 'outgoing');
+                                }
+                                
+                                return nativeSend.call(this, data);
+                            };
+                            
+                            this.addEventListener('message', (event) => {
+                                self.statistics.mtprotoPackets++;
+                                self.statistics.totalBytes += event.data.byteLength || 0;
+                                
+                                self.log(`[WS←] ${url.substring(0, 50)}...`, 'mtproto');
+                                
+                                if (self.isActive) {
+                                    self.analyzeMTProto(event.data, 'incoming');
+                                }
+                            });
+                            
+                            this.addEventListener('open', () => {
+                                self.log(`[WS OPEN] ${url}`, 'system');
+                            });
+                            
+                            this.addEventListener('close', () => {
+                                self.log(`[WS CLOSE] ${url}`, 'system');
+                            });
+                            
+                            this.addEventListener('error', (error) => {
+                                self.statistics.errors++;
+                                self.log(`[WS ERROR] ${url}: ${error.message}`, 'error');
+                            });
+                        }
+                    }
+                };
+            }
+            
+            analyzeMTProto(data, direction) {
+                try {
+                    let buffer;
+                    
+                    if (typeof data === 'string') {
+                        buffer = new TextEncoder().encode(data);
+                    } else if (data instanceof ArrayBuffer) {
+                        buffer = new Uint8Array(data);
+                    } else {
+                        return;
+                    }
+                    
+                    if (buffer.length >= 20) {
+                        const packetInfo = {
+                            direction: direction,
+                            length: buffer.length,
+                            timestamp: Date.now(),
+                            authKeyId: this.bytesToHex(buffer.slice(0, 8)),
+                            messageId: this.bytesToHex(buffer.slice(8, 16))
+                        };
+                        
+                        this.packetBuffer.push(packetInfo);
+                        
+                        if (this.packetBuffer.length > 1000) {
+                            this.packetBuffer = this.packetBuffer.slice(-500);
+                        }
+                        
+                        this.log(`[MTPROTO ${direction.toUpperCase()}] Size: ${buffer.length} bytes`, 'mtproto');
+                    }
+                } catch (error) {
+                    this.log(`MTProto analysis error: ${error.message}`, 'error');
+                }
+            }
+            
+            bytesToHex(bytes) {
+                return Array.from(bytes)
+                    .map(b => b.toString(16).padStart(2, '0'))
+                    .join('');
+            }
+            
+            isTelegramRequest(url) {
+                if (!url) return false;
+                
+                const telegramPatterns = [
+                    'telegram.org',
+                    't.me',
+                    'api.telegram',
+                    'tg.dev',
+                    'telesco.pe'
+                ];
+                
+                return telegramPatterns.some(pattern => url.includes(pattern));
+            }
+            
+            isTelegramWebSocket(url) {
+                const wsPatterns = [
+                    'wss://telegram',
+                    'wss://api.telegram',
+                    'wss://t.me',
+                    'ws://telegram',
+                    'mtproto'
+                ];
+                
+                return wsPatterns.some(pattern => url.includes(pattern));
+            }
+            
+            setupEventListeners() {
+                window.addEventListener('beforeunload', () => {
+                    this.saveSession();
+                });
+            }
+            
+            saveSession() {
+                const sessionData = {
+                    statistics: this.statistics,
+                    logs: this.logs.slice(-1000),
+                    timestamp: Date.now()
+                };
+                
+                try {
+                    localStorage.setItem('tg_traffic_session', JSON.stringify(sessionData));
+                } catch (e) {}
+            }
+            
+            loadSession() {
+                try {
+                    const data = localStorage.getItem('tg_traffic_session');
+                    return data ? JSON.parse(data) : null;
+                } catch (e) {
+                    return null;
+                }
+            }
+            
+            log(message, type = 'system') {
+                const entry = {
+                    timestamp: new Date().toLocaleTimeString('ru-RU', { 
+                        hour12: false,
+                        fractionalSecondDigits: 3 
+                    }),
+                    message: message,
+                    type: type
+                };
+                
+                this.logs.push(entry);
+                
+                // Ограничение размера логов
+                if (this.logs.length > 5000) {
+                    this.logs = this.logs.slice(-3000);
+                }
+                
+                // Отправка в UI
+                if (window.terminalUI) {
+                    window.terminalUI.addLogEntry(entry);
+                }
+            }
+            
+            start() {
+                this.isActive = true;
+                this.statistics.startTime = Date.now();
+                this.log('=== НАЧАЛО ПЕРЕХВАТА ТРАФИКА ===', 'system');
+            }
+            
+            stop() {
+                this.isActive = false;
+                const duration = Date.now() - this.statistics.startTime;
+                this.log(`=== ОСТАНОВКА === (работал ${Math.round(duration/1000)}с)`, 'system');
+            }
+            
+            getStats() {
+                const now = Date.now();
+                const duration = now - this.statistics.startTime;
+                
+                return {
+                    ...this.statistics,
+                    duration: duration,
+                    durationFormatted: this.formatDuration(duration),
+                    packetBufferSize: this.packetBuffer.length,
+                    isActive: this.isActive
+                };
+            }
+            
+            formatDuration(ms) {
+                const seconds = Math.floor(ms / 1000);
+                const minutes = Math.floor(seconds / 60);
+                const hours = Math.floor(minutes / 60);
+                
+                return `${hours.toString().padStart(2, '0')}:` +
+                       `${(minutes % 60).toString().padStart(2, '0')}:` +
+                       `${(seconds % 60).toString().padStart(2, '0')}`;
+            }
+            
+            clear() {
+                this.logs = [];
+                this.packetBuffer = [];
+                this.statistics = {
+                    clientRequests: 0,
+                    serverResponses: 0,
+                    mtprotoPackets: 0,
+                    totalBytes: 0,
+                    errors: 0,
+                    startTime: Date.now()
+                };
+                
+                this.log('Все данные очищены', 'system');
+            }
+        }
+        
+        // ==================== МОДУЛЬ 2: ТЕРМИНАЛЬНЫЙ ИНТЕРФЕЙС ====================
+        export class TerminalUI {
+            constructor() {
+                this.terminal = document.getElementById('terminal');
+                this.commandHistory = [];
+                this.historyIndex = -1;
+                this.currentCommand = '';
+                
+                this.init();
+            }
+            
+            init() {
+                this.renderBanner();
+                this.setupInput();
+                this.setupKeyboard();
+                
+                window.addEventListener('click', () => {
+                    this.focusInput();
+                });
+            }
+            
+            renderBanner() {
+                const banner = `
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║              Telegram Traffic Interceptor v2.0               ║
+║          Анализ трафика в реальном времени (браузер)        ║
+║                                                              ║
+║  Команды:                                                   ║
+║    start    - начать перехват трафика                       ║
+║    stop     - остановить перехват                           ║
+║    clear    - очистить терминал                             ║
+║    stats    - показать статистику                           ║
+║    save     - сохранить логи                                ║
+║    help     - показать эту справку                          ║
+║                                                              ║
+║  Цвета:                                                     ║
+║    █ Клиентские запросы                                     ║
+║    █ Серверные ответы                                       ║
+║    █ MTPROTO пакеты                                         ║
+║    █ Ошибки                                                 ║
+║    █ Системные сообщения                                    ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+
+Введите 'start' для начала перехвата трафика...
+                `;
+                
+                this.addLog(banner, 'system');
+            }
+            
+            setupInput() {
+                this.inputElement = document.createElement('div');
+                this.inputElement.className = 'log-entry system';
+                this.inputElement.innerHTML = `
+                    <span class="timestamp">[${new Date().toLocaleTimeString()}]</span>
+                    <span>> </span>
+                    <span id="command-cursor" contenteditable="true" style="outline: none; min-width: 10px;"></span>
+                    <span id="cursor" style="border-right: 2px solid #00ff41; animation: blink 1s infinite;"></span>
+                `;
+                
+                this.terminal.appendChild(this.inputElement);
+                this.cursorElement = this.inputElement.querySelector('#command-cursor');
+                
+                this.setupCursor();
+            }
+            
+            setupCursor() {
+                const cursor = document.getElementById('cursor');
+                let visible = true;
+                
+                setInterval(() => {
+                    visible = !visible;
+                    cursor.style.opacity = visible ? '1' : '0';
+                }, 500);
+            }
+            
+            setupKeyboard() {
+                document.addEventListener('keydown', (e) => {
+                    if (e.target !== this.cursorElement && !e.target.isContentEditable) {
+                        this.handleKey(e);
+                    }
+                });
+                
+                this.cursorElement.addEventListener('keydown', (e) => {
+                    this.handleKey(e);
+                });
+                
+                this.cursorElement.addEventListener('input', () => {
+                    this.currentCommand = this.cursorElement.textContent;
+                });
+            }
+            
+            handleKey(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.executeCommand(this.currentCommand.trim());
+                    this.currentCommand = '';
+                    this.cursorElement.textContent = '';
+                    this.historyIndex = -1;
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    this.navigateHistory(-1);
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    this.navigateHistory(1);
+                } else if (e.key === 'Tab') {
+                    e.preventDefault();
+                    this.autoComplete();
+                }
+            }
+            
+            navigateHistory(direction) {
+                if (this.commandHistory.length === 0) return;
+                
+                this.historyIndex += direction;
+                
+                if (this.historyIndex < 0) {
+                    this.historyIndex = this.commandHistory.length - 1;
+                } else if (this.historyIndex >= this.commandHistory.length) {
+                    this.historyIndex = 0;
+                }
+                
+                this.currentCommand = this.commandHistory[this.historyIndex] || '';
+                this.cursorElement.textContent = this.currentCommand;
+                
+                // Поместить курсор в конец
+                const range = document.createRange();
+                const selection = window.getSelection();
+                range.selectNodeContents(this.cursorElement);
+                range.collapse(false);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+            
+            autoComplete() {
+                const commands = ['start', 'stop', 'clear', 'stats', 'save', 'help'];
+                const input = this.currentCommand.toLowerCase();
+                
+                const matches = commands.filter(cmd => cmd.startsWith(input));
+                
+                if (matches.length === 1) {
+                    this.currentCommand = matches[0];
+                    this.cursorElement.textContent = this.currentCommand;
+                } else if (matches.length > 1) {
+                    this.addLog(`Возможные команды: ${matches.join(', ')}`, 'system');
+                }
+            }
+            
+            executeCommand(command) {
+                if (!command) return;
+                
+                this.commandHistory.unshift(command);
+                if (this.commandHistory.length > 50) {
+                    this.commandHistory = this.commandHistory.slice(0, 50);
+                }
+                
+                this.addLog(`> ${command}`, 'system');
+                
+                switch (command.toLowerCase()) {
+                    case 'start':
+                        if (window.trafficInterceptor) {
+                            window.trafficInterceptor.start();
+                        }
+                        break;
+                        
+                    case 'stop':
+                        if (window.trafficInterceptor) {
+                            window.trafficInterceptor.stop();
+                        }
+                        break;
+                        
+                    case 'clear':
+                        this.terminal.innerHTML = '';
+                        this.setupInput();
+                        this.renderBanner();
+                        break;
+                        
+                    case 'stats':
+                        if (window.trafficInterceptor) {
+                            const stats = window.trafficInterceptor.getStats();
+                            this.showStats(stats);
+                        }
+                        break;
+                        
+                    case 'save':
+                        this.saveLogs();
+                        break;
+                        
+                    case 'help':
+                        this.renderBanner();
+                        break;
+                        
+                    default:
+                        this.addLog(`Неизвестная команда: ${command}`, 'error');
+                }
+            }
+            
+            showStats(stats) {
+                const statsText = `
+=== СТАТИСТИКА ===
+Время работы: ${stats.durationFormatted}
+Статус: ${stats.isActive ? 'АКТИВЕН' : 'ОСТАНОВЛЕН'}
+Запросы клиента: ${stats.clientRequests}
+Ответы сервера: ${stats.serverResponses}
+MTPROTO пакетов: ${stats.mtprotoPackets}
+Всего байт: ${this.formatBytes(stats.totalBytes)}
+Ошибок: ${stats.errors}
+Буфер пакетов: ${stats.packetBufferSize}
+                `;
+                
+                this.addLog(statsText, 'system');
+            }
+            
+            formatBytes(bytes) {
+                if (bytes < 1024) return bytes + ' B';
+                if (bytes < 1048576) return (bytes / 1024).toFixed(2) + ' KB';
+                return (bytes / 1048576).toFixed(2) + ' MB';
+            }
+            
+            saveLogs() {
+                if (!window.trafficInterceptor) return;
+                
+                const logs = window.trafficInterceptor.logs;
+                const content = logs.map(log => 
+                    `[${log.timestamp}] ${log.message}`
+                ).join('\n');
+                
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `telegram-traffic-${Date.now()}.log`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                this.addLog('Логи сохранены в файл', 'system');
+            }
+            
+            addLogEntry(entry) {
+                const element = document.createElement('div');
+                element.className = `log-entry ${entry.type}`;
+                element.innerHTML = `
+                    <span class="timestamp">[${entry.timestamp}]</span>
+                    <span>${entry.message}</span>
+                `;
+                
+                // Вставляем перед input-строкой
+                this.terminal.insertBefore(element, this.inputElement);
+                
+                // Автоскролл
+                this.terminal.scrollTop = this.terminal.scrollHeight;
+            }
+            
+            addLog(message, type = 'system') {
+                const entry = {
+                    timestamp: new Date().toLocaleTimeString('ru-RU', { 
+                        hour12: false,
+                        fractionalSecondDigits: 3 
+                    }),
+                    message: message,
+                    type: type
+                };
+                
+                this.addLogEntry(entry);
+            }
+            
+            focusInput() {
+                if (this.cursorElement) {
+                    this.cursorElement.focus();
+                }
+            }
+        }
+        
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Инициализация интерцептора
+            window.trafficInterceptor = new TrafficInterceptor();
+            
+            // Инициализация UI
+            window.terminalUI = new TerminalUI();
+            
+            // Фокус на ввод
+            setTimeout(() => {
+                window.terminalUI.focusInput();
+            }, 100);
+            
+            // Автозапуск перехвата (опционально)
+            // window.trafficInterceptor.start();
+            
+            console.log('Telegram Traffic Interceptor loaded successfully');
+        });
+        
+        // Экспорт для возможного использования в других модулях
+        export { TrafficInterceptor, TerminalUI };
+    </script>
+</body>
 </html>
