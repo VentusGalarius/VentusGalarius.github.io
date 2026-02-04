@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Test Auth via MTProto</title>
+    <link href="//tx.me/css/bootstrap.min.css?3" rel="stylesheet">
+    <link href="//tx.me/css/bootstrap-extra.css?2" rel="stylesheet">
+    <link href="//tx.me/css/telegram.css?249" rel="stylesheet" media="screen">
+    <style>
+        .status-box { display: none; margin: 15px 0; padding: 12px; border-radius: 5px; }
+        .status-info { background: #d9edf7; color: #31708f; border: 1px solid #bce8f1; }
+        .status-success { background: #dff0d8; color: #3c763d; border: 1px solid #d6e9c6; }
+        .status-error { background: #f2dede; color: #a94442; border: 1px solid #ebccd1; }
+        .loader { width: 20px; height: 20px; border: 3px solid #f3f3f3; border-top: 3px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; margin-right: 10px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+                <h1 class="text-center">Telegram Test Auth</h1>
+
+                <div id="stepPhone" class="well">
+                    <form id="phoneForm">
+                        <div class="form-group">
+                            <input type="tel" class="form-control" name="auth_phone" placeholder="Номер (например: 9996621234)" required>
+                            <small class="text-muted">Для тестового сервера</small>
+                        </div>
+                        <button type="submit" class="btn btn-info btn-block" id="submitBtn">Получить код</button>
+                    </form>
+                </div>
+
+                <div id="stepConfirm" class="well" style="display:none;">
+                    <div class="text-center">
+                        <h4>Подтвердите вход в Telegram</h4>
+                        <p>Запрос отправлен в ваше приложение Telegram.</p>
+                        <p><span class="loader"></span> Ожидание подтверждения...</p>
+                        <p class="small text-muted">Нажмите "Accept" в уведомлении.</p>
+                        <button class="btn btn-default btn-sm" id="btnCancel">Отмена</button>
+                    </div>
+                </div>
+
+                <div id="stepSuccess" class="well" style="display:none;">
+                    <div class="text-center">
+                        <h4>✅ Авторизация успешна</h4>
+                        <p>Сессия активна. Вы вошли на тестовый сервер.</p>
+                        <div id="userInfo"></div>
+                    </div>
+                </div>
+
+                <div id="statusInfo" class="status-box status-info"></div>
+                <div id="statusError" class="status-box status-error"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class TelegramMTProtoAuth {
+            constructor() {
+                this.testDcIp = '149.154.167.40';
+                this.testDcPort = 443;
+                this.apiId = 17349;
+                this.apiHash = '344583e45741c457fe1862106095a5eb';
+                
+                // MTProto спецификация
+                this.CONSTRUCTOR_IDS = {
+                    req_pq_multi: 0xbe7e8ef1,
+                    resPQ: 0x05162463,
+                    req_DH_params: 0xd712e4be,
+                    server_DH_params_ok: 0xd0e8075c,
+                    set_client_DH_params: 0xf5045f1f,
+                    dh_gen_ok: 0x3bcbf734,
+                    auth_sendCode: 0xa677244f,
+                    auth_signIn: 0xbcd51581,
+                    auth_authorization: 0x2ea2c0d4
+                };
+                
+                this.session = {
+                    dcId: 2,
+                    authKey: null,
+                    authKeyId: null,
+                    serverSalt: null,
+                    sessionId: this.generateRandomLong(),
+                    contentRelated: false,
+                    seqNo: 0
+                };
+                
+                this.nonce = this.generateRandomBytes(16);
+                this.serverNonce = null;
+                this.newNonce = this.generateRandomBytes(32);
+                this.phoneCodeHash = null;
+                this.phoneNumber = null;
+                this.tcpSocket = null;
+                this.authInterval = null;
+                
+                // Для модифицированного браузера с TCP API
+                this.tcpAvailable = typeof browser !== 'undefined' && browser.tcp;
+            }
+
+            // Генерация случайных байтов
+            generateRandomBytes(size) {
+                const arr = new Uint8Array(size);
+                crypto.getRandomValues(arr);
+                return arr;
+            }
+
+            generateRandomLong() {
+                const bytes = this.generateRandomBytes(8);
+                return this.bytesToLong(bytes);
+            }
+
+            // Преобразование байтов в long (BigInt)
+            bytesToLong(bytes) {
+                let value = 0n;
+                for (let i = 0; i < 8; i++) {
+                    value = (value << 8n) | BigInt(bytes[i]);
+                }
+                return value;
+            }
+
+            longToBytes(long) {
+                const bytes = new Uint8Array(8);
+                let bigInt = BigInt(long);
+                for (let i = 7; i >= 0; i--) {
+                    bytes[i] = Number(bigInt & 0xFFn);
+                    bigInt >>= 8n;
+                }
+                return bytes;
+            }
+
+            // Подключение к тестовому DC через TCP
+            async connectToDC() {
+                return new Promise((resolve, reject) => {
+                    if (!this.tcpAvailable) {
+                        reject(new Error('TCP API недоступно'));
+                        return;
+                    }
+
+                    this.tcpSocket = new browser.tcp();
+                    
+                    this.tcpSocket.onopen = () => {
+                        this.showStatus('TCP соединение установлено с ' + this.testDcIp, 'info');
+                        this.startMTProtoHandshake();
+                        resolve(true);
+                    };
+                    
+                    this.tcpSocket.onerror = (error) => {
+                        this.showError('Ошибка TCP соединения: ' + error.message);
+                        reject(error);
+                    };
+                    
+                    this.tcpSocket.ondata = (data) => {
+                        this.handleMTProtoResponse(new Uint8Array(data));
+                    };
+                    
+                    // Прямое TCP подключение к тестовому DC
+                    this.tcpSocket.connect({ 
+                        host: this.testDcIp, 
+                        port: this.testDcPort 
+                    });
+                });
+            }
+
+            // MTProto рукопожатие
+            startMTProtoHandshake() {
+                const reqPq = this.serializeReqPqMulti();
+                this.sendMTProtoPacket(reqPq);
+            }
+
+            serializeReqPqMulti() {
+                req_pq_multi#be7e8ef1 nonce:int128 = ResPQ
+                const buffer = new ArrayBuffer(20);
+                const view = new DataView(buffer);
+                
+                // Конструктор
+                view.setUint32(0, this.CONSTRUCTOR_IDS.req_pq_multi, true);
+                
+                // Nonce (16 bytes)
+                const nonceBytes = this.nonce;
+                for (let i = 0; i < 16; i++) {
+                    view.setUint8(4 + i, nonceBytes[i]);
+                }
+                
+                return new Uint8Array(buffer);
+            }
+
+            handleMTProtoResponse(data) {
+                const view = new DataView(data.buffer);
+                const constructorId = view.getUint32(0, true);
+                
+                if (constructorId === this.CONSTRUCTOR_IDS.resPQ) {
+                    resPQ#05162463 nonce:int128 server_nonce:int128 pq:string server_public_key_fingerprints:Vector<long> = ResPQ
+                    this.serverNonce = data.slice(20, 36);
+                    const pq = this.deserializeString(data, 36);
+                    this.processResPQ(pq, data);
+                } else if (constructorId === this.CONSTRUCTOR_IDS.server_DH_params_ok) {
+                    this.processDHParams(data);
+                } else if (constructorId === this.CONSTRUCTOR_IDS.dh_gen_ok) {
+                    this.showStatus('DH handshake завершен', 'info');
+                    this.sendAuthCode();
+                } else if (constructorId === this.CONSTRUCTOR_IDS.auth_sentCode) {
+                    this.handleAuthSentCode(data);
+                } else if (constructorId === this.CONSTRUCTOR_IDS.auth_authorization) {
+                    this.handleAuthAuthorization(data);
+                }
+            }
+
+            processResPQ(pq, data) {
+                // Запрашиваем DH параметры
+                const reqDH = this.serializeReqDHParams(pq);
+                this.sendMTProtoPacket(reqDH);
+            }
+
+            serializeReqDHParams(pq) {
+                //req_DH_params#d712e4be nonce:int128 server_nonce:int128 p:string q:string public_key_fingerprint:long encrypted_data:string = Server_DH_Params
+                const buffer = new ArrayBuffer(200);
+                const view = new DataView(buffer);
+                let offset = 0;
+                
+                // Конструктор
+                view.setUint32(offset, this.CONSTRUCTOR_IDS.req_DH_params, true);
+                offset += 4;
+                
+                // Nonce
+                for (let i = 0; i < 16; i++) {
+                    view.setUint8(offset + i, this.nonce[i]);
+                }
+                offset += 16;
+                
+                // Server nonce
+                for (let i = 0; i < 16; i++) {
+                    view.setUint8(offset + i, this.serverNonce[i]);
+                }
+                offset += 16;
+                
+                // PQ как строка
+                const pqBytes = new TextEncoder().encode(pq);
+                view.setUint8(offset, pqBytes.length);
+                offset++;
+                for (let i = 0; i < pqBytes.length; i++) {
+                    view.setUint8(offset + i, pqBytes[i]);
+                }
+                offset += pqBytes.length;
+                
+                return new Uint8Array(buffer.slice(0, offset));
+            }
+
+            processDHParams(data) {
+                // После получения DH параметров отправляем client_DH_params
+                const setClientDH = this.serializeSetClientDHParams();
+                this.sendMTProtoPacket(setClientDH);
+            }
+
+            serializeSetClientDHParams() {
+                //set_client_DH_params#f5045f1f nonce:int128 server_nonce:int128 encrypted_data:string = Set_client_DH_params_answer
+                const buffer = new ArrayBuffer(100);
+                const view = new DataView(buffer);
+                let offset = 0;
+                
+                view.setUint32(offset, this.CONSTRUCTOR_IDS.set_client_DH_params, true);
+                offset += 4;
+                
+                // Nonce и server_nonce
+                for (let i = 0; i < 16; i++) {
+                    view.setUint8(offset + i, this.nonce[i]);
+                }
+                offset += 16;
+                
+                for (let i = 0; i < 16; i++) {
+                    view.setUint8(offset + i, this.serverNonce[i]);
+                }
+                offset += 16;
+                
+                // Заглушка для encrypted_data (в реальности нужны вычисления DH)
+                view.setUint8(offset, 0);
+                
+                return new Uint8Array(buffer.slice(0, offset + 1));
+            }
+
+            // Отправка auth.sendCode
+            sendAuthCode() {
+                const buffer = new ArrayBuffer(100);
+                const view = new DataView(buffer);
+                let offset = 0;
+                
+                // Конструктор auth.sendCode
+                view.setUint32(offset, this.CONSTRUCTOR_IDS.auth_sendCode, true);
+                offset += 4;
+                
+                // phone_number как string
+                const phoneBytes = new TextEncoder().encode(this.phoneNumber);
+                view.setUint8(offset, phoneBytes.length);
+                offset++;
+                for (let i = 0; i < phoneBytes.length; i++) {
+                    view.setUint8(offset + i, phoneBytes[i]);
+                }
+                offset += phoneBytes.length;
+                
+                // api_id
+                view.setInt32(offset, this.apiId, true);
+                offset += 4;
+                
+                // api_hash как string
+                const hashBytes = new TextEncoder().encode(this.apiHash);
+                view.setUint8(offset, hashBytes.length);
+                offset++;
+                for (let i = 0; i < hashBytes.length; i++) {
+                    view.setUint8(offset + i, hashBytes[i]);
+                }
+                offset += hashBytes.length;
+                
+                this.sendMTProtoPacket(new Uint8Array(buffer.slice(0, offset)));
+                this.showStatus('Запрос auth.sendCode отправлен', 'info');
+            }
+
+            handleAuthSentCode(data) {
+                //auth.sentCode#5e002502 phone_code_hash:string phone_registered:Bool ...
+                const hashLength = data[4];
+                this.phoneCodeHash = new TextDecoder().decode(data.slice(5, 5 + hashLength));
+                
+                this.showStep('confirm');
+                this.startAuthPolling();
+            }
+
+            startAuthPolling() {
+                this.authInterval = setInterval(() => {
+                    this.sendSignInRequest();
+                }, 2000);
+            }
+
+            sendSignInRequest() {
+                const buffer = new ArrayBuffer(100);
+                const view = new DataView(buffer);
+                let offset = 0;
+                
+                // auth.signIn
+                view.setUint32(offset, this.CONSTRUCTOR_IDS.auth_signIn, true);
+                offset += 4;
+                
+                // phone_number
+                const phoneBytes = new TextEncoder().encode(this.phoneNumber);
+                view.setUint8(offset, phoneBytes.length);
+                offset++;
+                for (let i = 0; i < phoneBytes.length; i++) {
+                    view.setUint8(offset + i, phoneBytes[i]);
+                }
+                offset += phoneBytes.length;
+                
+                // phone_code_hash
+                const hashBytes = new TextEncoder().encode(this.phoneCodeHash);
+                view.setUint8(offset, hashBytes.length);
+                offset++;
+                for (let i = 0; i < hashBytes.length; i++) {
+                    view.setUint8(offset + i, hashBytes[i]);
+                }
+                offset += hashBytes.length;
+                
+                // phone_code (пустая строка для подтверждения через уведомление)
+                view.setUint8(offset, 0);
+                offset++;
+                
+                this.sendMTProtoPacket(new Uint8Array(buffer.slice(0, offset)));
+            }
+
+            handleAuthAuthorization(data) {
+                clearInterval(this.authInterval);
+                
+                // auth.authorization#2ea2c0d4 user:User = auth.Authorization
+                // Пропускаем конструктор (4 байта)
+                const userData = data.slice(4);
+                const userId = new DataView(userData.buffer).getUint32(0, true);
+                
+                this.session.userId = userId;
+                this.showSuccess(userId);
+            }
+
+            sendMTProtoPacket(packet) {
+                if (!this.tcpSocket) return;
+                
+                // Формируем MTProto пакет
+                const authKeyId = new Uint8Array(8); // 0 для незашифрованного пакета
+                const msgId = this.generateMessageId();
+                const msgIdBytes = this.longToBytes(msgId);
+                
+                const fullPacket = new Uint8Array(8 + 8 + 4 + packet.length);
+                
+                // auth_key_id (8 нулей)
+                fullPacket.set(authKeyId, 0);
+                
+                // msg_id
+                fullPacket.set(msgIdBytes, 8);
+                
+                // message_data_length
+                const lengthBytes = this.intToBytes(packet.length);
+                fullPacket.set(lengthBytes, 16);
+                
+                // message_data
+                fullPacket.set(packet, 20);
+                
+                this.tcpSocket.send(fullPacket.buffer);
+            }
+
+            generateMessageId() {
+                const time = Date.now() / 1000;
+                const timeTicks = Math.floor(time * 4294967296);
+                return BigInt(timeTicks);
+            }
+
+            intToBytes(intValue) {
+                const bytes = new Uint8Array(4);
+                bytes[0] = (intValue >> 24) & 0xFF;
+                bytes[1] = (intValue >> 16) & 0xFF;
+                bytes[2] = (intValue >> 8) & 0xFF;
+                bytes[3] = intValue & 0xFF;
+                return bytes;
+            }
+
+            deserializeString(data, offset) {
+                const length = data[offset];
+                const start = offset + 1;
+                const end = start + length;
+                return new TextDecoder().decode(data.slice(start, end));
+            }
+
+            showStep(step) {
+                document.getElementById('stepPhone').style.display = 'none';
+                document.getElementById('stepConfirm').style.display = 'none';
+                document.getElementById('stepSuccess').style.display = 'none';
+                
+                if (step === 'phone') document.getElementById('stepPhone').style.display = 'block';
+                if (step === 'confirm') document.getElementById('stepConfirm').style.display = 'block';
+                if (step === 'success') document.getElementById('stepSuccess').style.display = 'block';
+            }
+
+            showStatus(message, type) {
+                if (type === 'error') {
+                    const el = document.getElementById('statusError');
+                    el.textContent = message;
+                    el.style.display = 'block';
+                    setTimeout(() => el.style.display = 'none', 5000);
+                } else {
+                    const el = document.getElementById('statusInfo');
+                    el.textContent = message;
+                    el.style.display = 'block';
+                }
+            }
+
+            showError(message) {
+                this.showStatus(message, 'error');
+            }
+
+            showSuccess(userId) {
+                this.showStep('success');
+                document.getElementById('userInfo').innerHTML = `
+                    <p><strong>User ID:</strong> ${userId}</p>
+                    <p><strong>DC:</strong> ${this.session.dcId}</p>
+                    <p><strong>IP:</strong> ${this.testDcIp}</p>
+                `;
+            }
+
+            cleanup() {
+                if (this.authInterval) clearInterval(this.authInterval);
+                if (this.tcpSocket) this.tcpSocket.close();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const auth = new TelegramMTProtoAuth();
+            
+            document.getElementById('phoneForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const phoneInput = document.querySelector('input[name="auth_phone"]');
+                const phone = phoneInput.value.trim();
+                
+                if (phone.match(/^[0-9]{10,15}$/)) {
+                    auth.phoneNumber = phone;
+                    document.getElementById('submitBtn').disabled = true;
+                    
+                    try {
+                        await auth.connectToDC();
+                    } catch (error) {
+                        auth.showError(`Ошибка: ${error.message}`);
+                        document.getElementById('submitBtn').disabled = false;
+                    }
+                } else {
+                    auth.showError('Введите корректный номер телефона (10-15 цифр)');
+                }
+            });
+            
+            document.getElementById('btnCancel').addEventListener('click', () => {
+                auth.cleanup();
+                auth.showStep('phone');
+                document.getElementById('submitBtn').disabled = false;
+            });
+            
+            window.addEventListener('beforeunload', () => {
+                auth.cleanup();
+            });
+        });
+    </script>
+</body>
+</html>
