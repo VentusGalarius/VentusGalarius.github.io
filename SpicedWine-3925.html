@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html class="theme_dark" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Telegram: Collectible Gift</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        class TelegramWebAppHandler {
+            constructor() {
+                this.initParentCommunication();
+                this.setupThemeDetection();
+            }
+            
+            initParentCommunication() {
+                try {
+                    if (window.parent !== null && window !== window.parent) {
+                        const messageData = {
+                            eventType: 'web_app_open_tg_link',
+                            eventData: {
+                                path_full: "/nft/SpicedWine-3925"
+                            }
+                        };
+                        window.parent.postMessage(JSON.stringify(messageData), 'https://web.telegram.org');
+                    }
+                } catch (error) {
+                    console.error('Parent communication error:', error);
+                }
+            }
+            
+            setupThemeDetection() {
+                if (window.matchMedia) {
+                    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+                    if (darkModeQuery.matches && document.documentElement && document.documentElement.classList) {
+                        document.documentElement.classList.add('theme_dark');
+                    }
+                }
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            new TelegramWebAppHandler();
+        });
+    </script>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Spiced Wine #3925">
+    <meta property="og:image" content="https://cdn4.telesco.pe/file/elrGH_rKDKS-fOSBrF_ERM8MjTF8saox-Qv5tCiFwSAVpdKm4VoNv3JCItfqUSnJPNOCUv3hpcWO24X324mVYhDWNStftTkkOhJndQKwocujqLBkf7Wyd5qe4Lbf_4Tz4DX2MaOVMPTGEh2AWbr-DBtrciaAxsQuGlG99kTLsngclE6a5h6eimb-KG18tzoyB_seFOjPuzrSqvMqFH6PhRmytILtxuk1zxUTe_n16PuyCelsLiQTg08K1iqEHVJp4w1nyuli4luLDiA_3ORQPelezdTRkLL5N548IPymBglxO3dDFCS5nKAyDOHzMC5ytYnALfU_yQBoweoC3WkfGw.jpg">
+    <meta property="og:site_name" content="Telegram">
+    <meta property="og:description" content="Model: Brain Enhancer
+Backdrop: Roman Silver
+Symbol: Magic Wand
+Gifted by Deleted Account to Илья on 28 November 2024">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://telegram.org/nft/SpicedWine-3925">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta property="twitter:title" content="Spiced Wine #3925">
+    <meta property="twitter:image" content="https://cdn4.telesco.pe/file/elrGH_rKDKS-fOSBrF_ERM8MjTF8saox-Qv5tCiFwSAVpdKm4VoNv3JCItfqUSnJPNOCUv3hpcWO24X324mVYhDWNStftTkkOhJndQKwocujqLBkf7Wyd5qe4Lbf_4Tz4DX2MaOVMPTGEh2AWbr-DBtrciaAxsQuGlG99kTLsngclE6a5h6eimb-KG18tzoyB_seFOjPuzrSqvMqFH6PhRmytILtxuk1zxUTe_n16PuyCelsLiQTg08K1iqEHVJp4w1nyuli4luLDiA_3ORQPelezdTRkLL5N548IPymBglxO3dDFCS5nKAyDOHzMC5ytYnALfU_yQBoweoC3WkfGw.jpg">
+    <meta property="twitter:site" content="@Telegram">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="Model: Brain Enhancer
+Backdrop: Roman Silver
+Symbol: Magic Wand
+Gifted by Deleted Account to Илья on 28 November 2024">
+    
+    <!-- App Links Meta Tags -->
+    <meta property="al:ios:app_store_id" content="686449807">
+    <meta property="al:ios:app_name" content="Telegram Messenger">
+    <meta property="al:ios:url" content="tg:nft?slug=SpicedWine-3925">
+    <meta property="al:android:url" content="tg:nft?slug=SpicedWine-3925">
+    <meta property="al:android:app_name" content="Telegram">
+    <meta property="al:android:package" content="org.telegram.messenger">
+    
+    <!-- Twitter App Meta Tags -->
+    <meta name="twitter:app:name:iphone" content="Telegram Messenger">
+    <meta name="twitter:app:id:iphone" content="686449807">
+    <meta name="twitter:app:url:iphone" content="tg:nft?slug=SpicedWine-3925">
+    <meta name="twitter:app:name:ipad" content="Telegram Messenger">
+    <meta name="twitter:app:id:ipad" content="686449807">
+    <meta name="twitter:app:url:ipad" content="tg:nft?slug=SpicedWine-3925">
+    <meta name="twitter:app:name:googleplay" content="Telegram">
+    <meta name="twitter:app:id:googleplay" content="org.telegram.messenger">
+    <meta name="twitter:app:url:googleplay" content="https://t.me/nft/SpicedWine-3925">
+    
+    <!-- Apple Smart App Banner -->
+    <meta name="apple-itunes-app" content="app-id=686449807, app-argument: tg:nft?slug=SpicedWine-3925">
+    
+    <!-- Instant View Meta Tags -->
+    <meta name="instant-view" content="true">
+    <meta property="telegram:instant-view" content="true">
+    <meta property="telegram:channel" content="@telegram">
+    <meta name="twitter:domain" content="telegram.org">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="//telegram.org/img/website_icon.svg?4">
+    <link rel="apple-touch-icon" sizes="180x180" href="//telegram.org/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="//telegram.org/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="//telegram.org/img/favicon-16x16.png">
+    <link rel="alternate icon" href="//telegram.org/img/favicon.ico" type="image/x-icon">
+    
+    <!-- Stylesheets -->
+    <link href="//telegram.org/css/font-roboto.css?1" rel="stylesheet" type="text/css">
+    <link href="//telegram.org/css/bootstrap.min.css?3" rel="stylesheet">
+    <link href="//telegram.org/css/telegram.css?249" rel="stylesheet" media="screen">
+    
+    <!-- Instant View Styles -->
+    <style>
+        .instant-view-container {
+            display: none;
+            max-width: 100%;
+            margin: 0 auto;
+            background: #000;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .instant-view-article {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .instant-view-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .instant-view-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .instant-view-subtitle {
+            font-size: 18px;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+        
+        .instant-view-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin: 30px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .instant-view-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .instant-view-nft-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .instant-view-content {
+            background: #111;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .instant-view-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .instant-view-detail-card {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #0088cc;
+        }
+        
+        .instant-view-detail-label {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .instant-view-detail-value {
+            font-size: 18px;
+            font-weight: 500;
+            color: #fff;
+        }
+        
+        .instant-view-detail-percentage {
+            display: inline-block;
+            background: #0088cc;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-left: 8px;
+            font-weight: 500;
+        }
+        
+        .instant-view-owner-card {
+            display: flex;
+            align-items: center;
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .instant-view-owner-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+        }
+        
+        .instant-view-owner-info {
+            flex: 1;
+        }
+        
+        .instant-view-owner-name {
+            font-size: 20px;
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        
+        .instant-view-owner-label {
+            font-size: 14px;
+            color: #aaa;
+        }
+        
+        .instant-view-timestamp {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin: 40px 0;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+        
+        .instant-view-actions {
+            display: flex;
+            gap: 15px;
+            margin: 40px 0;
+            justify-content: center;
+        }
+        
+        .instant-view-button {
+            padding: 15px 30px;
+            background: #0088cc;
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .instant-view-button:hover {
+            background: #0077b3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.3);
+        }
+        
+        .instant-view-button-secondary {
+            background: #333;
+        }
+        
+        .instant-view-button-secondary:hover {
+            background: #444;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+        
+        .instant-view-animated-model {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #0f0f0f, #1a1a1a);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .instant-view-model-canvas {
+            width: 200px;
+            height: 200px;
+        }
+        
+        .instant-view-attributes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .instant-view-attribute {
+            background: rgba(0, 136, 204, 0.1);
+            border: 1px solid rgba(0, 136, 204, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #0088cc;
+        }
+        
+        @media (max-width: 768px) {
+            .instant-view-article {
+                padding: 15px;
+            }
+            
+            .instant-view-title {
+                font-size: 24px;
+            }
+            
+            .instant-view-image-container {
+                height: 300px;
+            }
+            
+            .instant-view-details-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .instant-view-actions {
+                flex-direction: column;
+            }
+        }
+        
+        /* Telegram Instant View specific styles */
+        .tgme_instantview {
+            background: #000 !important;
+        }
+        
+        .tgme_instantview .instant-view-container {
+            display: block !important;
+        }
+        
+        .tgme_instantview .tgme_body_wrap,
+        .tgme_instantview .tgme_background_wrap,
+        .tgme_instantview .tgme_head_wrap {
+            display: none !important;
+        }
+    </style>
+    
+    <!-- Telegra.ph API Integration Script -->
+    <script>
+        class TelegraphAPI {
+            constructor() {
+                this.baseURL = 'https://api.telegra.ph';
+                this.accessToken = null;
+                this.pagePath = null;
+            }
+            
+            async createPage(title, content, authorName, authorUrl) {
+                try {
+                    const response = await fetch(`${this.baseURL}/createPage`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            access_token: this.accessToken,
+                            title: title,
+                            author_name: authorName,
+                            author_url: authorUrl,
+                            content: content,
+                            return_content: true
+                        })
+                    });
+                    
+                    return await response.json();
+                } catch (error) {
+                    console.error('Telegraph API Error:', error);
+                    return null;
+                }
+            }
+            
+            generateContentFromNFT(nftData) {
+                const content = [
+                    {
+                        tag: 'h3',
+                        children: [nftData.title]
+                    },
+                    {
+                        tag: 'img',
+                        attrs: {
+                            src: nftData.image
+                        }
+                    },
+                    {
+                        tag: 'p',
+                        children: [`Model: ${nftData.model}`]
+                    },
+                    {
+                        tag: 'p',
+                        children: [`Backdrop: ${nftData.backdrop}`]
+                    },
+                    {
+                        tag: 'p',
+                        children: [`Symbol: ${nftData.symbol}`]
+                    },
+                    {
+                        tag: 'p',
+                        children: [`Owner: ${nftData.owner}`]
+                    },
+                    {
+                        tag: 'p',
+                        children: [`Gifted by ${nftData.gifter} to ${nftData.recipient} on ${nftData.date}`]
+                    },
+                    {
+                        tag: 'a',
+                        attrs: {
+                            href: nftData.telegramLink
+                        },
+                        children: ['View in Telegram']
+                    }
+                ];
+                
+                return content;
+            }
+        }
+        
+        class NFTDataProcessor {
+            constructor() {
+                this.nftData = {
+                    id: '3925',
+                    title: 'Spiced Wine #3925',
+                    model: 'Brain Enhancer',
+                    backdrop: 'Roman Silver',
+                    symbol: 'Magic Wand',
+                    owner: 'Mark',
+                    gifter: 'Deleted Account',
+                    recipient: 'Илья',
+                    date: '28 November 2024',
+                    image: 'https://cdn4.telesco.pe/file/elrGH_rKDKS-fOSBrF_ERM8MjTF8saox-Qv5tCiFwSAVpdKm4VoNv3JCItfqUSnJPNOCUv3hpcWO24X324mVYhDWNStftTkkOhJndQKwocujqLBkf7Wyd5qe4Lbf_4Tz4DX2MaOVMPTGEh2AWbr-DBtrciaAxsQuGlG99kTLsngclE6a5h6eimb-KG18tzoyB_seFOjPuzrSqvMqFH6PhRmytILtxuk1zxUTe_n16PuyCelsLiQTg08K1iqEHVJp4w1nyuli4luLDiA_3ORQPelezdTRkLL5N548IPymBglxO3dDFCS5nKAyDOHzMC5ytYnALfU_yQBoweoC3WkfGw.jpg',
+                    telegramLink: 'tg:nft?slug=SpicedWine-3925',
+                    rarity: {
+                        model: '0.8%',
+                        backdrop: '2%',
+                        symbol: '0.4%'
+                    },
+                    quantity: {
+                        issued: '100 999',
+                        total: '146 090'
+                    }
+                };
+            }
+            
+            parseNFTFromDOM() {
+                const nftTitle = document.querySelector('meta[property="og:title"]')?.content || this.nftData.title;
+                const nftImage = document.querySelector('meta[property="og:image"]')?.content || this.nftData.image;
+                const nftDescription = document.querySelector('meta[property="og:description"]')?.content || '';
+                
+                this.extractDetailsFromDescription(nftDescription);
+                
+                return {
+                    ...this.nftData,
+                    title: nftTitle,
+                    image: nftImage
+                };
+            }
+            
+            extractDetailsFromDescription(description) {
+                const lines = description.split('\n');
+                lines.forEach(line => {
+                    if (line.includes('Model:')) this.nftData.model = line.replace('Model:', '').trim();
+                    if (line.includes('Backdrop:')) this.nftData.backdrop = line.replace('Backdrop:', '').trim();
+                    if (line.includes('Symbol:')) this.nftData.symbol = line.replace('Symbol:', '').trim();
+                    if (line.includes('Gifted by')) {
+                        const giftInfo = line.replace('Gifted by', '').trim();
+                        const [gifter, rest] = giftInfo.split(' to ');
+                        const [recipient, date] = rest ? rest.split(' on ') : ['', ''];
+                        this.nftData.gifter = gifter.trim();
+                        this.nftData.recipient = recipient.trim();
+                        this.nftData.date = date.trim();
+                    }
+                });
+            }
+            
+            generateInstantViewHTML() {
+                return `
+                <div class="instant-view-container">
+                    <article class="instant-view-article">
+                        <header class="instant-view-header">
+                            <h1 class="instant-view-title">${this.nftData.title}</h1>
+                            <div class="instant-view-subtitle">Telegram Collectible Gift</div>
+                        </header>
+                        
+                        <div class="instant-view-image-container">
+                            <img src="${this.nftData.image}" alt="${this.nftData.title}" class="instant-view-image">
+                            <div class="instant-view-nft-badge">NFT #${this.nftData.id}</div>
+                        </div>
+                        
+                        <div class="instant-view-animated-model">
+                            <canvas class="instant-view-model-canvas" width="254" height="254"></canvas>
+                        </div>
+                        
+                        <div class="instant-view-content">
+                            <div class="instant-view-attributes">
+                                <span class="instant-view-attribute">Collectible</span>
+                                <span class="instant-view-attribute">Digital Art</span>
+                                <span class="instant-view-attribute">Telegram Gift</span>
+                            </div>
+                            
+                            <div class="instant-view-details-grid">
+                                <div class="instant-view-detail-card">
+                                    <div class="instant-view-detail-label">Model</div>
+                                    <div class="instant-view-detail-value">
+                                        ${this.nftData.model}
+                                        <span class="instant-view-detail-percentage">${this.nftData.rarity.model}</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="instant-view-detail-card">
+                                    <div class="instant-view-detail-label">Backdrop</div>
+                                    <div class="instant-view-detail-value">
+                                        ${this.nftData.backdrop}
+                                        <span class="instant-view-detail-percentage">${this.nftData.rarity.backdrop}</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="instant-view-detail-card">
+                                    <div class="instant-view-detail-label">Symbol</div>
+                                    <div class="instant-view-detail-value">
+                                        ${this.nftData.symbol}
+                                        <span class="instant-view-detail-percentage">${this.nftData.rarity.symbol}</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="instant-view-detail-card">
+                                    <div class="instant-view-detail-label">Quantity</div>
+                                    <div class="instant-view-detail-value">
+                                        ${this.nftData.quantity.issued} / ${this.nftData.quantity.total} issued
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="instant-view-owner-card">
+                                <img src="https://cdn4.telesco.pe/file/twNWtcdkJ8KdABgnte_aN3N9CEEX-n2E53ef-WZcFTUto8iVhQTzIuOSgcskipBQG_VsiKkBqRXQ7X58ZBxURszidP_E_39GVwtIjckEit43lFeUwu16-M0F3pvyOQ1BhBupF3P0QOmwhbmlLLSB8X620B--ZO0xXujWFdIfUtvC6bss9EZJ-Vh_C_v_QR1KMnr0l8A_n4tT70Ia7bsdoJtoaZGuF3DYEGibtnibbLDO7cC60PrPFmFe6zmBzV-KjzFFIAxgZ5sh5KKhAwuRv2SdNK5_M1oGEdLS-iMB56VukNPZzu6NuNDospus8Xte8HTUgCOzsAarSGpu87eibA.jpg" 
+                                     alt="Owner" class="instant-view-owner-avatar">
+                                <div class="instant-view-owner-info">
+                                    <div class="instant-view-owner-name">${this.nftData.owner}</div>
+                                    <div class="instant-view-owner-label">Current Owner</div>
+                                </div>
+                            </div>
+                            
+                            <div class="instant-view-timestamp">
+                                Gifted by ${this.nftData.gifter} to ${this.nftData.recipient} on ${this.nftData.date}
+                            </div>
+                        </div>
+                        
+                        <div class="instant-view-actions">
+                            <a href="${this.nftData.telegramLink}" class="instant-view-button">
+                                View in Telegram
+                            </a>
+                            <a href="https://web.telegram.org/k/#?tgaddr=tg://nft?slug=SpicedWine-3925" 
+                               class="instant-view-button instant-view-button-secondary">
+                                Open in Web Telegram
+                            </a>
+                        </div>
+                    </article>
+                </div>
+                `;
+            }
+        }
+        
+        class InstantViewRenderer {
+            constructor() {
+                this.nftProcessor = new NFTDataProcessor();
+                this.telegraphAPI = new TelegraphAPI();
+                this.isInstantView = false;
+            }
+            
+            init() {
+                this.detectInstantViewMode();
+                this.renderContent();
+                this.setupEventListeners();
+                this.animateNFTModel();
+            }
+            
+            detectInstantViewMode() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const isTelegramInstantView = document.documentElement.classList.contains('tgme_instantview') ||
+                                            urlParams.has('iv') ||
+                                            urlParams.has('instantview') ||
+                                            window.location.hash.includes('instant-view');
+                
+                this.isInstantView = isTelegramInstantView;
+                
+                if (this.isInstantView) {
+                    document.documentElement.classList.add('tgme_instantview');
+                    document.body.classList.add('instant-view-mode');
+                }
+            }
+            
+            renderContent() {
+                const nftData = this.nftProcessor.parseNFTFromDOM();
+                
+                if (this.isInstantView) {
+                    const instantViewHTML = this.nftProcessor.generateInstantViewHTML();
+                    document.body.insertAdjacentHTML('afterbegin', instantViewHTML);
+                    
+                    this.hideOriginalContent();
+                }
+            }
+            
+            hideOriginalContent() {
+                const elementsToHide = [
+                    '.tgme_body_wrap',
+                    '.tgme_background_wrap',
+                    '.tgme_head_wrap'
+                ];
+                
+                elementsToHide.forEach(selector => {
+                    const element = document.querySelector(selector);
+                    if (element) {
+                        element.style.display = 'none';
+                    }
+                });
+            }
+            
+            setupEventListeners() {
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('.instant-view-button')) {
+                        e.preventDefault();
+                        const href = e.target.closest('a').href;
+                        this.handleButtonClick(href);
+                    }
+                });
+                
+                window.addEventListener('message', (event) => {
+                    if (event.data && event.data.type === 'TELEGRAM_INSTANT_VIEW') {
+                        this.handleTelegramMessage(event.data);
+                    }
+                });
+            }
+            
+            handleButtonClick(url) {
+                if (url.startsWith('tg:')) {
+                    window.location.href = url;
+                } else {
+                    window.open(url, '_blank');
+                }
+            }
+            
+            handleTelegramMessage(data) {
+                switch (data.action) {
+                    case 'RESIZE':
+                        this.resizeInstantView(data.height);
+                        break;
+                    case 'THEME_CHANGE':
+                        this.updateTheme(data.theme);
+                        break;
+                }
+            }
+            
+            resizeInstantView(height) {
+                const container = document.querySelector('.instant-view-container');
+                if (container) {
+                    container.style.height = `${height}px`;
+                }
+            }
+            
+            updateTheme(theme) {
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('theme_dark');
+                } else {
+                    document.documentElement.classList.remove('theme_dark');
+                }
+            }
+            
+            animateNFTModel() {
+                if (!this.isInstantView) return;
+                
+                const canvas = document.querySelector('.instant-view-model-canvas');
+                if (!canvas) return;
+                
+                const ctx = canvas.getContext('2d');
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                let rotation = 0;
+                
+                const drawNFTModel = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    rotation += 0.01;
+                    
+                    ctx.save();
+                    ctx.translate(centerX, centerY);
+                    ctx.rotate(rotation);
+                    
+                    const gradient = ctx.createRadialGradient(0, 0, 20, 0, 0, 100);
+                    gradient.addColorStop(0, 'rgba(0, 136, 204, 0.8)');
+                    gradient.addColorStop(1, 'rgba(0, 136, 204, 0.2)');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 80, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    
+                    for (let i = 0; i < 8; i++) {
+                        const angle = (Math.PI * 2 / 8) * i;
+                        const x1 = Math.cos(angle) * 60;
+                        const y1 = Math.sin(angle) * 60;
+                        const x2 = Math.cos(angle) * 100;
+                        const y2 = Math.sin(angle) * 100;
+                        
+                        ctx.moveTo(x1, y1);
+                        ctx.lineTo(x2, y2);
+                    }
+                    
+                    ctx.stroke();
+                    
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 16px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('NFT', 0, 0);
+                    
+                    ctx.restore();
+                    
+                    requestAnimationFrame(drawNFTModel);
+                };
+                
+                drawNFTModel();
+            }
+            
+            async createTelegraphPage() {
+                const nftData = this.nftProcessor.parseNFTFromDOM();
+                const content = this.telegraphAPI.generateContentFromNFT(nftData);
+                
+                const result = await this.telegraphAPI.createPage(
+                    nftData.title,
+                    content,
+                    'Telegram NFT',
+                    'https://telegram.org'
+                );
+                
+                if (result && result.ok) {
+                    this.telegraphAPI.pagePath = result.result.path;
+                    return result.result.url;
+                }
+                
+                return null;
+            }
+        }
+        
+        class TelegramBackgroundAnimation {
+            constructor() {
+                this.canvas = document.getElementById('tgme_background');
+                this.ctx = null;
+                this.animationId = null;
+                this.particles = [];
+                this.colors = ['dbddbb', '6ba587', 'd5d88d', '88b884'];
+                this.isAnimating = false;
+            }
+            
+            init() {
+                if (!this.canvas) return;
+                
+                this.ctx = this.canvas.getContext('2d');
+                this.setupCanvas();
+                this.createParticles();
+                this.startAnimation();
+                
+                window.addEventListener('resize', () => this.setupCanvas());
+            }
+            
+            setupCanvas() {
+                if (!this.canvas || !this.ctx) return;
+                
+                const dpr = window.devicePixelRatio || 1;
+                const rect = this.canvas.getBoundingClientRect();
+                
+                this.canvas.width = rect.width * dpr;
+                this.canvas.height = rect.height * dpr;
+                
+                this.ctx.scale(dpr, dpr);
+                this.canvas.style.width = `${rect.width}px`;
+                this.canvas.style.height = `${rect.height}px`;
+            }
+            
+            createParticles() {
+                this.particles = [];
+                const particleCount = Math.floor((this.canvas.width * this.canvas.height) / 10000);
+                
+                for (let i = 0; i < particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        size: Math.random() * 2 + 1,
+                        speedX: (Math.random() - 0.5) * 0.5,
+                        speedY: (Math.random() - 0.5) * 0.5,
+                        color: `#${this.colors[Math.floor(Math.random() * this.colors.length)]}`,
+                        opacity: Math.random() * 0.5 + 0.2
+                    });
+                }
+            }
+            
+            startAnimation() {
+                if (this.isAnimating) return;
+                
+                this.isAnimating = true;
+                
+                const animate = () => {
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    
+                    this.particles.forEach(particle => {
+                        particle.x += particle.speedX;
+                        particle.y += particle.speedY;
+                        
+                        if (particle.x > this.canvas.width) particle.x = 0;
+                        if (particle.x < 0) particle.x = this.canvas.width;
+                        if (particle.y > this.canvas.height) particle.y = 0;
+                        if (particle.y < 0) particle.y = this.canvas.height;
+                        
+                        this.ctx.beginPath();
+                        this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                        this.ctx.fillStyle = particle.color;
+                        this.ctx.globalAlpha = particle.opacity;
+                        this.ctx.fill();
+                        this.ctx.globalAlpha = 1;
+                    });
+                    
+                    this.animationId = requestAnimationFrame(animate);
+                };
+                
+                animate();
+            }
+            
+            stopAnimation() {
+                if (this.animationId) {
+                    cancelAnimationFrame(this.animationId);
+                    this.isAnimating = false;
+                }
+            }
+            
+            updateColors(newColors) {
+                if (newColors && Array.isArray(newColors)) {
+                    this.colors = newColors;
+                    this.createParticles();
+                }
+            }
+        }
+        
+        class NFTStickerAnimation {
+            constructor() {
+                this.stickerElements = document.querySelectorAll('.js-gift_model');
+                this.isInitialized = false;
+            }
+            
+            init() {
+                if (this.isInitialized || !this.stickerElements.length) return;
+                
+                this.stickerElements.forEach(element => {
+                    this.initializeSticker(element);
+                });
+                
+                this.isInitialized = true;
+            }
+            
+            initializeSticker(element) {
+                const canvas = element.querySelector('canvas');
+                if (!canvas) return;
+                
+                const ctx = canvas.getContext('2d');
+                const width = canvas.width;
+                const height = canvas.height;
+                
+                let frame = 0;
+                const totalFrames = 60;
+                
+                const drawSticker = () => {
+                    ctx.clearRect(0, 0, width, height);
+                    
+                    const progress = frame / totalFrames;
+                    const angle = progress * Math.PI * 2;
+                    
+                    ctx.save();
+                    ctx.translate(width / 2, height / 2);
+                    
+                    const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, width / 2);
+                    gradient.addColorStop(0, 'rgba(107, 165, 135, 0.8)');
+                    gradient.addColorStop(1, 'rgba(107, 165, 135, 0.1)');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, width / 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    
+                    for (let i = 0; i < 6; i++) {
+                        const segmentAngle = angle + (Math.PI * 2 / 6) * i;
+                        const x1 = Math.cos(segmentAngle) * 30;
+                        const y1 = Math.sin(segmentAngle) * 30;
+                        const x2 = Math.cos(segmentAngle) * 80;
+                        const y2 = Math.sin(segmentAngle) * 80;
+                        
+                        ctx.moveTo(x1, y1);
+                        ctx.lineTo(x2, y2);
+                    }
+                    
+                    ctx.stroke();
+                    
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 20px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('🎁', 0, 0);
+                    
+                    ctx.restore();
+                    
+                    frame = (frame + 1) % totalFrames;
+                    
+                    requestAnimationFrame(drawSticker);
+                };
+                
+                drawSticker();
+            }
+        }
+        
+        class TelegramWidgetHandler {
+            constructor() {
+                this.widgetFrame = null;
+                this.widgetOptions = {
+                    dark: false,
+                    compact: false
+                };
+            }
+            
+            init() {
+                this.loadWidgetFrame();
+                this.setupThemeToggle();
+                this.setupWidgetCommunication();
+            }
+            
+            loadWidgetFrame() {
+                const frameCont = document.getElementById('tgme_frame_cont');
+                if (!frameCont) return;
+                
+                this.widgetFrame = document.createElement('iframe');
+                this.widgetFrame.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    width: 300px;
+                    height: 400px;
+                    border: none;
+                    border-radius: 12px;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                    display: none;
+                    z-index: 1000;
+                `;
+                
+                frameCont.appendChild(this.widgetFrame);
+            }
+            
+            setupThemeToggle() {
+                const toggleTheme = (dark) => {
+                    document.documentElement.classList.toggle('theme_dark', dark);
+                    this.widgetOptions.dark = dark;
+                    
+                    if (window.Telegram && Telegram.setWidgetOptions) {
+                        Telegram.setWidgetOptions({dark: dark});
+                    }
+                    
+                    this.updateWidgetTheme();
+                };
+                
+                if (window.matchMedia) {
+                    const darkMedia = window.matchMedia('(prefers-color-scheme: dark)');
+                    toggleTheme(darkMedia.matches);
+                    
+                    darkMedia.addListener((e) => {
+                        toggleTheme(e.matches);
+                    });
+                }
+            }
+            
+            setupWidgetCommunication() {
+                window.addEventListener('message', (event) => {
+                    if (event.data && typeof event.data === 'string') {
+                        try {
+                            const data = JSON.parse(event.data);
+                            this.handleWidgetMessage(data);
+                        } catch (e) {
+                            console.error('Failed to parse widget message:', e);
+                        }
+                    }
+                });
+            }
+            
+            handleWidgetMessage(data) {
+                switch (data.eventType) {
+                    case 'widget_show':
+                        this.showWidget(data.eventData);
+                        break;
+                    case 'widget_hide':
+                        this.hideWidget();
+                        break;
+                    case 'widget_resize':
+                        this.resizeWidget(data.eventData);
+                        break;
+                }
+            }
+            
+            showWidget(config) {
+                if (!this.widgetFrame) return;
+                
+                this.widgetFrame.style.display = 'block';
+                
+                if (config && config.url) {
+                    this.widgetFrame.src = config.url;
+                }
+                
+                if (config && config.size) {
+                    this.widgetFrame.style.width = config.size.width || '300px';
+                    this.widgetFrame.style.height = config.size.height || '400px';
+                }
+            }
+            
+            hideWidget() {
+                if (this.widgetFrame) {
+                    this.widgetFrame.style.display = 'none';
+                    this.widgetFrame.src = '';
+                }
+            }
+            
+            resizeWidget(size) {
+                if (this.widgetFrame && size) {
+                    this.widgetFrame.style.width = size.width || this.widgetFrame.style.width;
+                    this.widgetFrame.style.height = size.height || this.widgetFrame.style.height;
+                }
+            }
+            
+            updateWidgetTheme() {
+                if (!this.widgetFrame || !this.widgetFrame.contentWindow) return;
+                
+                const message = {
+                    type: 'theme_update',
+                    theme: this.widgetOptions.dark ? 'dark' : 'light'
+                };
+                
+                this.widgetFrame.contentWindow.postMessage(message, '*');
+            }
+        }
+        
+        class TelegramProtocolHandler {
+            constructor() {
+                this.protoUrl = "tg:nft?slug=SpicedWine-3925";
+                this.iframeAttempted = false;
+                this.pageHidden = false;
+            }
+            
+            init() {
+                this.setupPageHideListeners();
+                this.handleProtocolNavigation();
+            }
+            
+            setupPageHideListeners() {
+                window.addEventListener('pagehide', () => {
+                    this.pageHidden = true;
+                }, false);
+                
+                window.addEventListener('blur', () => {
+                    this.pageHidden = true;
+                }, false);
+            }
+            
+            handleProtocolNavigation() {
+                const iframeContEl = document.getElementById('tgme_frame_cont');
+                
+                if (iframeContEl && !this.iframeAttempted) {
+                    this.attemptIframeNavigation(iframeContEl);
+                } else if (this.protoUrl) {
+                    this.fallbackNavigation();
+                }
+            }
+            
+            attemptIframeNavigation(container) {
+                this.iframeAttempted = true;
+                
+                const iframeEl = document.createElement('iframe');
+                iframeEl.style.cssText = 'display:none;width:0;height:0;border:none;';
+                container.appendChild(iframeEl);
+                
+                iframeEl.src = this.protoUrl;
+                
+                setTimeout(() => {
+                    if (!this.pageHidden) {
+                        window.location = this.protoUrl;
+                    }
+                }, 2000);
+            }
+            
+            fallbackNavigation() {
+                setTimeout(() => {
+                    window.location = this.protoUrl;
+                }, 100);
+            }
+        }
+        
+        // Initialize all components when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Instant View Renderer
+            const instantViewRenderer = new InstantViewRenderer();
+            instantViewRenderer.init();
+            
+            // Initialize Telegram Protocol Handler
+            const protocolHandler = new TelegramProtocolHandler();
+            protocolHandler.init();
+            
+            // Initialize Telegram Widget Handler
+            const widgetHandler = new TelegramWidgetHandler();
+            widgetHandler.init();
+            
+            // Initialize NFT Sticker Animation
+            const stickerAnimation = new NFTStickerAnimation();
+            stickerAnimation.init();
+            
+            // Initialize Background Animation
+            const backgroundAnimation = new TelegramBackgroundAnimation();
+            backgroundAnimation.init();
+            
+            // Remove no_transition class after initialization
+            document.body.classList.remove('no_transition');
+            
+            // Initialize sticker animation for gift models
+            const giftModels = document.querySelectorAll('.js-gift_model');
+            giftModels.forEach(model => {
+                if (typeof RLottie !== 'undefined') {
+                    RLottie.init(model);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="tgme_background_wrap">
+        <canvas id="tgme_background" class="tgme_background default" width="50" height="50" 
+                data-colors="dbddbb,6ba587,d5d88d,88b884"></canvas>
+        <div class="tgme_background_pattern default"></div>
+    </div>
+    
+    <!-- Main Page Container -->
+    <div class="tgme_page_wrap">
+        <!-- Header -->
+        <div class="tgme_head_wrap">
+            <div class="tgme_head">
+                <a href="//telegram.org/" class="tgme_head_brand">
+                    <svg class="tgme_logo" height="34" viewBox="0 0 133 34" width="133" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" fill-rule="evenodd">
+                            <circle cx="17" cy="17" fill="var(--accent-btn-color)" r="17"></circle>
+                            <path d="m7.06510669 16.9258959c5.22739451-2.1065178 8.71314291-3.4952633 10.45724521-4.1662364 4.9797665-1.9157646 6.0145193-2.2485535 6.6889567-2.2595423.1483363-.0024169.480005.0315855.6948461.192827.1814076.1361492.23132.3200675.2552048.4491519.0238847.1290844.0536269.4231419.0299841.65291-.2698553 2.6225356-1.4375148 8.986738-2.0315537 11.9240228-.2513602 1.2428753-.7499132 1.5088847-1.2290685 1.5496672-1.0413153.0886298-1.8284257-.4857912-2.8369905-1.0972863-1.5782048-.9568691-2.5327083-1.3984317-4.0646293-2.3321592-1.7703998-1.0790837-.212559-1.583655.7963867-2.5529189.2640459-.2536609 4.7753906-4.3097041 4.755976-4.431706-.0070494-.0442984-.1409018-.481649-.2457499-.5678447-.104848-.0861957-.2595946-.0567202-.3712641-.033278-.1582881.0332286-2.6794907 1.5745492-7.5636077 4.6239616-.715635.4545193-1.3638349.6759763-1.9445998.6643712-.64024672-.0127938-1.87182452-.334829-2.78737602-.6100966-1.12296117-.3376271-1.53748501-.4966332-1.45976769-1.0700283.04048-.2986597.32581586-.610598.8560076-.935815z" fill="#fff"></path>
+                            <path d="m49.4 24v-12.562h-4.224v-2.266h11.198v2.266h-4.268v12.562zm16.094-4.598h-7.172c.066 1.936 1.562 2.772 3.3 2.772 1.254 0 2.134-.198 2.97-.484l.396 1.848c-.924.396-2.2.682-3.74.682-3.476 0-5.522-2.134-5.522-5.412 0-2.97 1.804-5.764 5.236-5.764 3.476 0 4.62 2.86 4.62 5.214 0 .506-.044.902-.088 1.144zm-7.172-1.892h4.708c.022-.99-.418-2.618-2.222-2.618-1.672 0-2.376 1.518-2.486 2.618zm9.538 6.49v-15.62h2.706v15.62zm14.84-4.598h-7.172c.066 1.936 1.562 2.772 3.3 2.772 1.254 0 2.134-.198 2.97-.484l.396 1.848c-.924.396-2.2.682-3.74.682-3.476 0-5.522-2.134-5.522-5.412 0-2.97 1.804-5.764 5.236-5.764 3.476 0 4.62 2.86 4.62 5.214 0 .506-.044.902-.088 1.144zm-7.172-1.892h4.708c.022-.99-.418-2.618-2.222-2.618-1.672 0-2.376 1.518-2.486 2.618zm19.24-1.144v6.072c0 2.244-.462 3.85-1.584 4.862-1.1.99-2.662 1.298-4.136 1.298-1.364 0-2.816-.308-3.74-.858l.594-2.046c.682.396 1.826.814 3.124.814 1.76 0 3.08-.924 3.08-3.234v-.924h-.044c-.616.946-1.694 1.584-3.124 1.584-2.662 0-4.554-2.2-4.554-5.236 0-3.52 2.288-5.654 4.862-5.654 1.65 0 2.596.792 3.102 1.672h.044l.11-1.43h2.354c-.044.726-.088 1.606-.088 3.08zm-2.706 2.948v-1.738c0-.264-.022-.506-.088-.726-.286-.99-1.056-1.738-2.2-1.738-1.518 0-2.64 1.32-2.64 3.498 0 1.826.924 3.3 2.618 3.3 1.012 0 1.892-.66 2.2-1.65.088-.264.11-.638.11-.946zm5.622 4.686v-7.26c0-1.452-.022-2.508-.088-3.454h2.332l.11 2.024h.066c.528-1.496 1.782-2.266 2.948-2.266.264 0 .418.022.638.066v2.53c-.242-.044-.484-.066-.814-.066-1.276 0-2.178.814-2.42 2.046-.044.242-.066.528-.066.814v5.566zm16.05-6.424v3.85c0 .968.044 1.914.176 2.574h-2.442l-.198-1.188h-.066c-.638.836-1.76 1.43-3.168 1.43-2.156 0-3.366-1.562-3.366-3.19 0-2.684 2.398-4.07 6.358-4.048v-.176c0-.704-.286-1.87-2.178-1.87-1.056 0-2.156.33-2.882.792l-.528-1.76c.792-.484 2.178-.946 3.872-.946 3.432 0 4.422 2.178 4.422 4.532zm-2.64 2.662v-1.474c-1.914-.022-3.74.374-3.74 2.002 0 1.056.682 1.54 1.54 1.54 1.1 0 1.87-.704 2.134-1.474.066-.198.066-.396.066-.594zm5.6 3.762v-7.524c0-1.232-.044-2.266-.088-3.19h2.31l.132 1.584h.066c.506-.836 1.474-1.826 3.3-1.826 1.408 0 2.508.792 2.97 1.98h.044c.374-.594.814-1.034 1.298-1.342.616-.418 1.298-.638 2.2-.638 1.76 0 3.564 1.21 3.564 4.642v6.314h-2.64v-5.918c0-1.782-.616-2.838-1.914-2.838-.924 0-1.606.66-1.892 1.43-.088.242-.132.594-.132.902v6.424h-2.64v-6.204c0-1.496-.594-2.552-1.848-2.552-1.012 0-1.694.792-1.958 1.518-.088.286-.132.594-.132.902v6.336z" fill="var(--tme-logo-color)" fill-rule="nonzero"></path>
+                        </g>
+                    </svg>
+                </a>
+                <a class="tgme_head_right_btn" href="//telegram.org/dl?tme=58d5f5f3d364ae8e4e_10387309893715681165">
+                    Download
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="tgme_body_wrap">
+            <div class="tgme_page tgme_page_gift">
+                <!-- NFT Preview -->
+                <div class="tgme_gift_preview">
+                    <svg width="420px" height="280px" viewBox="0 0 420 280" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <defs>
+                            <radialGradient id="giftGradient" cx="50%" cy="50%" fx="50%" fy="50%" r="69.65%" gradientTransform="translate(0.5, 0.5), scale(0.6667, 1), rotate(90), translate(-0.5, -0.5)">
+                                <stop stop-color="#a3a8b5" offset="0%"></stop>
+                                <stop stop-color="#7c808a" offset="100%"></stop>
+                            </radialGradient>
+                            <filter id="patternColorFilter">
+                                <feFlood id="giftGradienPatternColor" flood-color="#3f4550"></feFlood>
+                                <feComposite in2="SourceGraphic" operator="in"></feComposite>
+                            </filter>
+                            <g id="fullPattern">
+                                <g opacity="0.212890625" transform="translate(140.5761, 13.79)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.3)"></use>
+                                </g>
+                                <g opacity="0.212890625" transform="translate(249.465, 13.79)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.3)"></use>
+                                </g>
+                                <g opacity="0.223865327" transform="translate(291.8539, 102.7918)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.3)"></use>
+                                </g>
+                                <g opacity="0.223865327" transform="translate(98.1872, 102.7918)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.3)"></use>
+                                </g>
+                                <g opacity="0.221633185" transform="translate(276.2551, 176.2043)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.277)"></use>
+                                </g>
+                                <g opacity="0.123046875" transform="translate(196.144, 188.6412)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.277)"></use>
+                                </g>
+                                <g opacity="0.221633185" transform="translate(116.0329, 176.2043)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.277)"></use>
+                                </g>
+                                <g opacity="0.189569382" transform="translate(355.0988, 79.3286)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.2247)"></use>
+                                </g>
+                                <g opacity="0.260904948" transform="translate(292.0988, 52.1228)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.2247)"></use>
+                                </g>
+                                <g opacity="0.146437872" transform="translate(334.0988, 17.5326)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.2247)"></use>
+                                </g>
+                                <g opacity="0.153087798" transform="translate(198.7654, -5.7866)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.2247)"></use>
+                                </g>
+                                <g opacity="0.145321801" transform="translate(63.4321, 17.5326)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.2247)"></use>
+                                </g>
+                                <g opacity="0.260904948" transform="translate(105.4321, 52.1228)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.2247)"></use>
+                                </g>
+                                <g opacity="0.165899368" transform="translate(42.4321, 79.3286)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.2247)"></use>
+                                </g>
+                                <g opacity="0.165899368" transform="translate(72.7654, 155.8935)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.2247)"></use>
+                                </g>
+                                <g opacity="0.10500372" transform="translate(49.4321, 205.6413)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.2247)"></use>
+                                </g>
+                                <g opacity="0.10500372" transform="translate(344.2099, 205.6413)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.2247)"></use>
+                                </g>
+                                <g opacity="0.152669271" transform="translate(337.2099, 155.8935)">
+                                    <use xlink:href="#giftPattern" transform="scale(0.2247)"></use>
+                                </g>
+                            </g>
+                            <image id="giftPattern" x="0" y="0" width="100" height="100" xlink:href="https://cdn4.telesco.pe/file/KtPa5vspfyyKwRkg8R2W37Kjne5Ox1Hdwm4-uIb9738vsYlBXYMHSryJqSQcUlqqvlG2Ycn8KJIAxLlk7VsVY3tKGi1pz8iPA9gGp9dlZdd0_sndeD6Q-IxcoaJ-9qi6HFmdqY1ieaiIXbep1Syl_5Ta0AeBP-_mm4wZfTJc7xfXZ2GPiAS007thwKLuGIBN9mrDbrDXZFqkpzdXj3l0uS_njvf8-OPrtymk0LUJuwvUSQrBJv_Vv9LBKbvhp0Nn3cOW8OEKpygERExCxHCExjfkqnvCnSsMFrEveNpahjMUMGT_Gd6Ypmg7eXRJ68qXHd36IWPCIwn_zlvn_p1rUg"></image>
+                        </defs>
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="420" height="280" fill="url(#giftGradient)"></rect>
+                            <use xlink:href="#fullPattern" filter="url(#patternColorFilter)"></use>
+                            <text x="210" y="226" font-size="23" font-weight="500" width="410" text-anchor="middle" dominant-baseline="middle" fill="#fff">Spiced Wine</text>
+                        </g>
+                    </svg>
+                    <div class="tgme_gift_number_label" style="color: #dadfe2; background: #3f455039">Collectible #3925</div>
+                    <div class="tgme_gift_preview_content">
+                        <div class="tgme_gift_model_wrap">
+                            <picture class="tgme_gift_model js-gift_model">
+                                <source type="application/x-tgsticker" srcset="https://cdn4.telesco.pe/file/sticker.tgs?token=oJdFOAZSiD-Db-iV_UUGMNMtADMzdScOkpgfR7l0QhJ84TuQ05dBnHvsk0l-zg-qFf9WyR6X0RaYLwXsGgmVsRsRp3OutAX7av93r0sLuy7lpjOyc88Sg5IqNas55H31m8uTWnaz0UB9dp1dJTqNSS8ZMMRXPfHEolgYUf7jFwXT3spdBQQoPkxYPJ70EqCSGh2drOrkFUcUPIIRwnReLEKScIvY8kaKhmGncCmNRf3qg2FRnCqhBwRKpmx71gYjWJRz6gR2wG8CTdGDbv85TWYysprp5rAlxbSqNPUN9K09cUeaz-wya1Vk_Q5qR6kkhx71umkxfntI1Ao97Mo4zQ">
+                                <source type="image/svg+xml" srcset="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iLTMwMCUiIHgyPSItMjAwJSIgeTE9IjAiIHkyPSIwIj48c3RvcCBvZmZzZXQ9Ii0xMCUiIHN0b3Atb3BhY2l0eT0iLjEiLz48c3RvcCBvZmZzZXQ9IjMwJSIgc3RvcC1vcGFjaXR5PSIuMDciLz48c3RvcCBvZmZzZXQ9IjcwJSIgc3RvcC1vcGFjaXR5PSIuMDciLz48c3RvcCBvZmZzZXQ9IjExMCUiIHN0b3Atb3BhY2l0eT0iLjEiLz48YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJ4MSIgZnJvbT0iLTMwMCUiIHRvPSIxMjAwJSIgZHVyPSIzcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJ4MiIgZnJvbT0iLTIwMCUiIHRvPSIxMzAwJSIgZHVyPSIzcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cGF0aCBmaWxsPSJ1cmwoI2cpIiBkPSJNMjU4LDQ4MWMtMjksNS0xMjYtMjEtOTQtNjYsMTgtMjUsNTEtMjEsNjItMzEsNy03LTE2LTE4LTE5LTIzLTQtNywxLTE2LTItMjEtNC01LTExLTctMTYtMTEtMzQtMzAtMzEtODktMzctMTMwLTMtMTktMjItNTctMTItNzUsNy0xMSwyMS0xOCwzMy0yMywwLDAsMTYtNSwxNS03LTEtNC0xNy00Mi05LTQ0LDM1LTcsMSw0NCw0MCwzOSwyLDEsNCwxLDYsMSwwLDAtMi0yNS0yLTI3LDAsMCw4LTQyLDE2LTI5LDEyLDIyLTE0LDUzLDIxLDU0LDUsMSwxMSw0LDE1LDEsNC00LTMtNDEtMi00MiwzOC05LDE2LDIzLDI1LDI4LDMsMSwzLTQsNC02LDUtNiwxMC0xMiwxNy0xNiwzOC0yMSw4NSw4LDg1LDUwLDAsMjEtOCw1MS0yOCw2Mi0zLDItMTMsMy0xNCw1LTMsMy0zLDgtNCwxMywwLDAsMzAtMTAsNDYsMSwyNCwxNywxNiw1OCwxMCw4Mi02LDI2LTE2LDYwLTQ2LDY3LTI0LDYtMzYtMTItNTksNC0zLDItNywyLTgsNS0zLDYsMiwxNC0yLDIxLTMsNC0yNiwxNS0yMCwyMiw5LDksNDUsNiw2NCwzMCwzNSw0NS01OSw2Ni04NSw2N3oiLz48L3N2Zz4=">
+                                <canvas width="254" height="254"></canvas>
+                            </picture>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- NFT Information Table -->
+                <div class="tgme_gift_table_wrap">
+                    <table class="table tgme_gift_table">
+                        <tbody>
+                            <tr><th>Owner</th><td><a href="https://t.me/metaobserver"><i class="tgme_gift_owner_photo bgcolor1" data-content="M"><img src="https://cdn4.telesco.pe/file/twNWtcdkJ8KdABgnte_aN3N9CEEX-n2E53ef-WZcFTUto8iVhQTzIuOSgcskipBQG_VsiKkBqRXQ7X58ZBxURszidP_E_39GVwtIjckEit43lFeUwu16-M0F3pvyOQ1BhBupF3P0QOmwhbmlLLSB8X620B--ZO0xXujWFdIfUtvC6bss9EZJ-Vh_C_v_QR1KMnr0l8A_n4tT70Ia7bsdoJtoaZGuF3DYEGibtnibbLDO7cC60PrPFmFe6zmBzV-KjzFFIAxgZ5sh5KKhAwuRv2SdNK5_M1oGEdLS-iMB56VukNPZzu6NuNDospus8Xte8HTUgCOzsAarSGpu87eibA.jpg"></i><span dir="auto">Mark</span></a></td></tr>
+                            <tr><th>Model</th><td>Brain Enhancer <mark>0.8%</mark></td></tr>
+                            <tr><th>Backdrop</th><td>Roman Silver <mark>2%</mark></td></tr>
+                            <tr><th>Symbol</th><td>Magic Wand <mark>0.4%</mark></td></tr>
+                            <tr><th>Quantity</th><td>100&nbsp;999/146&nbsp;090 issued</td></tr>
+                            <tr><th colspan="2" class="footer">Gifted by <span dir="auto">Pavel Durov</span> to <span dir="auto">Илья</span> on 28 November 2024</th></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Description -->
+                <div class="tgme_gift_description" dir="auto">
+                    This NFT was created from a gift on Telegram. <br>
+                    Don't have Telegram yet? <a class="tgme_dl_icon" href="//telegram.org/dl?tme=58d5f5f3d364ae8e4e_10387309893715681165">Download</a>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="tgme_page_action">
+                    <a class="tgme_action_button_new shine" href="tg:nft?slug=SpicedWine-3925">View in Telegram</a>
+                </div>
+                <div class="tgme_page_action tgme_page_web_action">
+                    <a class="tgme_action_button_new tgme_action_web_button" href="https://web.telegram.org/k/#?tgaddr=tg://nft?slug=SpicedWine-3925"><span class="tgme_action_button_label">Open in Web</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Widget Frame Container -->
+    <div id="tgme_frame_cont"></div>
+    
+    <!-- External Scripts -->
+    <script src="//a-ttgme.stel.com/js/tgsticker.js?31"></script>
+    <script src="//a-ttgme.stel.com/js/widget-frame.js?65"></script>
+    <script src="//a-ttgme.stel.com/js/tgwallpaper.min.js?3"></script>
+</body>
+</html>
